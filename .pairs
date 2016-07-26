@@ -1,0 +1,12 @@
+# This file is managed by sprout
+
+pairs:
+  dr: Doc Ritezel; doc
+  jp: Jeff Parr; jeff
+  dan: Dan Rademacher; dan
+
+email:
+  prefix: pair
+  domain: ministryofvelocity.com
+
+global: true

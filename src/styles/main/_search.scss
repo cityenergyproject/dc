@@ -1,0 +1,19 @@
+.search-wrapper {
+  padding: $base-spacing/4 1em;
+  border: 1px solid $base-border-color;
+  border-radius: 1em;
+  margin: 0.5em 1em;
+
+  .address-search:focus {
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .address-search {
+    padding: 0;
+    margin: 0;
+    border: 0 none;
+    display: block;
+  }
+}

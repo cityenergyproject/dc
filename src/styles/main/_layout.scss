@@ -1,0 +1,192 @@
+body {
+  background-color: $base-background-color;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+
+  @include media($medium-screen-up) {
+    font-size: 14px;
+  }
+
+  @include media($xlarge-screen-up) {
+    font-size: 16px;
+  }
+}
+
+$toolbar-height: 3em;
+$building-comparison-header-height: 3em;
+$building-comparison-metric-row-height: 4em;
+
+.main-container {
+  position: absolute;
+  top: $header-height + $toolbar-height;
+  bottom: $building-comparison-header-height + $building-comparison-metric-row-height;
+  width: 100%;
+  @include outer-container(100%);
+
+  @include media($medium-screen-up) {
+    bottom: $building-comparison-header-height + $building-comparison-metric-row-height + 1em;
+  }
+
+  @include media($large-screen-up) {
+    bottom: $building-comparison-header-height + $building-comparison-metric-row-height;
+  }
+}
+
+header {
+  height: $header-height;
+}
+
+.iframed header {
+  display: none;
+}
+
+.iframed .main-container {
+  top: $toolbar-height;
+}
+
+#toolbar {
+  height: $toolbar-height;
+  position: relative;
+}
+
+.iframed #toolbar {
+  position: fixed;
+  width: 100%;
+  z-index: 1000001;
+}
+
+#search {
+  position: absolute;
+  top: 0;
+  height: $toolbar-height;
+  left: 0;
+  width: $nav-col-fixed-width;
+
+  @include media($large-screen-up) {
+    width: $large-nav-col-fixed-width;
+  }
+
+  .address-search {
+    width: $nav-col-fixed-width - 4em;
+
+    @include media($large-screen-up) {
+      width: $large-nav-col-fixed-width - 4em;
+    }
+  }
+}
+
+#map-category-controls {
+  position: absolute;
+  top: 0;
+  height: $toolbar-height;
+  left: $nav-col-fixed-width;
+  right: 0;
+
+  @include media($large-screen-up) {
+    left: $large-nav-col-fixed-width;
+  }
+
+  .map-category-control + .map-category-control {
+    margin-left: 1em;
+  }
+
+  .map-category-control {
+    display: none;
+
+    @include media($small-screen-up) {
+      &:nth-child(1), &:nth-child(2){
+        display: inline-block;
+      }
+    }
+
+    @include media($large-screen-up) {
+      display: inline-block;
+    }
+  }
+}
+
+#year-select{
+  position: absolute;
+  right: 1em;
+  top: 0.5em;
+}
+
+#map-controls {
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  left: 0;
+
+  .irs {
+    height: 21px;
+  }
+
+  width: $nav-col-fixed-width;
+
+  @include media($large-screen-up) {
+    width: $large-nav-col-fixed-width;
+  }
+}
+
+#map-wrapper{
+  position: absolute;
+  height: 100%;
+  right: 0;
+  overflow: hidden;
+  left: $nav-col-fixed-width;
+
+  @include media($large-screen-up) {
+    left: $large-nav-col-fixed-width;
+  }
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+#buildings {
+  position: absolute;
+  top: 100%;
+
+  .building-report-header-container {
+    height: $building-comparison-header-height;
+
+    @include media($medium-screen-up) {
+      height: $building-comparison-header-height + 1em;
+    }
+
+    @include media($large-screen-up) {
+      height: $building-comparison-header-height;
+    }
+  }
+
+  .building-report-header-container.fixed table {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+
+  h2 {
+    font-size: 1.1em;
+
+    @include media($medium-screen-up) {
+      font-size: 1.5em;
+    }
+  }
+
+  th:first-child, td:first-child {
+    width: $nav-col-fixed-width / 2;
+
+    @include media($medium-screen-up) {
+      width: $nav-col-fixed-width;
+    }
+
+    @include media($large-screen-up) {
+      width: $large-nav-col-fixed-width;
+    }
+  }
+}

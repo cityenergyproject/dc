@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="styles/main.min.css">
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.14/themes/css/cartodb.css" />
+  </head>
+  <body>
+    <header id="title"></header>
+    <div id="toolbar" class="toolbar">
+        <div id='search'></div>
+        <div id="map-category-controls"></div>
+        <div id='year-select'></div>
+    </div>
+    <div class="main-container">
+      <div id="map-controls"></div>
+      <div id="map-wrapper">
+        <div id="map"></div>
+      </div>
+      <div id="buildings"></div>
+    </div>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.14/cartodb.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.19/require.js" data-main="app/main"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-72562682-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

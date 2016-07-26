@@ -1,0 +1,102 @@
+.map-category-control{
+  display: block;
+  position: relative;
+  padding: 0.5em 0;
+
+  .category-list-toggle {
+    line-height: 1;
+    box-sizing: border-box;
+    padding: $base-spacing/3 1.2em;
+    display: block;
+  }
+
+  input[type="checkbox"]:checked + .category-list-toggle + .categories {
+    display: block;
+  }
+
+  .categories {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    top: 3em;
+    left: 0;
+    right: 0;
+    height: em(306);
+    overflow-y: scroll;
+  }
+
+  ul {
+    padding: 0.5em 0;
+  }
+
+  li {
+    margin: 0.25em 1em;
+    clear: both;
+  }
+
+  li.actions {
+    font-size: 0.7em;
+    padding-bottom: 0.5em;
+    text-transform: uppercase;
+
+    a {
+      color: #38b5e6;
+    }
+  }
+
+  .content {
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  .check {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 0.15em;
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.map-category-control {
+  .category-list-toggle {
+    background-color: $orange;
+    border: $base-border;
+    border-radius: $base-border-radius;
+    color: #fff;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    font-weight: normal;
+  }
+
+  input[type="checkbox"]:checked + .category-list-toggle {
+    background-color: white;
+    color: $orange;
+  }
+
+  .categories {
+    color: $base-font-color;
+    background-color: rgba($medium-gray, 0.9);
+  }
+
+  li {
+    line-height: 1.2;
+    font-size: 0.8em;
+  }
+
+  input[type=checkbox] { display: none; }
+  input[type=checkbox]:checked + label .check {
+    background: $orange;
+  }
+
+  .check {
+    box-shadow: inset 0 0 0 1px $base-font-color;
+  }
+
+  label {
+    cursor: pointer;
+    font-weight: 300;
+    @extend %disable-user-select;
+  }
+}

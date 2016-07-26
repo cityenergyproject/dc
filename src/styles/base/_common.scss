@@ -1,0 +1,25 @@
+%common-button-input{
+  -webkit-font-smoothing: antialiased;
+  background-color: $orange;
+  border: $base-border;
+  border-radius: $base-border-radius;
+  color: #fff;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  box-sizing: border-box;
+}
+
+%common-button-input-inverse {
+  @extend %common-button-input;
+  background-color: $inverse-font-color;
+  color: $normal-text;
+}
+
+%disable-user-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
