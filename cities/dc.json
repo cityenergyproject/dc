@@ -2,8 +2,8 @@
     "url_name": "dc",
     "name": "District of Columbia Energy Benchmarking",
 
-    "backgroundTileSource": "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
-    "labelTileSource": "https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
+    "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png",
+    "labelTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png",
     "center": [
       38.889931,
       -77.009003
