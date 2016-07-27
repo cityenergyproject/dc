@@ -125,7 +125,7 @@ define([
         user_name: this.allBuildings.cartoDbUser,
         type: 'cartodb',
         sublayers: [this.toCartoSublayer()]
-      }).addTo(this.leafletMap).on('done', this.onCartoLoad, this);
+      },{https: true}).addTo(this.leafletMap).on('done', this.onCartoLoad, this);
 
       return this;
     },
