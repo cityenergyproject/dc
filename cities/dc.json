@@ -1,0 +1,157 @@
+{
+    "url_name": "dc",
+    "name": "District of Columbia Energy Benchmarking",
+
+    "backgroundTileSource": "http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+    "labelTileSource": "http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png",
+    "center": [
+      38.889931,
+      -77.009003
+    ],
+    "zoom": 11,
+
+    "cartoDbUser": "dcenergybenchmarkingproject",
+    "property_id": "cartodb_id",
+    "property_name": "property_name",
+    "building_type": "primary_ptype_epa",
+    "popup_fields": [
+        {"field": "property_name", "label": ""},
+        {"field": "primary_ptype_epa", "label": "Property Type"},
+        {"field": "reported_gross_floor_area", "label": "Property Size (ft²): "},
+        {"field": "ward", "label": "Neighborhood: "},
+        {"field": "year_built", "label": "Year Built: "},
+        {"field": "energy_star_score", "label": "ENERGY STAR Score: "},
+        {"field": "site_eui", "label": "Site Energy Use Intensity (kBTU/ft²): "},
+        {"field": "total_ghg_emissions", "label": "Total GHG Emissions (Metric Tons CO₂e): "}
+    ],
+    "map_layers": [
+        {
+            "title": "Ward",
+            "field_name": "ward",
+            "display_type": "category",
+            "section": "Property Information",
+            "description": "Ward as recorded by the DC Office of Tax and Revenue"
+        },
+        {
+            "title": "Property Type",
+            "field_name": "primary_ptype_epa",
+            "display_type": "category",
+            "section": "Property Information",
+            "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
+        },
+        {
+            "title": "Property Size",
+            "field_name": "reported_gross_floor_area",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "ft²",
+            "section": "Property Information",
+            "description": "The Gross Floor Area as reported by owner. The Gross Floor Area is the total size, as measured between the principal exterior surfaces of the enclosing fixed walls of the building(s). This includes all areas inside the building(s) such as: occupied tenant areas, common areas, meeting areas, break rooms, restrooms, elevator shafts, mechanical equipment areas, and storage rooms.  It does not include the floor area of secondary spaces such as parking lots."
+        },
+        {
+            "title": "Year Built",
+            "field_name": "year_built",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "section": "Property Information",
+            "description": "The year property was constructed, as reported by owner"
+        },
+        {
+            "title": "Electricity Use",
+            "field_name": "electricity_use",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Use",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU",
+            "description": "The total annual electricity consumed by the property, both sourced from the electrical grid and generated from any onsite renewable energy generation systems (if applicable), in kilowatt-hours (kWh)"
+        },
+        {
+            "title": "Natural Gas Use",
+            "field_name": "natural_gas_use",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Use",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU",
+            "description": "The total annual natural gas consumed by the property, in therms (1 therm  equals 100,000 British Thermal Units (BTUs), and is apoximately equal to the energy content of 100 cubic feet (CCF) of natural gas."
+        },
+        {
+            "title": "District Water-Based Energy Use",
+            "field_name": "district_water_use",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Use",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU",
+            "description": "Total annual energy consumption from district water-based energy sources, inclusive of District Steam systems, District Hot Water, and District Chilled Water, measured in kBTU (1,000 Brittish Thermal Units)."
+        },
+        {
+            "title": "Fuel Oil & Diesel Fuel Use",
+            "field_name": "fuel_use",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Use",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU",
+            "description": "Total annual energy consumption from liquid fuel use on the property, inclusive of fuel oil no. 1, fuel oil no. 2, fuel oil no. 4, fuel oil no. 5 and no. 6, diesel, kerosene, and propane, measured in kBTU (1,000 British Thermal Units)."
+        },
+        {
+            "title": "ENERGY STAR Score",
+            "field_name": "energy_star_score",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Performance Metrics",
+            "color_range": ["#F77156","#DAC04D","#6BB0A5"],
+            "description": "The 1-100 score calculated by ENERGY STAR® Portfolio Manager® that measures how well the property is performing relative to similar properties, when normalized for climate and operational characteristics. The 1-100 scale is set so that 1 represents the worst performing buildings and 100 represents the best performing buildings. A score of 50 indicates that a building is performing at the national median, taking into account its size, location, and operating parameters. A score of 75 indicates that at a property is performing in the 75th percentile and may be eligible to earn ENERGY STAR® Certification. https://www.energystar.gov/buildings/facility-owners-and-managers/existing-buildings/use-portfolio-manager/understand-metrics/how-1-100"
+        },
+        {
+            "title": "Site Energy Use Intensity",
+            "field_name": "site_eui",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Performance Metrics",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU/ft²",
+            "description": "The Site Energy Use Intensity (EUI), as calculated by Portfolio Manager, at the property site. This equals the amount of energy consumed at the site in thousand British thermal units (kBtus) per gross square foot (kBtu/ft2) of the property. Site EUI values are the result of self-reported entries."
+        },
+        {
+            "title": "Source Energy Use Intensity",
+            "field_name": "source_eui",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Energy Performance Metrics",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "kBTU/ft²",
+            "description": "Source Energy Use divided by property square footage, normalized for weather. Weather-normalization is based on National Oceanic and Atmospheric Administration (NOAA) weather data for the zip code. Source Energy Use is the total amount of raw fuel that is required to operate the property. In addition to what the property consumes on-site, source energy includes losses that take place during generation, transmission, and distribution of the energy, thereby enabling a complete assessment of energy consumption resulting from building operations. For this reason, Source EUI is the best way to quantify the energy performance of commercial buildings."
+        },
+        {
+            "title": "Total GHG Emissions",
+            "field_name": "total_ghg_emissions",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Greenhouse Gas Emissions",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "Metric Tons CO₂e",
+            "description": "Greenhouse Gas (GHG) Emissions are the carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O) gases released into the atmosphere as a result of energy consumption at the property. GHG emissions are expressed in Metric Tons of carbon dioxide equivalent (CO2e), a universal unit of measure that combines the quantity and global warming potential of each greenhouse gas. Total Emissions is the sum of Direct Emissions (emissions associated with onsite fuel combustion) and Indirect Emissions (emissions associated with purchases of electricity, district steam, district hot water, or district chilled water. These emissions occur at the utility plant, but they are a result of the property’s energy consumption and therefore contribute to the overall GHG footprint)."
+        },
+        {
+            "title": "GHG Intensity",
+            "field_name": "total_ghg_emissions_intensity",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Greenhouse Gas Emissions",
+            "color_range": ["#6BB0A5","#DAC04D","#F77156"],
+            "unit": "Metric Tons CO₂e/ft²",
+            "description": "The  total Greenhouse Gas (GHG) Emissions, divided by the floor area of the building, in kilograms of carbon dioxide equivalent (CO2e) per square foot."
+        }
+    ],
+    "years": {
+        "2013": {
+            "table_name": "t2013",
+            "default_layer": "energy_star_score"
+        }
+    }
+}
