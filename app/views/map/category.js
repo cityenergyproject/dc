@@ -30,9 +30,18 @@ define([
     },
 
     render: function(){
-      var fieldName = this.layer.field_name
+      var fieldName = this.layer.field_name,
           counts = this.allBuildings.countBy(fieldName),
           fieldKeys = _.keys(counts),
+          onloadDisplayValues = !this.layer.onload_display_values
+                ? fieldKeys.reduce(function(accum,current){
+                  accum[current] = true;
+                  return accum;
+                },{})
+                : this.layer.onload_display_values.split(',').reduce(function(accum,current){
+                  accum[current] = true;
+                  return accum;
+                },{}),
           defaultCategoryState = {field: fieldName, values: [fieldKeys], other: true},
           categoryState = _.findWhere(this.state.get('categories'), {field: fieldName}) || defaultCategoryState,
           template = _.template(MapCategoryControlTemplate);
@@ -43,7 +52,7 @@ define([
         .map(function(name) {
           var stateHasValue = _.contains(categoryState.values, name),
               stateIsInverted = (categoryState.other === true || categoryState.other === 'true'),
-              checked = stateIsInverted ? !stateHasValue : stateHasValue;
+              checked = stateIsInverted ? name in onloadDisplayValues : stateHasValue;
 
           return {
             checked: checked ? 'checked="checked"' : '',
@@ -60,6 +69,9 @@ define([
 
       this.$el = $(compiled).appendTo(this.$container);
       this.delegateEvents();
+
+      // if we have default onload display values, then trigger an update
+      if(this.layer.onload_display_values)this.toggleCategory();
 
       return this;
     },
