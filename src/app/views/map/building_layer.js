@@ -51,9 +51,12 @@ define([
   };
 
   BuildingInfoPresenter.prototype.toPopulatedLabels = function()  {
+    var default_hidden = false;
     return _.map(this.city.get('popup_fields'), function(field) {
+      if (field.start_hidden) default_hidden = true;
       return _.extend({
-        value: (this.toBuilding().get(field.field) || 'N/A').toLocaleString()
+        value: (this.toBuilding().get(field.field) || 'N/A').toLocaleString(),
+        default_hidden: default_hidden
       }, field);
     }, this);
   };
@@ -71,6 +74,21 @@ define([
       this.listenTo(this.state, 'change:building', this.onBuildingChange);
       this.listenTo(this.allBuildings, 'sync', this.render);
       this.onStateChange();
+
+      // register single handler for showing more attrs in popup
+      $('body').on('click', '.show-hide-attrs', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var is_show = $(this).text().indexOf('more') > -1 ? true: false;
+        if(is_show){
+          $(this).text('less details...');
+          $('.show-more-container').removeClass('hide').addClass('show');
+        }
+        else {
+          $(this).text('more details...');
+          $('.show-more-container').removeClass('show').addClass('hide');
+        }
+      });
     },
 
     onBuildingChange: function() {

@@ -22,4 +22,26 @@
     font-weight: bold;
     margin-bottom: .3em;
   }
+  .show-more-container{
+    &.hide {
+      li {
+        display: none;
+      }
+    }
+    &.show {
+      li {
+        display: block;
+      }
+    }
+    li:first-child{
+      font-size: inherit;
+      font-weight: inherit;
+      margin-bottom: inherit;
+      margin-top: .3em;
+    }
+  }
+  .show-hide-attrs {
+    margin: 10px 0px 10px 0px;
+    cursor: pointer;
+  }
 }

@@ -26,7 +26,7 @@
         {"field": "site_eui", "label": "Site Energy Use Intensity (kBTU/ft²): "},
         {"field": "weather_norm_source_eui", "label": "Weather Normalized Source EUI (kBtu/ft²): "},
         {"field": "water_use", "label": "Water Use: "},
-        {"field": "total_ghg_emissions", "label": "Total GHG Emissions (Metric Tons CO₂e): "},
+        {"field": "total_ghg_emissions", "label": "Total GHG Emissions (Metric Tons CO₂e): ", "start_hidden": true },
         {"field": "electricity_use", "label": "Electricity Use: "},
         {"field": "natural_gas_use", "label": "Natural Gas Use: "},
         {"field": "district_water_use", "label": "District Water-Based Energy Use: "},
