@@ -1049,3 +1049,15 @@ header {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: .3em; }
+  .leaflet-popup-content .building-info .show-more-container.hide li {
+    display: none; }
+  .leaflet-popup-content .building-info .show-more-container.show li {
+    display: block; }
+  .leaflet-popup-content .building-info .show-more-container li:first-child {
+    font-size: inherit;
+    font-weight: inherit;
+    margin-bottom: inherit;
+    margin-top: .3em; }
+  .leaflet-popup-content .building-info .show-hide-attrs {
+    margin: 10px 0px 10px 0px;
+    cursor: pointer; }
