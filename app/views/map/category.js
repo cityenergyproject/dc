@@ -29,6 +29,11 @@ define([
       this.otherValues = orderedValues.slice(9);
     },
 
+    close: function() {
+      this.undelegateEvents();
+      this.remove();
+    },
+
     render: function(){
       var fieldName = this.layer.field_name,
           counts = this.allBuildings.countBy(fieldName),
