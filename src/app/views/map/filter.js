@@ -31,6 +31,11 @@ define([
       this.$section().toggleClass('current', this.$section().find('.current').length > 0);
     },
 
+    close: function() {
+      this.undelegateEvents();
+      this.remove();
+    },
+
     render: function(){
       var template = _.template(FilterContainer),
           fieldName = this.layer.field_name,

@@ -93,6 +93,13 @@ define([
       $('#map-category-controls').empty();
       $('#map-controls').empty();
 
+
+      // close/remove any existing MapControlView(s)
+      this.controls && this.controls.each(function(view){
+        view.close();
+      });
+
+      // recreate MapControlView(s)
       this.controls = _.chain(layers).map(function(layer){
         var viewClass = {
           range: Filter,
