@@ -98,6 +98,10 @@ define([
        .setLatLng(presenter.toLatLng())
        .setContent(template({labels: presenter.toPopulatedLabels()}))
        .openOn(this.leafletMap);
+
+      setTimeout(function(){
+        this.state.trigger('building_layer_popup_shown');
+      }.bind(this),1);
     },
 
     onFeatureClick: function(event, latlng, _unused, data){

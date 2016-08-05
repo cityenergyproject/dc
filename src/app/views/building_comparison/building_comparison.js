@@ -129,7 +129,7 @@ define([
       this.listenTo(this.state, 'change:metrics', this.onMetricsChange);
       this.listenTo(this.state, 'change:sort', this.onSort);
       this.listenTo(this.state, 'change:order', this.onSort);
-      this.listenTo(this.state, 'change:building', this.render);
+      this.listenTo(this.state, 'building_layer_popup_shown', this.render);
       $(window).scroll(_.bind(this.onScroll, this));
     },
 
