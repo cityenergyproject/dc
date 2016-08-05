@@ -1,6 +1,7 @@
 {
     "url_name": "dc",
     "name": "D.C. Energy Benchmarking",
+    "address_search_regional_context": "District of Columbia",
 
     "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png",
     "labelTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png",
