@@ -32,8 +32,7 @@ define([
     },
 
     events: {
-      'change' : 'search',
-      'search' : 'fireChange'
+      'search' : 'search',
     },
 
     search: function(){
@@ -116,10 +115,6 @@ define([
         map.removeLayer(this.marker);
       }
     },
-
-    fireChange: function(){
-      this.$el.trigger('change');
-    }
 
   });
 
