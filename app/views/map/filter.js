@@ -14,13 +14,22 @@ define([
   var MapControlView = Backbone.View.extend({
     className: "map-control",
     $container: $('#map-controls'),
+    //vid: (function(){
+    //  function s4() {
+    //    return Math.floor((1 + Math.random()) * 0x10000)
+    //      .toString(16)
+    //      .substring(1);
+    //  }
+    //  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    //    s4() + '-' + s4() + s4() + s4();
+    //})(),
 
     initialize: function(options){
       this.layer = options.layer;
       this.allBuildings = options.allBuildings;
       this.state = options.state;
       this.listenTo(this.state, 'change:layer', this.onLayerChange);
-      this.listenTo(this.state, 'change:filters', this.render);
+      //this.listenTo(this.state, 'change:filters', this.render);
     },
 
     onLayerChange: function(){
@@ -36,7 +45,7 @@ define([
       this.remove();
     },
 
-    render: function(){
+    render: function(isUpdate){
       var template = _.template(FilterContainer),
           fieldName = this.layer.field_name,
           safeFieldName = fieldName.toLowerCase().replace(/\s/g, "-"),
@@ -44,6 +53,7 @@ define([
           currentLayer = this.state.get('layer'),
           isCurrent = currentLayer == fieldName,
           $section = this.$section(),
+          isUpdate = isUpdate || false,
           filterRange = this.layer.filter_range,
           rangeSliceCount = this.layer.range_slice_count,
           colorStops = this.layer.color_range,
@@ -101,12 +111,31 @@ define([
       if (!this.histogram) {
         this.histogram = new HistogramView({gradients: bucketGradients, slices: rangeSliceCount});
       }
-      this.$el.find('.chart').html(this.histogram.render())
+      this.$el.find('.chart').html(this.histogram.render());
 
       this.$el.toggleClass('current', isCurrent);
       if(isCurrent || $section.find('.current').length > 0) { $section.find('input').prop('checked', true); }
       $section.toggleClass('current', isCurrent || $section.find('.current').length > 0);
-      $section.find('.category-control-container').append(this.$el);
+      if (!isUpdate){
+       $section.find('.category-control-container').append(this.$el);
+      }
+      else{
+        var positionInCategory;
+        $section.find('.category-control-container > .map-control').each(function(index, el){
+                if ($(el).attr('id') === this.layer.field_name){
+                  positionInCategory = index;
+                }
+               }.bind(this));
+
+        switch(positionInCategory){
+          case 0:
+              $section.find('.category-control-container').prepend(this.$el);
+              break;
+          default:
+              $section.find(".category-control-container > div:nth-child(" + positionInCategory + ")").after(this.$el);
+        }
+      }
+
 
       return this;
     },
@@ -119,7 +148,9 @@ define([
         filters.push({field: fieldName, min: rangeSlider.from, max: rangeSlider.to});
       }
 
-      this.state.set({filters: filters})
+      // fire event for other non Filter.js listeners
+      this.state.set({filters: filters});
+      this.render(true);
     },
 
     onPrettifyHandler: function(min, max) {
