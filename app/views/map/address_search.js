@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'toastr',
   'text!templates/map/address_search.html'
-], function($, _, Backbone, AddressSearchTemplate){
+], function($, _, Backbone, toastr, AddressSearchTemplate){
 
   var AddressSearchView = Backbone.View.extend({
     $container: $('#search'),
@@ -48,10 +49,11 @@ define([
         url: url,
         data: {
           api_key: 'search-oqsffOQ',
-          text: search,
-          size: 1,
+          text: search + " " + this.state.get('city').get('address_search_regional_context'),
+          size: 5,
           'focus.point.lat': center[0],
-          'focus.point.lon': center[1]
+          'focus.point.lon': center[1],
+          'locality': 'venue,address',
         },
         success: function(response){
           self.centerMapOn(response);
@@ -60,9 +62,35 @@ define([
     },
 
     centerMapOn: function(location){
-      var coordinates = location.features[0].geometry.coordinates.reverse();
-      this.placeMarker(coordinates);
-      this.mapView.leafletMap.setView(coordinates);
+      var hits = location.features.filter(function(feat) {
+        return feat.properties.region && feat.properties.region === this.state.get('city').get('address_search_regional_context');
+      }.bind(this));
+
+      if (hits.length > 0 ){
+        var coordinates = hits[0].geometry.coordinates.reverse();
+        this.placeMarker(coordinates);
+        this.mapView.leafletMap.setView(coordinates);
+      }
+      else{
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": false,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        toastr["error"]("Addresses not found!");
+      }
     },
     placeMarker: function(coordinates){
       var map = this.mapView.leafletMap;

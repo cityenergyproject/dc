@@ -14,15 +14,6 @@ define([
   var MapControlView = Backbone.View.extend({
     className: "map-control",
     $container: $('#map-controls'),
-    //vid: (function(){
-    //  function s4() {
-    //    return Math.floor((1 + Math.random()) * 0x10000)
-    //      .toString(16)
-    //      .substring(1);
-    //  }
-    //  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    //    s4() + '-' + s4() + s4() + s4();
-    //})(),
 
     initialize: function(options){
       this.layer = options.layer;
@@ -116,6 +107,7 @@ define([
       this.$el.toggleClass('current', isCurrent);
       if(isCurrent || $section.find('.current').length > 0) { $section.find('input').prop('checked', true); }
       $section.toggleClass('current', isCurrent || $section.find('.current').length > 0);
+      
       if (!isUpdate){
        $section.find('.category-control-container').append(this.$el);
       }
