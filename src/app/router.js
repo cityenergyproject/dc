@@ -68,7 +68,8 @@ define([
       tableName: this.city.years[year].table_name,
       layer: layer,
       sort: layer,
-      order: 'desc'
+      order: 'desc',
+      categories: this.city.categoryDefaults || [],
     }
   };
 
