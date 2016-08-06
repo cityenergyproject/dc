@@ -76,7 +76,7 @@ define([
       this.delegateEvents();
 
       // if this category layer has onload_display_values, then trigger a redraw immediately
-      if(this.layer.onload_display_values)this.toggleCategory();
+      //if(this.layer.onload_display_values)this.toggleCategory();
 
       return this;
     },
