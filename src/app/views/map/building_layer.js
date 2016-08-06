@@ -127,7 +127,7 @@ define([
           city = state.get('city'),
           fieldName = state.get('layer'),
           cityLayer = _.findWhere(city.get('map_layers'), {field_name: fieldName}),
-          buckets = cityLayer.range_slice_count
+          buckets = cityLayer.range_slice_count,
           colorStops = cityLayer.color_range,
           calculator = new BuildingColorBucketCalculator(buildings, fieldName, buckets, colorStops),
           stylesheet = new CartoStyleSheet(buildings.tableName, calculator);
