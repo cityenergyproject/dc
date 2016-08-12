@@ -102,7 +102,7 @@
             "field_name": "water_use",
             "display_type": "range",
             "range_slice_count": 18,
-            "section": "Energy Use",
+            "section": "Water Use",
             "color_range": ["#2a8b44","#7fc342","#f16623"],
             "unit": "kgal",
             "description": "Total annual water consumption in kilogallons (1,000 gallons)"
@@ -178,8 +178,8 @@
         }
     ],
     "years": {
-        "2013": {
-            "table_name": "t2013",
+        "2015": {
+            "table_name": "t2015",
             "default_layer": "energy_star_score"
         }
     }
