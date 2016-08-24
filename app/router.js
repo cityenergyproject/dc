@@ -97,6 +97,9 @@ define([
       if (_.contains(changed, 'url_name')){
         this.onDataSourceChange();
       }
+      else if (_.contains(changed, 'year')){
+        this.onDataSourceChange();
+      }
       this.navigate(this.state.toUrl(), {trigger: false, replace: true});
     },
     onDataSourceChange: function(){
