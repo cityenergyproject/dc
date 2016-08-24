@@ -94,7 +94,7 @@ define([
     },
     onChange: function(){
       var changed = _.keys(this.state.changed);
-      if (_.contains(changed, 'url_name')){
+      if (_.contains(changed, 'url_name') || _.contains(changed, 'year')){
         this.onDataSourceChange();
       }
       this.navigate(this.state.toUrl(), {trigger: false, replace: true});

@@ -178,6 +178,14 @@
         }
     ],
     "years": {
+        "2013": {
+            "table_name": "t2013",
+            "default_layer": "energy_star_score"
+        },
+        "2014": {
+            "table_name": "t2014",
+            "default_layer": "energy_star_score"
+        },
         "2015": {
             "table_name": "t2015",
             "default_layer": "energy_star_score"
