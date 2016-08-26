@@ -96,8 +96,8 @@ define([
       this.clearMarker();
 
       var icon = new L.Icon({
-          iconUrl: '/images/marker.svg',
-          iconRetinaUrl: '/images/marker.svg',
+          iconUrl: 'images/marker.svg',
+          iconRetinaUrl: 'images/marker.svg',
           iconSize: [16, 28],
           iconAnchor: [8, 28],
           popupAnchor: [-3, -76],
