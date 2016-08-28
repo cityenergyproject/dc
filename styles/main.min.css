@@ -627,7 +627,8 @@ header {
     letter-spacing: 0.1em;
     background-repeat: no-repeat;
     background-position: 100% 100%;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    text-indent: -999px; }
 
 .toolbar {
   background-color: #248C43;
