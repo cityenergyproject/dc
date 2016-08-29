@@ -49,7 +49,7 @@ define([
         data: {
           api_key: 'search-oqsffOQ',
           text: search + " " + this.state.get('city').get('address_search_regional_context'),
-          size: 5,
+          size: 10,
           'focus.point.lat': center[0],
           'focus.point.lon': center[1],
           'locality': 'venue,address',
