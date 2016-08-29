@@ -40,6 +40,8 @@
             "title": "Ward",
             "field_name": "ward",
             "display_type": "category",
+            "sort_by_key": true,
+            "hide_other_category": true,
             "section": "Property Information",
             "description": "Ward as recorded by the DC Office of Tax and Revenue"
         },
@@ -47,6 +49,8 @@
             "title": "Property Type",
             "field_name": "primary_ptype_epa",
             "display_type": "category",
+            "sort_by_key": true,
+            "hide_other_category": true,
             "section": "Property Information",
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
