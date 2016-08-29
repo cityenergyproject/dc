@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import psycopg2
 from psycopg2 import pool as psycopg2_pool
 from optparse import make_option
@@ -15,11 +16,8 @@ from contextlib import contextmanager
 
 YOUR_GOOGLE_API_KEY=''
 geolocator = GoogleV3(api_key=YOUR_GOOGLE_API_KEY) #GeoNames() Nominatim() 
-
-# create pool with min number of connections of 1, max of 15
-dbpool = psycopg2_pool.SimpleConnectionPool(1,30,dbname=os.environ["DBNAME"],user=os.environ['DBUSER'])
-
-tablename = os.environ["TABLE"]
+dbpool = None
+tablename = None
 
 @contextmanager
 def get_connection():
@@ -57,6 +55,18 @@ def geocode(prop):
 
 
 if __name__ == '__main__':
+    #
+    # check required environment variables are set
+    # 
+    dbname,dbuser,tablename=os.environ.get('DBNAME',None),os.environ.get('DBUSER',None),os.environ.get('TABLE',None)
+    if not all([dbname,dbuser,tablename]):
+        logger.error("one of the following required environment variables is not set: DBNAME={} DBUSER={} TABLE={}".format(dbname,dbuser,tablename))
+        sys.exit(1)
+    logger.debug("DBNAME={} DBUSER={} TABLENAME={}".format(dbname,dbuser,tablename))
+
+    # create pool with min number of connections of 1, max of 15
+    dbpool = psycopg2_pool.SimpleConnectionPool(1,30,dbname=os.environ["DBNAME"],user=os.environ['DBUSER'])
+    
     with get_connection() as conn:
         thread_pool = multiproc_pool.ThreadPool(processes=15)
 
