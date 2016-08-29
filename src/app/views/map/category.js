@@ -21,12 +21,17 @@ define([
 
       var orderedValues = Object.keys(counts)
         .sort(function(a, b) {
+          if (this.layer.sort_by_key){
+            if(a===b) return 0;
+            return (a<b) ? -1 : 1;
+          }
+          // default is to sort by max count value asc
           return counts[a] - counts[b];
-        })
-        .reverse();
+        }.bind(this));
 
-      this.values = orderedValues.slice(0, 9).concat([OTHER_LABEL]);
-      this.otherValues = orderedValues.slice(9);
+      this.values = orderedValues.slice(0, this.layer.hide_other_category ? orderedValues.length++ : 9 );
+      if(!this.layer.hide_other_category) this.values.concat([OTHER_LABEL]);
+      this.otherValues = this.layer.hide_other_category ? [] : orderedValues.slice(9);
     },
 
     close: function() {
