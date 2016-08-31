@@ -31,6 +31,7 @@ define([
       this.allBuildings.fetch();
 
       this.render();
+
       return this;
     },
 
@@ -84,11 +85,13 @@ define([
     },
 
     onBuildings: function(){
+      console.log('>> Map: onBuildings');
       var state = this.state,
           city = state.get('city'),
           layers = city.get('map_layers'),
           allBuildings = this.allBuildings,
           state = this.state;
+
 
       $('#map-category-controls').empty();
       $('#map-controls').empty();
@@ -105,6 +108,7 @@ define([
           range: Filter,
           category: Category
         }[layer.display_type];
+
         return new viewClass({layer: layer, allBuildings: allBuildings, state: state});
       }).each(function(view){ view.render(); });
 

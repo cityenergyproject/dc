@@ -41,7 +41,10 @@ define([
   };
 
   BuildingInfoPresenter.prototype.toLatLng = function() {
-    return {lat: this.toBuilding().get('lat'), lng: this.toBuilding().get('lng')};
+    var building = this.toBuilding();
+    if (typeof building === 'undefined') return null;
+
+    return {lat: building.get('lat'), lng: building.get('lng')};
   };
 
   BuildingInfoPresenter.prototype.toBuilding = function() {
@@ -54,8 +57,10 @@ define([
     var default_hidden = false;
     return _.map(this.city.get('popup_fields'), function(field) {
       if (field.start_hidden) default_hidden = true;
+      var building = this.toBuilding();
+      var value = (typeof building === 'undefined') ? null : building.get(field.field);
       return _.extend({
-        value: (this.toBuilding().get(field.field) || 'N/A').toLocaleString(),
+        value: (value || 'N/A').toLocaleString(),
         default_hidden: default_hidden
       }, field);
     }, this);
@@ -65,6 +70,8 @@ define([
     initialize: function(options){
       this.state = options.state;
       this.leafletMap = options.leafletMap;
+      this.leafletMap.on('popupclose', this.onPopupClose, this);
+
       this.allBuildings = new CityBuildings(null, {});
 
       this.listenTo(this.state, 'change:layer', this.onStateChange);
@@ -79,6 +86,7 @@ define([
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
         e.stopPropagation();
+
         var is_show = $(this).text().indexOf('more') > -1 ? true: false;
         if(is_show){
           $(this).text('less details...');
@@ -91,9 +99,18 @@ define([
       });
     },
 
+    // Unset building ID,
+    // not sure if we need it to propagate
+    onPopupClose: function() {
+      this.state.unset('building');
+    },
+
     onBuildingChange: function() {
+      if (!this.state.get('building')) return;
+
       var template = _.template(BuildingInfoTemplate),
           presenter = new BuildingInfoPresenter(this.state.get('city'), this.allBuildings, this.state.get('building'));
+
       L.popup()
        .setLatLng(presenter.toLatLng())
        .setContent(template({labels: presenter.toPopulatedLabels()}))
@@ -107,6 +124,7 @@ define([
     onFeatureClick: function(event, latlng, _unused, data){
       var propertyId = this.state.get('city').get('property_id'),
           buildingId = data[propertyId];
+
       this.state.set({building: buildingId});
     },
     onFeatureOver: function(){
@@ -117,6 +135,7 @@ define([
     },
 
     onStateChange: function(){
+      console.log('>> BuildingLayer: Fetch');
       _.extend(this.allBuildings, this.state.pick('tableName', 'cartoDbUser'));
       this.allBuildings.fetch();
     },
@@ -131,6 +150,7 @@ define([
           colorStops = cityLayer.color_range,
           calculator = new BuildingColorBucketCalculator(buildings, fieldName, buckets, colorStops),
           stylesheet = new CartoStyleSheet(buildings.tableName, calculator);
+
       return {
         sql: buildings.toSql(state.get('categories'), state.get('filters')),
         cartocss: stylesheet.toCartoCSS(),

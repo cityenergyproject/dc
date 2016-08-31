@@ -86,13 +86,15 @@ define([
     },
     initialize: function(){
       var mapView = new MapView({state: this.state});
-      var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
-      var comparisonView = new BuildingComparisonView({state: this.state});
-      var headerView = new HeaderView({state: this.state});
-      var yearControlView = new YearControlView({state: this.state});
+      // var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
+      // var comparisonView = new BuildingComparisonView({state: this.state});
+      // var headerView = new HeaderView({state: this.state});
+      // var yearControlView = new YearControlView({state: this.state});
       this.state.on('change', this.onChange, this);
     },
     onChange: function(){
+      console.log('>> Router: on change');
+
       var changed = _.keys(this.state.changed);
       if (_.contains(changed, 'url_name') || _.contains(changed, 'year')){
         this.onDataSourceChange();
