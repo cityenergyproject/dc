@@ -14,7 +14,7 @@ from geopy.geocoders import GeocoderDotUS, Nominatim, GoogleV3, GeoNames
 from geopy.exc import GeocoderTimedOut
 from contextlib import contextmanager
 
-YOUR_GOOGLE_API_KEY=''
+YOUR_GOOGLE_API_KEY='AIzaSyC1CTqHJRqpKuopgZWT0YCxM4Q4m7s5BvI'
 geolocator = GoogleV3(api_key=YOUR_GOOGLE_API_KEY) #GeoNames() Nominatim() 
 dbpool = None
 tablename = None
@@ -48,8 +48,6 @@ def geocode(prop):
         with get_connection() as conn:
             crs = conn.cursor()
             crs.execute("UPDATE "+tablename+" SET the_geom = ST_SetSRID(ST_Point(%s, %s),4326), is_geocoded = 1 WHERE pid = %s",(location.longitude,location.latitude,prop[attrmap['pid']]))
-    except GeocoderTimedOut as ge: # GeocoderTimedOut
-        logger.exception( ge ) 
     except Exception as e: 
         logger.exception( e ) 
 
