@@ -102,12 +102,13 @@ define([
       if (!this.histogram) {
         this.histogram = new HistogramView({gradients: bucketGradients, slices: rangeSliceCount});
       }
+
       this.$el.find('.chart').html(this.histogram.render());
 
       this.$el.toggleClass('current', isCurrent);
       if(isCurrent || $section.find('.current').length > 0) { $section.find('input').prop('checked', true); }
       $section.toggleClass('current', isCurrent || $section.find('.current').length > 0);
-      
+
       if (!isUpdate){
        $section.find('.category-control-container').append(this.$el);
       }
@@ -127,7 +128,6 @@ define([
               $section.find(".category-control-container > div:nth-child(" + positionInCategory + ")").after(this.$el);
         }
       }
-
 
       return this;
     },

@@ -79,6 +79,7 @@ define([
 
       this.$el = $(compiled).appendTo(this.$container);
       this.delegateEvents();
+
       return this;
     },
 
