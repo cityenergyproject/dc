@@ -93,6 +93,8 @@ define([
       this.state.on('change', this.onChange, this);
     },
     onChange: function(){
+      console.log('>> Router: on change');
+
       var changed = _.keys(this.state.changed);
       if (_.contains(changed, 'url_name') || _.contains(changed, 'year')){
         this.onDataSourceChange();
