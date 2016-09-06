@@ -90,14 +90,19 @@ define([
         this.$filter = this.$slider.data("ionRangeSlider");
       }
 
-      this.$filter.update({
-        min: extent[0],
-        max: extent[1],
-        from: filterState.min,
-        to: filterState.max,
-        from_min: filterRangeMin,
-        to_max: filterRangeMax
-      });
+      // if this is a slider update, skip
+      // otherwise when user clicks on slider bar
+      // will cause a stack overflow
+      if (!isUpdate){
+        this.$filter.update({
+          min: extent[0],
+          max: extent[1],
+          from: filterState.min,
+          to: filterState.max,
+          from_min: filterRangeMin,
+          to_max: filterRangeMax
+        });
+      }
 
       if (!this.histogram) {
         this.histogram = new HistogramView({gradients: bucketGradients, slices: rangeSliceCount});
@@ -134,7 +139,8 @@ define([
     onFilterFinish: function(rangeSlider) {
       var filters = this.state.get('filters'),
           fieldName = this.layer.field_name;
-      filters = _.reject(filters, function(f){ return f.field == fieldName; })
+
+      filters = _.reject(filters, function(f){ return f.field == fieldName; });
 
       if (rangeSlider.from !== rangeSlider.min || rangeSlider.to !== rangeSlider.max){
         filters.push({field: fieldName, min: rangeSlider.from, max: rangeSlider.to});

@@ -70,7 +70,6 @@ define([
     initialize: function(options){
       this.state = options.state;
       this.leafletMap = options.leafletMap;
-      this.leafletMap.on('popupclose', this.onPopupClose, this);
 
       this.allBuildings = new CityBuildings(null, {});
 
@@ -99,12 +98,6 @@ define([
       });
     },
 
-    // Unset building ID,
-    // not sure if we need it to propagate
-    onPopupClose: function() {
-      this.state.unset('building');
-    },
-
     onBuildingChange: function() {
       if (!this.state.get('building')) return;
 
@@ -125,8 +118,17 @@ define([
       var propertyId = this.state.get('city').get('property_id'),
           buildingId = data[propertyId];
 
+      var current = this.state.get('building');
+
+      // Need to unset building if current is same
+      // as buildingId or the popup will not appear
+      if (current === buildingId) {
+        this.state.unset('building', {silent: true});
+      }
+
       this.state.set({building: buildingId});
     },
+
     onFeatureOver: function(){
       $('#map').css('cursor', "help");
     },
@@ -135,7 +137,6 @@ define([
     },
 
     onStateChange: function(){
-      console.log('>> BuildingLayer: Fetch');
       _.extend(this.allBuildings, this.state.pick('tableName', 'cartoDbUser'));
       this.allBuildings.fetch();
     },

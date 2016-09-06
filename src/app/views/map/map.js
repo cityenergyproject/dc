@@ -12,27 +12,14 @@ define([
     initialize: function(options){
       this.state = options.state;
       this.listenTo(this.state, 'change:city', this.onCityChange);
+      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
       this.listenTo(this.state, 'change:lat', this.onMapChange);
       this.listenTo(this.state, 'change:lng', this.onMapChange);
       this.listenTo(this.state, 'change:zoom', this.onMapChange);
     },
 
     onCityChange: function(){
-      this.listenTo(this.state.get('city'), 'sync', this.onCitySync)
-    },
-
-    onCitySync: function(){
-      var city = this.state.get('city'),
-          title = city.get('name'),
-          url_name = city.get('url_name');
-
-      this.allBuildings = this.state.asBuildings();
-      this.listenTo(this.allBuildings, 'sync', this.onBuildings, this);
-      this.allBuildings.fetch();
-
       this.render();
-
-      return this;
     },
 
     render: function(){
@@ -64,6 +51,9 @@ define([
 
         this.leafletMap.zoomControl.setPosition('topright');
         this.leafletMap.on('moveend', this.onMapMove, this);
+
+        // TODO: Possibly remove the need for this
+        // layer to make seperate Carto calls
         this.currentLayerView = new BuildingLayer({leafletMap: this.leafletMap, state: this.state});
       }
     },
@@ -85,17 +75,15 @@ define([
     },
 
     onBuildings: function(){
-      console.log('>> Map: onBuildings');
       var state = this.state,
           city = state.get('city'),
           layers = city.get('map_layers'),
-          allBuildings = this.allBuildings,
+          allBuildings = this.state.get('allbuildings'),
           state = this.state;
 
 
       $('#map-category-controls').empty();
       $('#map-controls').empty();
-
 
       // close/remove any existing MapControlView(s)
       this.controls && this.controls.each(function(view){
