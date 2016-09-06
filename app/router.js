@@ -12,7 +12,8 @@ define([
   'views/map/address_search',
   'views/map/year_control',
   'views/building_comparison/building_comparison',
-], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, MapView, AddressSearchView, YearControlView, BuildingComparisonView) {
+  'views/layout/activity_indicator',
+], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, MapView, AddressSearchView, YearControlView, BuildingComparisonView, ActivityIndicator) {
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
     defaults: {
@@ -85,34 +86,70 @@ define([
         ":cityname/:year/?:params": "year",
     },
     initialize: function(){
+      var activityIndicator = new ActivityIndicator({state: this.state});
+      var headerView = new HeaderView({state: this.state});
+      var yearControlView = new YearControlView({state: this.state});
       var mapView = new MapView({state: this.state});
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
       var comparisonView = new BuildingComparisonView({state: this.state});
-      var headerView = new HeaderView({state: this.state});
-      var yearControlView = new YearControlView({state: this.state});
+
       this.state.on('change', this.onChange, this);
     },
     onChange: function(){
-      console.log('>> Router: on change');
-
       var changed = _.keys(this.state.changed);
-      if (_.contains(changed, 'url_name') || _.contains(changed, 'year')){
-        this.onDataSourceChange();
+
+      if (_.contains(changed, 'url_name')){
+        this.onCityChange();
+      } else if (_.contains(changed, 'year')) {
+        this.onYearChange();
       }
+
       this.navigate(this.state.toUrl(), {trigger: false, replace: true});
     },
-    onDataSourceChange: function(){
+
+    onCityChange: function(){
+      this.state.trigger("showActivityLoader");
       var city = new CityModel(this.state.pick('url_name', 'year'));
       city.fetch({success: _.bind(this.onCitySync, this)});
+
     },
+
+    onYearChange: function() {
+      var year = this.state.get('year');
+      var previous = this.state.previous('year');
+
+      // skip undefined since it's most likely the
+      // user came to the site w/o a hash state
+      if (typeof previous === 'undefined') return;
+
+      this.onCityChange();
+    },
+
     onCitySync: function(city, results) {
       var year = this.state.get('year'),
           layer = this.state.get('layer'),
           newState = new StateBuilder(results, year, layer).toState(),
           defaultMapState = {lat: city.get('center')[0], lng: city.get('center')[1], zoom: city.get('zoom')},
           mapState = this.state.pick('lat', 'lng', 'zoom');
+
       _.defaults(mapState, defaultMapState);
+
+      // set this to silent because we need to load buildings
       this.state.set(_.extend({city: city}, newState, mapState));
+
+      this.fetchBuildings();
+    },
+
+    fetchBuildings: function() {
+      this.allBuildings = this.state.asBuildings();
+      this.listenToOnce(this.allBuildings, 'sync', this.onBuildingsSync, this);
+
+      this.allBuildings.fetch();
+    },
+
+    onBuildingsSync: function() {
+      this.state.set({allbuildings: this.allBuildings});
+      this.state.trigger("hideActivityLoader");
     },
 
     root: function () {

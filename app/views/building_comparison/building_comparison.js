@@ -10,19 +10,36 @@ define([
   'text!templates/building_comparison/table_body.html'
 ], function($, _, Backbone, BuildingComparator, BuildingColorBucketCalculator, BuildingBucketCalculator, HistogramView, TableHeadTemplate,TableBodyRowsTemplate){
 
-  var ReportTranslator = function(buildingId, buildingFields, metricFields, buildings, gradientCalculators) {
+  var ReportTranslator = function(buildingId, buildingFields, buildings, gradientCalculators) {
     this.buildingId = buildingId;
     this.buildingFields = buildingFields;
-    this.metricFields = metricFields;
     this.buildings = buildings;
+    this.lookup = {};
     this.gradientCalculators = gradientCalculators;
+
+    this.init();
   };
 
-  ReportTranslator.prototype.toBuildingRow = function(building) {
-    var result = {
-      id: building.get(this.buildingId),
-      fields: _.values(building.pick(this.buildingFields)),
-      metrics: _.map(this.metricFields, function(field) {
+  ReportTranslator.prototype.init = function() {
+    this.buildings.forEach(function(building, i){
+      this.lookup[building.get(this.buildingId)] = {
+        id: building.get(this.buildingId),
+        fields: _.values(building.pick(this.buildingFields)),
+        metrics: []
+      };
+    }, this);
+  };
+
+  ReportTranslator.prototype.updateMetrics = function(buildings, metricFields) {
+    var metrichash = metricFields.toString();
+
+    buildings.forEach(function(building, i){
+      var id = building.get(this.buildingId);
+      var currentMetricHash = this.lookup[id].metrichash;
+
+      if (currentMetricHash === metrichash) return;
+
+      var metrics = _.map(metricFields, function(field) {
         var value = building.get(field),
             color = this.gradientCalculators[field].toColor(value);
         return {
@@ -30,14 +47,19 @@ define([
           color: color,
           undefined: (value ? 'defined' : 'undefined')
         };
-      }, this)
-    };
-    return result;
+      }, this);
+
+      this.lookup[id].metrics = metrics;
+      this.lookup[id].metrichash = metrichash;
+    }, this);
   };
 
-  ReportTranslator.prototype.toBuildingReport = function() {
-    return this.buildings.map(this.toBuildingRow, this);
+  ReportTranslator.prototype.toRows = function(buildings) {
+    return _.map(buildings, function(building){
+      return this.lookup[building.get(this.buildingId)];
+    }, this);
   };
+
 
   var MetricAverageCalculator = function(buildings, fields, gradientCalculators){
     this.buildings = buildings;
@@ -47,9 +69,10 @@ define([
 
   MetricAverageCalculator.prototype.calculateField = function(field){
     var fieldName = field.field_name,
-        values = this.buildings.pluck(fieldName),
+        values = _.map(this.buildings, function(building){return building.get(fieldName);}),
         median = Math.round(d3.median(values) * 10) / 10,
         gradientCalculator = this.gradientCalculators[fieldName];
+
     return _.extend({}, field, {
       median: median,
       color: gradientCalculator.toColor(median)
@@ -118,36 +141,41 @@ define([
     sortedBy: {},
 
     initialize: function(options){
+      this.previousState = {};
+
       this.state = options.state;
       this.$el.html('<div class="building-report-header-container"><table class="building-report"><thead></thead></table></div><table class="building-report"><tbody></tbody></table>');
-      this.allBuildings = this.state.asBuildings();
-      this.buildings = this.state.asBuildings();
-      this.listenTo(this.allBuildings, 'sync', this.onBuildings, this);
-      this.listenTo(this.buildings, 'sort', this.render, this);
-      this.listenTo(this.state, 'change:city', this.onDataSourceChange);
+
+      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
+      this.listenTo(this.state, 'change:filters', this.onFilterChange);
+      this.listenTo(this.state, 'change:categories', this.onCategoryChange);
       this.listenTo(this.state, 'change:layer', this.onLayerChange);
       this.listenTo(this.state, 'change:metrics', this.onMetricsChange);
       this.listenTo(this.state, 'change:sort', this.onSort);
       this.listenTo(this.state, 'change:order', this.onSort);
+
+      this.listenTo(this.state, 'change:year', this.onDataSourceChange);
+      this.listenTo(this.state, 'change:city', this.onDataSourceChange);
+
       this.listenTo(this.state, 'building_layer_popup_shown', this.render);
       $(window).scroll(_.bind(this.onScroll, this));
     },
 
-    onDataSourceChange: function(){
-      _.extend(this.allBuildings, this.state.pick('tableName', 'cartoDbUser'));
-      this.allBuildings.fetch();
-
-      _.extend(this.buildings, this.state.pick('tableName', 'cartoDbUser'));
-      this.listenTo(this.state, 'change:filters', this.onSearchChange);
-      this.listenTo(this.state, 'change:categories', this.onSearchChange);
-      this.buildings.fetch(this.state.get('categories'), this.state.get('filters'));
+    onDataSourceChange: function() {
+      this.previousState = {};
+      this.allBuildings = [];
+      this.buildings = [];
+      this.gradientCalculators = [];
+      this.report = null;
     },
 
     onBuildings: function(){
-      var buildings = this.allBuildings,
-          layers = this.state.get('city').get('map_layers'),
+      var layers = this.state.get('city').get('map_layers'),
           fields = _.where(layers, {display_type: 'range'});
-      this.gradientCalculators = _.reduce(fields, function(memo, field){
+
+      var buildings = this.allBuildings = this.state.get('allbuildings');
+
+      var gradientCalculators = this.gradientCalculators = _.reduce(fields, function(memo, field){
         memo[field.field_name] = new BuildingColorBucketCalculator(
           buildings,
           field.field_name,
@@ -156,11 +184,48 @@ define([
         );
         return memo;
       }, {});
-      this.render();
+
+      var buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
+          buildingId = this.state.get('city').get('property_id');
+
+      this.report = new ReportTranslator(buildingId, buildingFields, buildings, gradientCalculators);
+
+      this.updateBuildings();
+    },
+
+    buildingsExist: function() {
+      return (typeof this.allBuildings === 'undefined' || !this.allBuildings.length) ? false : true;
+    },
+
+    updateBuildings: function() {
+      if (!this.buildingsExist()) return;
+      this.buildings = this.allBuildings.toFilter(this.allBuildings, this.state.get('categories'), this.state.get('filters'));
+
+      this.preCalculateTable();
+      this.onSort(true);
+    },
+
+    preCalculateTable: function() {
+      if (!this.state.get('city')) { return; }
+      if (!this.gradientCalculators) { return; }
+      if (!this.buildingsExist()) { return; }
+
+      var metricFieldNames = this.state.get('metrics'),
+          cityFields = this.state.get('city').get('map_layers');
+
+      this.report.updateMetrics(this.buildings, metricFieldNames);
+    },
+
+    onCategoryChange: function() {
+      this.updateBuildings();
+    },
+
+    onFilterChange: function() {
+      this.updateBuildings();
     },
 
     onSearchChange: function(){
-      this.buildings.fetch(this.state.get('categories'), this.state.get('filters'));
+      this.updateBuildings();
     },
 
     onScroll: function() {
@@ -180,17 +245,25 @@ define([
           cityFields = _.pluck(this.state.get('city').get('map_layers'), 'field_name'),
           validator = new MetricsValidator(cityFields, metrics, newLayer),
           validMetrics = validator.toValidFields();
+
       this.state.set({metrics: validMetrics});
       return this;
     },
 
+    onMetricsChange: function(){
+      this.preCalculateTable();
+      this.render();
+    },
+
     render: function(){
-      if(!this.state.get('city')) { return; }
+      if (!this.state.get('city')) { return; }
       if (!this.gradientCalculators) { return; }
-      if (!this.buildings.length > 0) { return; }
+      if (!this.buildingsExist()) { return; }
+
       this.onLayerChange();
       this.renderTableHead();
       this.renderTableBody();
+
       return this;
     },
 
@@ -227,22 +300,23 @@ define([
     renderTableBody: function(){
       var buildings = this.buildings,
           $body = this.$el.find('tbody'),
+          template = _.template(TableBodyRowsTemplate),
           buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
           cityFields = this.state.get('city').get('map_layers'),
           buildingId = this.state.get('city').get('property_id'),
-          currentBuilding = this.state.get('building') || buildings.first().get(buildingId),
+          currentBuilding = this.state.get('building') || (buildings.length) ? buildings[0].get(buildingId) : -1,
           metricFieldNames = this.state.get('metrics'),
           metricFields = _.map(metricFieldNames, function(name) { return _.findWhere(cityFields, {field_name: name}); })
-          template = _.template(TableBodyRowsTemplate),
-          report = new ReportTranslator(buildingId, buildingFields, metricFieldNames, buildings, this.gradientCalculators),
+          report = this.report.toRows(buildings),
           metrics = new MetricAverageCalculator(buildings, metricFields, this.gradientCalculators).calculate(),
           building = buildings.find(function(b) { return b.get(buildingId) == currentBuilding}),
           buildingMetrics = new BuildingMetricCalculator(building, this.allBuildings, metricFields, this.gradientCalculators);
 
+
       $body.replaceWith(template({
         currentBuilding: currentBuilding,
         metrics: metrics,
-        buildings: report.toBuildingReport()
+        buildings: report
       }));
 
       buildingMetrics.render($('tr.current'));
@@ -255,14 +329,11 @@ define([
       'click tbody tr': 'onRowClick'
     },
 
-    onMetricsChange: function(){
-      this.render();
-    },
-
     onRowClick: function(event){
       var $target = $(event.target),
           $row = $target.closest('tr'),
           buildingId = $row.attr('id');
+
       this.state.set({building: buildingId});
     },
 
@@ -295,12 +366,25 @@ define([
       this.state.set({sort: sortField, order: sortOrder, building: null});
     },
 
-    onSort: function() {
+    onSort: function(force) {
+      if (!this.buildingsExist() || this.buildings.length < 2) return;
+
       var sortField = this.state.get('sort'),
           sortOrder = this.state.get('order');
+
+      // Skip if the order && field are the same as last sort
+      if (!force && this.previousState.sort && this.previousState.order &&
+        this.previousState.sort === sortField &&
+        this.previousState.order === sortOrder) return;
+
+      this.previousState.sort = sortField;
+      this.previousState.order = sortOrder;
+
       var comparator = new BuildingComparator(sortField, sortOrder == 'asc');
-      this.buildings.comparator = _.bind(comparator.compare, comparator);
-      this.buildings.sort();
+
+      this.buildings.sort(_.bind(comparator.compare, comparator));
+
+      this.render();
     }
   });
 
