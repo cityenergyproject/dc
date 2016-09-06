@@ -12,7 +12,8 @@ define([
   'views/map/address_search',
   'views/map/year_control',
   'views/building_comparison/building_comparison',
-], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, MapView, AddressSearchView, YearControlView, BuildingComparisonView) {
+  'views/layout/activity_indicator',
+], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, MapView, AddressSearchView, YearControlView, BuildingComparisonView, ActivityIndicator) {
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
     defaults: {
@@ -85,18 +86,16 @@ define([
         ":cityname/:year/?:params": "year",
     },
     initialize: function(){
+      var activityIndicator = new ActivityIndicator({state: this.state});
       var headerView = new HeaderView({state: this.state});
       var yearControlView = new YearControlView({state: this.state});
       var mapView = new MapView({state: this.state});
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
-
       var comparisonView = new BuildingComparisonView({state: this.state});
 
       this.state.on('change', this.onChange, this);
     },
     onChange: function(){
-      console.log('>> Router: on change');
-
       var changed = _.keys(this.state.changed);
 
       if (_.contains(changed, 'url_name')){
@@ -109,8 +108,7 @@ define([
     },
 
     onCityChange: function(){
-      console.log('>> onCityChange: ')
-
+      this.state.trigger("showActivityLoader");
       var city = new CityModel(this.state.pick('url_name', 'year'));
       city.fetch({success: _.bind(this.onCitySync, this)});
 
@@ -124,12 +122,10 @@ define([
       // user came to the site w/o a hash state
       if (typeof previous === 'undefined') return;
 
-      console.log('>> onYearChange (%s, %s)', previous, year);
       this.onCityChange();
     },
 
     onCitySync: function(city, results) {
-      console.log('>> onCitySync')
       var year = this.state.get('year'),
           layer = this.state.get('layer'),
           newState = new StateBuilder(results, year, layer).toState(),
@@ -152,8 +148,8 @@ define([
     },
 
     onBuildingsSync: function() {
-      console.log('>> On Building');
       this.state.set({allbuildings: this.allBuildings});
+      this.state.trigger("hideActivityLoader");
     },
 
     root: function () {
@@ -165,7 +161,6 @@ define([
     },
 
     year: function(cityname, year, params){
-      console.log('???? ', cityname, year);
       params = params ? deparam(params) : {};
       this.state.set(_.extend({}, params, {url_name: cityname, year: year}));
     }

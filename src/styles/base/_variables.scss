@@ -20,6 +20,7 @@ $blue: #477dca;
 $dark-gray: #333;
 $medium-gray: #d1d1d0;
 $light-gray: #ddd;
+$spinner-gray: #666;
 $orange: #248C43;
 $normal-text: $orange;
 
@@ -42,3 +43,9 @@ $form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
 $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
 
 $header-height: 6em;
+
+// zIndexes
+$zIndex1: 1;
+$zIndex10: 10;
+$zIndex100: 100;
+$zIndexMax: 999999;

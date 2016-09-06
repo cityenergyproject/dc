@@ -170,7 +170,6 @@ define([
     },
 
     onBuildings: function(){
-      console.log('>> Table: onBuilding');
       var layers = this.state.get('city').get('map_layers'),
           fields = _.where(layers, {display_type: 'range'});
 
@@ -218,12 +217,10 @@ define([
     },
 
     onCategoryChange: function() {
-      console.log('>> onCategoryChange: ');
       this.updateBuildings();
     },
 
     onFilterChange: function() {
-      console.log('>> onFilterChange');
       this.updateBuildings();
     },
 
@@ -243,8 +240,6 @@ define([
     onLayerChange: function() {
       if(!this.state.get('city')) { return; }
 
-      console.log('>> On Layer change');
-
       var metrics = this.state.get('metrics'),
           newLayer = this.state.get('layer'),
           cityFields = _.pluck(this.state.get('city').get('map_layers'), 'field_name'),
@@ -256,7 +251,6 @@ define([
     },
 
     onMetricsChange: function(){
-      console.log('>> On Metric change');
       this.preCalculateTable();
       this.render();
     },
@@ -265,8 +259,6 @@ define([
       if (!this.state.get('city')) { return; }
       if (!this.gradientCalculators) { return; }
       if (!this.buildingsExist()) { return; }
-
-      console.log('>> RENDER << ');
 
       this.onLayerChange();
       this.renderTableHead();
