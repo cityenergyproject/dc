@@ -7,6 +7,7 @@
     "test": "jasmine",
     "watch": "gulp watch",
     "start": "gulp connect",
+    "dev": "parallelshell 'npm run watch' 'npm run start'",
     "copy-lib": "gulp copy-lib",
     "dist": "gulp",
     "postinstall": "gulp"
@@ -46,6 +47,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "eslint": "^1.10.2"
+    "eslint": "^1.10.2",
+    "parallelshell": "^2.0.0"
   }
 }
