@@ -14,9 +14,11 @@ define([
       this.gradients = options.gradients;
       this.slices = options.slices;
       this.chart = d3.select(this.el).append('svg')
-                     .attr('viewBox', '0 0 ' + this.width + ' ' + this.height)
-                     .style('background', 'transparent')
-                     .append('g');
+                      .style({width: '100%', height: '100%'})
+                      .attr('viewBox', '0 0 ' + this.width + ' ' + this.height)
+                      .attr('preserveAspectRatio', "xMinYMin meet")
+                      .style('background', 'transparent')
+                      .append('g');
     },
 
     render: function(){

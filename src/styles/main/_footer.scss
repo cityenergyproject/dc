@@ -1,23 +1,64 @@
+$footer-height-sm: 60px;
+$footer-height-md: 70px;
+$footer-height-lg: 80px;
+
 #footer {
   background-color: #f2f2f2;
-  height: $footer-height;
+  height: $footer-height-sm;
   position: fixed;
+  display: table;
   bottom: 0;
   transition: bottom 0.2s ease-in-out;
   width: 100%;
   text-align: center;
   padding: 10px;
 
+  @include media($medium-screen-up) {
+    height: $footer-height-md;
+  }
+
+  @include media($xlarge-screen-up) {
+    height: $footer-height-lg;
+  }
+
   .footer-row {
-    margin: 5px 0;
+    display: table-row;
+    height: 50%;
+    margin: 0;
   }
 
   a {
+    display:table-cell;
     color: #248C43;
     text-decoration: none;
+    vertical-align: middle;
   }
 }
 
 #footer.nav-up {
-  bottom: -$footer-height;
+  bottom: -$footer-height-sm;
+
+  @include media($medium-screen-up) {
+    bottom: -$footer-height-md;
+  }
+
+  @include media($xlarge-screen-up) {
+    bottom: -$footer-height-lg;
+  }
 }
+
+// TODO: Come up with a better solution
+#buildings {
+  margin-bottom: $footer-height-sm;
+
+  @include media($medium-screen-up) {
+    margin-bottom: $footer-height-md;
+  }
+
+  @include media($xlarge-screen-up) {
+    margin-bottom: $footer-height-lg;
+  }
+}
+
+
+// 56
