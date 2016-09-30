@@ -10,6 +10,7 @@
     "dev": "parallelshell 'npm run watch' 'npm run start'",
     "copy-lib": "gulp copy-lib",
     "dist": "gulp",
+    "deploy": "npn run dist && gulp deploy",
     "postinstall": "gulp"
   },
   "repository": {

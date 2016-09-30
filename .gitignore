@@ -11,6 +11,7 @@ npm-debug.log
 dist/
 /.idea
 .local_only
+.publish
 
 # virtual enviorn
 venv
