@@ -618,32 +618,41 @@ header {
       #buildings th:first-child, #buildings td:first-child {
         width: 22.5em; } }
 
+.clearfix:after, header h1:after {
+  content: "";
+  display: table;
+  clear: both; }
+
 header h1 {
   position: relative;
   line-height: 3em;
   font-size: 2em; }
-  header h1 a {
+  header h1 span {
     position: absolute;
+    left: -999px; }
+  header h1 .header-banner-item,
+  header h1 .header-logo {
+    position: relative;
     display: block;
     top: 0;
     margin: 0;
     padding: 0;
     height: 3em;
+    float: left;
     font-size: 1em;
     text-decoration: none;
     outline: none;
     border: 0; }
-    header h1 a img {
+    header h1 .header-banner-item img,
+    header h1 .header-logo img {
       display: block;
       width: auto;
       height: 3em;
       margin: 0;
       padding: 0;
       border: 0; }
-  header h1 .header-logo {
-    left: 0; }
-  header h1 .header-banner {
-    right: 0; }
+  header h1 .header-banner-item {
+    float: right; }
 
 header {
   background-color: #f2f2f2; }
@@ -654,6 +663,25 @@ header {
     background-position: 100% 100%;
     text-transform: uppercase;
     text-indent: -999px; }
+
+#footer {
+  background-color: #f2f2f2;
+  height: 85px;
+  position: fixed;
+  bottom: 0;
+  -webkit-transition: bottom 0.2s ease-in-out;
+          transition: bottom 0.2s ease-in-out;
+  width: 100%;
+  text-align: center;
+  padding: 10px; }
+  #footer .footer-row {
+    margin: 5px 0; }
+  #footer a {
+    color: #248C43;
+    text-decoration: none; }
+
+#footer.nav-up {
+  bottom: -85px; }
 
 .toolbar {
   background-color: #248C43;
@@ -888,7 +916,8 @@ header {
     fill: #fff !important; }
 
 .building-report {
-  margin: 0; }
+  margin: 0;
+  margin-bottom: 85px; }
   .building-report h2 {
     line-height: 1em; }
   .building-report input {
