@@ -549,10 +549,12 @@ header {
     display: none; }
     @media screen and (min-width: 35em) {
       #map-category-controls .map-category-control:nth-child(1), #map-category-controls .map-category-control:nth-child(2) {
-        display: inline-block; } }
+        display: block;
+        float: left; } }
     @media screen and (min-width: 56.25em) {
       #map-category-controls .map-category-control {
-        display: inline-block; } }
+        display: block;
+        float: left; } }
 
 #year-select {
   position: absolute;
@@ -617,8 +619,31 @@ header {
         width: 22.5em; } }
 
 header h1 {
+  position: relative;
   line-height: 3em;
   font-size: 2em; }
+  header h1 a {
+    position: absolute;
+    display: block;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    height: 3em;
+    font-size: 1em;
+    text-decoration: none;
+    outline: none;
+    border: 0; }
+    header h1 a img {
+      display: block;
+      width: auto;
+      height: 3em;
+      margin: 0;
+      padding: 0;
+      border: 0; }
+  header h1 .header-logo {
+    left: 0; }
+  header h1 .header-banner {
+    right: 0; }
 
 header {
   background-color: #f2f2f2; }
@@ -656,23 +681,31 @@ header {
     line-height: 1;
     box-sizing: border-box;
     padding: 0.4em 1.2em;
-    display: block; }
+    display: block;
+    margin-bottom: .5rem; }
   .map-category-control input[type="checkbox"]:checked + .category-list-toggle + .categories {
-    display: block; }
+    left: 0; }
   .map-category-control .categories {
-    display: none;
-    position: absolute;
+    display: block;
+    position: relative;
     z-index: 99;
-    top: 3em;
-    left: 0;
-    right: 0;
+    top: 0;
+    left: -999999px;
+    padding-bottom: 5px;
     height: 19.125em;
-    overflow-y: scroll; }
+    max-width: 11em;
+    overflow-y: scroll;
+    overflow-x: hidden; }
+  .map-category-control .categories-wrapper {
+    overflow-y: scroll;
+    position: relative;
+    height: 100%; }
   .map-category-control ul {
     padding: 0.5em 0; }
   .map-category-control li {
     margin: 0.25em 1em;
-    clear: both; }
+    clear: both;
+    word-break: break-word; }
   .map-category-control li.actions {
     font-size: 0.7em;
     padding-bottom: 0.5em;
