@@ -1,0 +1,23 @@
+#footer {
+  background-color: #f2f2f2;
+  height: $footer-height;
+  position: fixed;
+  bottom: 0;
+  transition: bottom 0.2s ease-in-out;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+
+  .footer-row {
+    margin: 5px 0;
+  }
+
+  a {
+    color: #248C43;
+    text-decoration: none;
+  }
+}
+
+#footer.nav-up {
+  bottom: -$footer-height;
+}
