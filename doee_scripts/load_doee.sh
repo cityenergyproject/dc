@@ -24,12 +24,6 @@ TABLENAME=${TABLE}
 CSVFULLPATH=$WDIR/${CSVNAME}.csv
 if [ ! -f $CSVFULLPATH ]; then echo "the file '$CSVFULLPATH' does not exist"; exit 1; fi
 
-#  DOEE "should" be sending 
-#  pipe-delimited CSV(s) with data in the schema and column order
-#  defined by the CREATE TABLE statement below
-#  swap out their headers for those defined in the application
-replacement_headers="pid|dc_real_pid|pm_pid|property_name|pm_parent_pid|parent_property_name|year_ending|report_status|address_of_record|owner_of_record|ward|reported_address|city|state|postal_code|year_built|primary_ptype_self|primary_ptype_epa|tax_record_floor_area|reported_gross_floor_area|energy_star_score|site_eui|weather_norm_site_eui|source_eui|weather_norm_source_eui|total_ghg_emissions|total_ghg_emissions_intensity|water_use|electricity_use|natural_gas_use|fuel_use|district_water_use|metered_areas_energy|metered_areas_water|xcoordinate|ycoordinate|ycorrected|xcorrected"
-sed -i '1s/.*/'"${replacement_headers}"'/'  $CSVFULLPATH;
 
 # load
 psql_load="
@@ -85,22 +79,6 @@ ALTER TABLE ${TABLENAME} ADD COLUMN is_geocoded INTEGER DEFAULT 0;
 UPDATE ${TABLENAME} set the_geom = ST_SetSRID(ST_Point(xcoordinate, ycoordinate),4326) WHERE xcoordinate IS NOT NULL AND ycoordinate IS NOT NULL;
 UPDATE ${TABLENAME} set the_geom = ST_SetSRID(ST_Point(xcorrected, ycorrected),4326) WHERE xcorrected IS NOT NULL AND ycorrected IS NOT NULL;
 UPDATE ${TABLENAME} set needs_geocoding = 1 WHERE the_geom IS NULL;
-UPDATE ${TABLENAME} SET address_of_record = NULL WHERE address_of_record LIKE ANY ('{\"Exempt%\",\"%Report%\",\"%Compliance%\"}');
+UPDATE ${TABLENAME} SET address_of_record = NULL WHERE address_of_record LIKE ANY ('{\"Exempt%\",\"%Report%\",\"%Compliance%\"}');"
 
--- TODO: they should be doing this error checking before handing us the data
--- DOEE defined outliers that should be NULLIFIED
-UPDATE ${TABLENAME} SET 
-    site_eui = NULL, 
-    weather_norm_site_eui = NULL, 
-    source_eui = NULL,
-    weather_norm_source_eui = NULL,
-    energy_star_score = NULL,
-    total_ghg_emissions = NULL,
-    total_ghg_emissions_intensity = NULL, 
-    water_use = NULL,
-    electricity_use = NULL,
-    natural_gas_use = NULL,
-    fuel_use = NULL,
-    district_water_use = NULL
-WHERE weather_norm_source_eui > 1000 AND energy_star_score > 5;"
 psql -U $DBUSER -d $DBNAME -c "$psql_transform"

@@ -10,3 +10,12 @@
 npm-debug.log
 dist/
 /.idea
+.local_only
+
+# virtual enviorn
+venv
+
+# csv files
+doee_scripts/*.csv
+
+
