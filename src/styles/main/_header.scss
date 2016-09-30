@@ -3,14 +3,22 @@ header {
     position: relative;
     line-height: $header-height / 2;
     font-size: 2em;
+    @extend .clearfix;
 
-    a {
+    span {
       position: absolute;
+      left: -999px;
+    }
+
+    .header-banner-item,
+    .header-logo {
+      position: relative;
       display: block;
       top: 0;
       margin: 0;
       padding: 0;
       height: $header-height / 2;
+      float: left;
       font-size: 1em;
       text-decoration: none;
       outline: none;
@@ -23,15 +31,12 @@ header {
         margin: 0;
         padding: 0;
         border: 0;
+
       }
     }
 
-    .header-logo {
-      left: 0;
-    }
-
-    .header-banner {
-      right: 0;
+    .header-banner-item {
+      float: right;
     }
 
   }
