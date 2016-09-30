@@ -16,9 +16,11 @@ define([
     render: function(){
       var city = this.state.get('city'),
           name = city.get('name'),
-          url_name = city.get('url_name');
+          url_name = city.get('url_name'),
+          link_url = city.get('logo_link_url');
       document.title = name;
-      $('#title').html(this.template({url_name: url_name, title: name}));
+
+      $('#title').html(this.template({url_name: url_name, title: name, link_url: link_url}));
       return this;
     }
   });

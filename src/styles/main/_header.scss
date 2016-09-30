@@ -1,7 +1,39 @@
 header {
   h1 {
+    position: relative;
     line-height: $header-height / 2;
     font-size: 2em;
+
+    a {
+      position: absolute;
+      display: block;
+      top: 0;
+      margin: 0;
+      padding: 0;
+      height: $header-height / 2;
+      font-size: 1em;
+      text-decoration: none;
+      outline: none;
+      border: 0;
+
+      img {
+        display: block;
+        width: auto;
+        height: $header-height / 2;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+    }
+
+    .header-logo {
+      left: 0;
+    }
+
+    .header-banner {
+      right: 0;
+    }
+
   }
 }
 

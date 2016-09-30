@@ -1,6 +1,7 @@
 {
     "url_name": "dc",
     "name": "D.C. Energy Benchmarking",
+    "logo_link_url": "http://doee.dc.gov/energybenchmarking/",
     "address_search_regional_context": "District of Columbia",
 
     "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png",
