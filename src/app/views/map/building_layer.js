@@ -81,6 +81,8 @@ define([
       this.listenTo(this.allBuildings, 'sync', this.render);
       this.onStateChange();
 
+      var self = this;
+
       // register single handler for showing more attrs in popup
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
@@ -95,8 +97,30 @@ define([
           $(this).text('more details...');
           $('.show-more-container').removeClass('show').addClass('hide');
         }
+
+        self.leafletMap.eachLayer(function(layer){
+            if (layer._tip) {
+              self.adjustPopup(layer);
+            }
+        });
       });
     },
+
+    // Keep popup in map view after showing more details
+    adjustPopup: function(layer) {
+      var container = $(layer._container);
+      var latlng = layer.getLatLng();
+      var mapSize = this.leafletMap.getSize();
+
+      var pt = this.leafletMap.latLngToContainerPoint(latlng);
+      var height = container.height();
+      var top = pt.y - height;
+
+      if (top < 0) {
+        this.leafletMap.panBy([0, top]);
+      }
+    },
+
 
     onBuildingChange: function() {
       if (!this.state.get('building')) return;
