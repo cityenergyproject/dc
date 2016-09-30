@@ -40,7 +40,7 @@ define([
       var url = "https://search.mapzen.com/v1/search";
       var search = this.$el.val();
       var center = this.state.get('city').get('center');
-      if (search===""){
+      if (search === ""){
         this.clearMarker();
         return;
       }
@@ -52,12 +52,18 @@ define([
           size: 10,
           'focus.point.lat': center[0],
           'focus.point.lon': center[1],
+          'boundary.rect.min_lat': 38.79163,
+          'boundary.rect.min_lon': -77.119766,
+          'boundary.rect.max_lat': 38.995853,
+          'boundary.rect.max_lon': -76.909363,
           'locality': 'venue,address',
         },
+
         success: function(response){
+          console.log(response);
           self.centerMapOn(response);
         }
-      })
+      });
     },
 
     centerMapOn: function(location){
@@ -88,7 +94,8 @@ define([
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         };
-        toastr["error"]("Addresses not found!");
+
+        toastr.error("Addresses not found!");
       }
     },
     placeMarker: function(coordinates){

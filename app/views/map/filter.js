@@ -37,6 +37,8 @@ define([
     },
 
     render: function(isUpdate){
+      isUpdate = isUpdate || false;
+
       var template = _.template(FilterContainer),
           fieldName = this.layer.field_name,
           safeFieldName = fieldName.toLowerCase().replace(/\s/g, "-"),
@@ -44,7 +46,6 @@ define([
           currentLayer = this.state.get('layer'),
           isCurrent = currentLayer == fieldName,
           $section = this.$section(),
-          isUpdate = isUpdate || false,
           filterRange = this.layer.filter_range,
           rangeSliceCount = this.layer.range_slice_count,
           colorStops = this.layer.color_range,

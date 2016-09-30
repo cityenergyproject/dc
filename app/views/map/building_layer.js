@@ -23,7 +23,7 @@ define([
   var CartoStyleSheet = function(tableName, bucketCalculator) {
     this.tableName = tableName;
     this.bucketCalculator = bucketCalculator;
-  }
+  };
 
   CartoStyleSheet.prototype.toCartoCSS = function(){
     var bucketCSS = this.bucketCalculator.toCartoCSS(),
@@ -49,7 +49,7 @@ define([
 
   BuildingInfoPresenter.prototype.toBuilding = function() {
     return this.allBuildings.find(function(building) {
-      return building.get(this.city.get('property_id')) == this.buildingId
+      return building.get(this.city.get('property_id')) == this.buildingId;
     }, this);
   };
 
@@ -180,7 +180,7 @@ define([
         sql: buildings.toSql(state.get('categories'), state.get('filters')),
         cartocss: stylesheet.toCartoCSS(),
         interactivity: this.state.get('city').get('property_id')
-      }
+      };
     },
 
     render: function(){

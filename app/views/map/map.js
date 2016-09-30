@@ -62,7 +62,7 @@ define([
       var target = event.target,
           zoom = target.getZoom(),
           center = target.getCenter();
-      this.state.set({lat: center.lat, lng: center.lng, zoom: zoom})
+      this.state.set({lat: center.lat, lng: center.lng, zoom: zoom});
     },
 
     onMapChange: function() {
@@ -75,11 +75,10 @@ define([
     },
 
     onBuildings: function(){
-      var state = this.state,
-          city = state.get('city'),
-          layers = city.get('map_layers'),
-          allBuildings = this.state.get('allbuildings'),
-          state = this.state;
+      var state = this.state;
+      var city = state.get('city');
+      var layers = city.get('map_layers');
+      var allBuildings = state.get('allbuildings');
 
 
       $('#map-category-controls').empty();
