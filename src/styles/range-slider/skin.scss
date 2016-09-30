@@ -80,7 +80,7 @@
 }
 
 .irs-from, .irs-to, .irs-single {
-    @extend %common-button-input-inverse;
+    @extend %common-button-input-inverse !optional;
     margin: 0;
     font-size: 11px; line-height: 1.333;
     text-shadow: none;

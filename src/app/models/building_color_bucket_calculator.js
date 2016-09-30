@@ -15,7 +15,7 @@ define([
         rangeCount = _.max([range.length - 1, 1]),
         domain = _.range(0, buckets, buckets / rangeCount).concat(buckets);
     return _.map(domain, function(bucket) { return _.max([0, bucket - 1]); });
-  }
+  };
 
   BuildingColorBucketCalculator.prototype.toGradientStops = function() {
     var range = this.colorStops,
@@ -23,7 +23,7 @@ define([
         bucketStops = this.toBucketStops(),
         gradientScale = d3.scale.linear().range(range).domain(bucketStops);
     return _.map(_.range(buckets), gradientScale);
-  }
+  };
 
   BuildingColorBucketCalculator.prototype.toCartoCSS = function() {
     var stops = this.toGradientStops(),

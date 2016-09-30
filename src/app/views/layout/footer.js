@@ -22,9 +22,9 @@ define([
       $(window).scroll(function(event){
           if( !self.scrolling ) {
             self.scrolling = true;
-            (!window.requestAnimationFrame)
-              ? setTimeout(autoHideFn, 250)
-              : requestAnimationFrame(autoHideFn);
+            (!window.requestAnimationFrame) ?
+              setTimeout(autoHideFn, 250) :
+              requestAnimationFrame(autoHideFn);
           }
       });
 

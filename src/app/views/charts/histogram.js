@@ -41,7 +41,7 @@ define([
             height: function (data) { return yScale(data.count); },
             x: function (data, i) { return xScale(i); },
             y: function (data) { return height - yScale(data.count); }
-          })
+          });
 
       bars.exit().remove();
 

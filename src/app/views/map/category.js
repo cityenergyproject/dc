@@ -16,7 +16,7 @@ define([
       this.allBuildings = options.allBuildings;
       this.state = options.state;
 
-      var fieldName = this.layer.field_name
+      var fieldName = this.layer.field_name,
           counts = this.allBuildings.countBy(fieldName);
 
       var orderedValues = Object.keys(counts)
@@ -43,12 +43,12 @@ define([
       var fieldName = this.layer.field_name,
           counts = this.allBuildings.countBy(fieldName),
           fieldKeys = _.keys(counts),
-          onloadDisplayValues = !this.layer.onload_display_values
-                ? fieldKeys.reduce(function(accum,current){
+          onloadDisplayValues = !this.layer.onload_display_values ?
+                fieldKeys.reduce(function(accum,current){
                   accum[current] = true;
                   return accum;
-                },{})
-                : this.layer.onload_display_values.split(',').reduce(function(accum,current){
+                },{}) :
+                this.layer.onload_display_values.split(',').reduce(function(accum,current){
                   accum[current] = true;
                   return accum;
                 },{}),
@@ -95,7 +95,7 @@ define([
           unchecked = this.$el.find(".categories input:not(:checked)").map(function(){return $(this).val();}),
           checked = this.$el.find(".categories input:checked").map(function(){return $(this).val();});
 
-      categories = _.reject(categories, function(f){ return f.field == fieldName; })
+      categories = _.reject(categories, function(f){ return f.field == fieldName; });
 
       if (unchecked.length < checked.length){
         var uncheckedValues = unchecked.toArray();
@@ -124,7 +124,7 @@ define([
           counts = this.allBuildings.countBy(fieldName),
           fieldKeys = _.keys(counts);
 
-      categories = _.reject(categories, function(f){ return f.field == fieldName; })
+      categories = _.reject(categories, function(f){ return f.field == fieldName; });
 
       this.$el.find(".categories input").map(function() {this.checked = false;});
 
@@ -141,7 +141,7 @@ define([
           counts = this.allBuildings.countBy(fieldName),
           fieldKeys = _.keys(counts);
 
-      categories = _.reject(categories, function(f){ return f.field == fieldName; })
+      categories = _.reject(categories, function(f){ return f.field == fieldName; });
 
       this.$el.find(".categories input").map(function() {this.checked = true;});
 

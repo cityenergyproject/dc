@@ -32,8 +32,8 @@ define([
   // Allow for extent & scale to be passed in,
   // speeds up the "toBuckets" function
   BuildingBucketCalculator.prototype.toBucket = function(value, extent, scale) {
-    var extent = extent || this.toExtent(),
-        scale = scale || this.getScale();
+    extent = extent || this.toExtent();
+    scale = scale || this.getScale();
 
     return _.min([_.max([scale(value), 0]), scale._maxBuckets]);
   };

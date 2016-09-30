@@ -88,7 +88,7 @@ define([
     this.buildings = buildings;
     this.metricFields = metricFields;
     this.gradientCalculators = gradientCalculators;
-  }
+  };
 
   BuildingMetricCalculator.prototype.renderField = function(field) {
     var fieldName = field.field_name,
@@ -110,15 +110,15 @@ define([
         }),
         histogram = new HistogramView({gradients: bucketGradients, slices: slices, aspectRatio: aspectRatio});
     return histogram;
-  }
+  };
 
   BuildingMetricCalculator.prototype.render = function(rowContainer) {
     rowContainer.find('td.metric').each(_.bind(function(index, cell) {
       var field = this.metricFields[index],
           histogram = this.renderField(field);
-      $(cell).find('.histogram').replaceWith(histogram.render())
-    }, this))
-  }
+      $(cell).find('.histogram').replaceWith(histogram.render());
+    }, this));
+  };
 
   var MetricsValidator = function(cityFields, metrics, newField) {
     this.cityFields = cityFields;
@@ -230,7 +230,7 @@ define([
 
     onScroll: function() {
       var $container = this.$el.find('.building-report-header-container'),
-          topOfScreen = $(window).scrollTop()
+          topOfScreen = $(window).scrollTop(),
           topOfTable  = $container.offset().top,
           scrolledPastTableHead = topOfScreen > topOfTable;
 
@@ -278,18 +278,18 @@ define([
           template = _.template(TableHeadTemplate),
           metrics = this.state.get('metrics');
 
-      var metrics = _.chain(metrics)
-                     .map(function(m){ return _.findWhere(mapLayers, {field_name: m}); })
-                     .map(function(layer){
-                      var current = layer.field_name == currentLayerName,
-                          sorted = layer.field_name == sortColumn;
-                       return _.extend({
-                         current: current ? 'current' : '',
-                         sorted: sorted ? 'sorted ' + sortOrder : '',
-                         checked: current ? 'checked="checked"' : ''
-                       }, layer);
-                     })
-                     .value();
+      metrics = _.chain(metrics)
+                 .map(function(m){ return _.findWhere(mapLayers, {field_name: m}); })
+                 .map(function(layer){
+                  var current = layer.field_name == currentLayerName,
+                      sorted = layer.field_name == sortColumn;
+                   return _.extend({
+                     current: current ? 'current' : '',
+                     sorted: sorted ? 'sorted ' + sortOrder : '',
+                     checked: current ? 'checked="checked"' : ''
+                   }, layer);
+                 })
+                 .value();
 
       $head.replaceWith(template({
         metrics: metrics,
@@ -306,10 +306,10 @@ define([
           buildingId = this.state.get('city').get('property_id'),
           currentBuilding = this.state.get('building') || (buildings.length) ? buildings[0].get(buildingId) : -1,
           metricFieldNames = this.state.get('metrics'),
-          metricFields = _.map(metricFieldNames, function(name) { return _.findWhere(cityFields, {field_name: name}); })
+          metricFields = _.map(metricFieldNames, function(name) { return _.findWhere(cityFields, {field_name: name}); }),
           report = this.report.toRows(buildings),
           metrics = new MetricAverageCalculator(buildings, metricFields, this.gradientCalculators).calculate(),
-          building = buildings.find(function(b) { return b.get(buildingId) == currentBuilding}),
+          building = buildings.find(function(b) { return b.get(buildingId) == currentBuilding; }),
           buildingMetrics = new BuildingMetricCalculator(building, this.allBuildings, metricFields, this.gradientCalculators);
 
 

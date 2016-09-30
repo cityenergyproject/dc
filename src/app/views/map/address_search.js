@@ -57,7 +57,7 @@ define([
         success: function(response){
           self.centerMapOn(response);
         }
-      })
+      });
     },
 
     centerMapOn: function(location){
@@ -88,7 +88,8 @@ define([
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         };
-        toastr["error"]("Addresses not found!");
+
+        toastr.error("Addresses not found!");
       }
     },
     placeMarker: function(coordinates){

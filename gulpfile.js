@@ -16,7 +16,8 @@ var gulp = require('gulp'),
     jasmine = require('gulp-jasmine'),
     connect     = require('gulp-connect'),
     livereload = require('gulp-livereload'),
-    del = require('del');
+    del = require('del'),
+    deploy = require('gulp-gh-pages');
 
 gulp.task('fileinclude', function() {
   return  gulp.src(['src/index.html', 'src/styles.html', 'src/iframe.html'])
@@ -122,6 +123,11 @@ gulp.task('watch', function() {
   // Watch any files in dist/, reload on change
   gulp.watch(['dist/**']).on('change', livereload.changed);
 
+});
+
+gulp.task('deploy', function () {
+  return gulp.src("./dist/**/*")
+    .pipe(deploy())
 });
 
 gulp.task('test', function () {
