@@ -11,7 +11,15 @@ define([
   var AddressSearchACView = Backbone.View.extend({
     $container: $('#search'),
 
+    SEARCH_URL: 'https://search.mapzen.com/v1/search',
+
+    // top,left,bottom,right
+    SEARCH_BOUNDS: [38.79163, -77.119766, 38.995853, -76.909363],
+
+    SEARCH_API_KEY: 'search-oqsffOQ',
+
     initialize: function(options){
+      console.log('With autocomplete');
       this.mapView = options.mapView;
       this.state = options.state;
       this.fuse = null;
@@ -42,24 +50,18 @@ define([
     },
 
     onBuildingsChange: function() {
+      var self = this;
       var buildings = this.state.get('allbuildings');
       var things = [];
-      buildings.forEach(function(building, i){
 
+      buildings.forEach(function(building, i){
         var address = building.get('reported_address');
         var property_name = building.get('property_name');
-        var lat = building.get('lat');
-        var lng = building.get('lng');
-
-        if (i < 3) {
-          console.log(building.cid);
-        }
 
         if (address.length && property_name.length) {
           things.push({
             address: address,
             property_name: property_name,
-            coordinates: [lat,lng],
             id: building.cid
           });
         }
@@ -67,6 +69,7 @@ define([
       }, this);
 
       var options = {
+        caseSensitive: false,
         include: ["score", "matches"],
         location: 0,
         distance: 50,
@@ -77,11 +80,17 @@ define([
       };
 
       this.fuse = new Fuse(things, options);
-      var self = this;
+
+      if (this.autocomplete) {
+        this.autocomplete.destroy();
+        this.autocomplete = null;
+      }
+
       this.autocomplete = new autoComplete({
           selector: '#address-search',
           menuClass: 'address-search-results',
           minChars: 3,
+          delay: 250,
           source: function(term, suggest){
               var val = term.toLowerCase();
               var results = self.fuse.search(val);
@@ -91,6 +100,8 @@ define([
               });
 
               suggest(matches);
+
+              //self.search(term, suggest);
           },
           renderItem: function (item, search){
               search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -99,9 +110,8 @@ define([
           },
           onSelect: function(e, term, item) {
             var id = item.getAttribute('data-building');
-            console.log(item, id);
-            var building = buildings.get(id);
 
+            var building = buildings.get(id);
             var lat = building.get('lat');
             var lng = building.get('lng');
 
@@ -111,37 +121,47 @@ define([
       });
     },
 
-    search: function(){
-      var url = "https://search.mapzen.com/v1/search";
-      var search = this.$el.val();
+    search: function(term, callback){
+      if (!term) return callback([]);
+
+      var self = this;
+      var url = this.SEARCH_URL;
+      var bounds = this.SEARCH_BOUNDS;
       var center = this.state.get('city').get('center');
-      if (search === ""){
-        this.clearMarker();
-        return;
-      }
+      var api_key = this.SEARCH_API_KEY;
 
       try { this.xhr.abort(); } catch(e){}
 
       this.xhr = $.ajax({
         url: url,
         data: {
-          api_key: 'search-oqsffOQ',
+          api_key: api_key,
           text: search + " " + this.state.get('city').get('address_search_regional_context'),
           size: 10,
           'focus.point.lat': center[0],
           'focus.point.lon': center[1],
-          'boundary.rect.min_lat': 38.79163,
-          'boundary.rect.min_lon': -77.119766,
-          'boundary.rect.max_lat': 38.995853,
-          'boundary.rect.max_lon': -76.909363,
+          'boundary.rect.min_lat': bounds[0],
+          'boundary.rect.min_lon': bounds[1],
+          'boundary.rect.max_lat': bounds[2],
+          'boundary.rect.max_lon': bounds[3],
           'locality': 'venue,address',
         },
 
-        success: function(response){
-          console.log(response);
-          self.centerMapOn(response);
+        error: function(xhr, status, err) {
+          console.log(status, err);
+          self.onAjaxResponse(err, null, callback);
+        },
+
+        success: function(data, status){
+          console.log(status, data);
+          self.onAjaxResponse(null, data, callback);
+          // self.centerMapOn(response);
         }
       })
+    },
+
+    onAjaxResponse: function(err, data, callback) {
+      callback(['000', 'test']);
     },
 
     centerMapOn: function(location){

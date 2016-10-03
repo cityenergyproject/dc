@@ -729,7 +729,7 @@ header {
     border-color: inherit;
     box-shadow: none; }
   .search-wrapper .address-search {
-    padding: 0;
+    padding: 0 0 0 3px;
     margin: 0;
     border: 0 none;
     display: block; }
@@ -745,6 +745,8 @@ header {
     font-size: 0.9em; }
     .address-search-results.autocomplete-suggestions .autocomplete-suggestion b {
       color: #248C43; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestion.selected {
+    background: #ddd; }
 
 .map-category-control {
   display: block;
