@@ -1,6 +1,6 @@
 <h1>
   <span><%= title %></span>
-  <a class="header-logo" href="<%=logo_link%>" target="_blank"><img alt="dc energy logo" src="images/<%=url_name%>_logo@2x.png"></a>
+  <a class="header-logo" href="<%= _.escape(logo_link) %>" target="_blank"><img alt="dc energy logo" src="images/<%= _.escape(url_name) %>_logo@2x.png"></a>
 
   <% _.each(banner_images, function(image){ %>
 
@@ -9,7 +9,7 @@
         <img alt="<%= _.escape(image.alt) %>" src="<%= _.escape(image.src) %>">
       </div>
     <%  } else { %>
-      <a class="header-banner-item" href="<%= _.escape(image.href) %>">
+      <a class="header-banner-item" href="<%= _.escape(image.href) %>" target="_blank">
         <img alt="<%= _.escape(image.alt) %>" src="<%= _.escape(image.src) %>">
       </a>
     <% } %>

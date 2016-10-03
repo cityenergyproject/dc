@@ -734,6 +734,18 @@ header {
     border: 0 none;
     display: block; }
 
+.address-search-results.autocomplete-suggestions {
+  top: 135px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 4px; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestion {
+    line-height: 2;
+    color: #666;
+    font-size: 0.9em; }
+    .address-search-results.autocomplete-suggestions .autocomplete-suggestion b {
+      color: #248C43; }
+
 .map-category-control {
   display: block;
   position: relative;
