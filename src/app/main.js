@@ -6,6 +6,8 @@ require.config({
     d3: '//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min',
     ionrangeslider: '../lib/range-slider/ion.rangeSlider',
     toastr: '../lib/toastr/toastr.min',
+    fusejs: '//cdnjs.cloudflare.com/ajax/libs/fuse.js/2.5.0/fuse.min',
+    autocomplete: '//cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min',
     templates: 'templates'
   },
   shim: {
