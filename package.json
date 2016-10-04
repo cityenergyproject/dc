@@ -7,11 +7,12 @@
     "test": "jasmine",
     "watch": "gulp watch",
     "start": "gulp connect",
-    "dev": "parallelshell 'npm run watch' 'npm run start'",
+    "clean": "rm -rf dist/",
+    "dev": "npm run clean && parallelshell 'npm run watch' 'npm run start'",
     "copy-lib": "gulp copy-lib",
-    "dist": "gulp",
+    "dist": "npm run clean && gulp",
     "deploy": "npm run dist && gulp deploy",
-    "postinstall": "gulp"
+    "postinstall": "npm run dist"
   },
   "repository": {
     "type": "git",

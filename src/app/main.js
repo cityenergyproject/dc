@@ -7,7 +7,7 @@ require.config({
     ionrangeslider: '../lib/range-slider/ion.rangeSlider',
     toastr: '../lib/toastr/toastr.min',
     fusejs: '//cdnjs.cloudflare.com/ajax/libs/fuse.js/2.5.0/fuse.min',
-    autocomplete: '//cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min',
+    autocomplete: '../lib/autocomplete/autocomplete',
     templates: 'templates'
   },
   shim: {
@@ -15,6 +15,7 @@ require.config({
     toastr: ['jquery']
   }
 });
+
 
 require([
   'app',

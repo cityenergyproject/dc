@@ -11,7 +11,7 @@
   }
 
   .address-search {
-    padding: 0;
+    padding: 0 0 0 3px;
     margin: 0;
     border: 0 none;
     display: block;
@@ -33,6 +33,18 @@
     b {
       color: #248C43;
     }
+  }
+
+
+  .autocomplete-suggestion.selected {
+      background: #ddd;
+  }
+
+  .autocomplete-suggestions-header {
+    color: #aaa;
+    font-size: 0.9em;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 }
 
