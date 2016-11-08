@@ -1,0 +1,5 @@
+<div class="autocomplete-suggestion" data-building="<%= building_id %>">
+  <%_.each(items, function (item) {%>
+      <div class="autocomplete-suggestion-prop prop-<%= item.key %>" data-key="<%= item.key %>" data-val="<%= item.value %>"><%= item.formatted_value %></div>
+    <%})%>
+</div>
