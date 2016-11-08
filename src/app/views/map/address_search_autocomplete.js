@@ -5,8 +5,9 @@ define([
   'toastr',
   'fusejs',
   'autocomplete',
-  'text!templates/map/address_search.html'
-], function($, _, Backbone, toastr, Fuse, AutoComplete, AddressSearchTemplate){
+  'text!templates/map/address_search.html',
+  'text!templates/map/address_search_results.html'
+], function($, _, Backbone, toastr, Fuse, AutoComplete, AddressSearchTemplate, AddressSearchResultTemplate){
 
   var AddressSearchACView = Backbone.View.extend({
     $container: $('#search'),
@@ -17,6 +18,17 @@ define([
     SEARCH_BOUNDS: [38.79163, -77.119766, 38.995853, -76.909363],
 
     SEARCH_API_KEY: 'search-oqsffOQ',
+
+    SEARCH_KEYS: {
+      property: 'property_name',
+      address: 'reported_address'
+    },
+
+    SEARCH_KEY_FOR_SELECTED: 'reported_address',
+
+    SEARCH_EXTERNAL_SEARCH_HEADER: 'Nearby buildings...',
+
+    SYNC_WITH_STATE: true,
 
     ERRORS: {
       noimage: 'Address not found! Trying adding the relevant zip code.'
@@ -29,6 +41,13 @@ define([
       this.autocomplete = null;
       this.listenTo(this.state, 'change:city', this.onCityChange);
       this.listenTo(this.state, 'change:allbuildings', this.onBuildingsChange);
+      this.listenTo(this.state, 'change:building', this.onBuildingChange);
+
+      if (!String.prototype.trim) {
+        String.prototype.trim = function () {
+          return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+        };
+      }
     },
 
     onCityChange: function(){
@@ -37,6 +56,30 @@ define([
 
     onCitySync: function(){
       this.render();
+    },
+
+    onBuildingChange: function() {
+      if (!this.SYNC_WITH_STATE) return;
+
+      var buildings = this.state.get('allbuildings');
+      var property_id = this.state.get('building');
+      var city = this.state.get('city');
+
+      if (_.isUndefined(buildings) ||
+          _.isUndefined(city) ) return;
+
+      var building = buildings.find(function(building) {
+          return building.get(city.get('property_id')) == property_id;
+        }, this);
+
+      if (building) {
+        var lat = parseFloat(building.get('lat')),
+            lng = parseFloat(building.get('lng'));
+        $('#address-search').val(building.get(this.SEARCH_KEY_FOR_SELECTED));
+      } else {
+        $('#address-search').val('');
+        this.clearMarker();
+      }
     },
 
     render: function(){
@@ -49,6 +92,13 @@ define([
       $('#address-search').on('search', function (e) {
         if (!this.value) {
           self.clearMarker();
+           if (self.SYNC_WITH_STATE) {
+              self.state.set({building: null});
+              setTimeout(function(){
+                self.state.trigger('clear_map_popups');
+              }.bind(self),1);
+           }
+
         }
       });
 
@@ -59,26 +109,37 @@ define([
       'search' : 'search',
     },
 
+    getBuildingDataForSearch: function(building) {
+      var self = this;
+      var keys = _.keys(this.SEARCH_KEYS);
+
+      var lat = parseFloat(building.get('lat')),
+          lng = parseFloat(building.get('lng'));
+
+      var rsp = {
+        id: building.cid,
+        latlng: L.latLng(lat, lng)
+      };
+
+      var valid = true;
+      keys.forEach(function(k){
+        var value = building.get(self.SEARCH_KEYS[k]);
+        rsp[k] = value.trim();
+
+        if (!rsp[k].length) valid = false;
+      });
+
+      return (valid) ? rsp : null;
+    },
+
     onBuildingsChange: function() {
       var self = this;
       var buildings = this.state.get('allbuildings');
       var things = this.things = [];
 
       buildings.forEach(function(building, i){
-        var address = building.get('reported_address');
-        var property_name = building.get('property_name');
-        var lat = building.get('lat');
-        var lng = building.get('lng');
-
-        if (address.length && property_name.length) {
-          things.push({
-            address: address,
-            property_name: property_name,
-            id: building.cid,
-            latlng: L.latLng(lat, lng)
-          });
-        }
-
+        var buildingData = self.getBuildingDataForSearch(building);
+        if (buildingData) things.push(buildingData);
       }, this);
 
       var options = {
@@ -89,9 +150,10 @@ define([
         threshold: 0.1,
         maxPatternLength: 32,
         shouldSort: true,
-        keys: ['address', 'property_name']
+        keys: _.keys(this.SEARCH_KEYS)
       };
 
+      // fuzzy search engine
       this.fuse = new Fuse(things, options);
 
       if (this.autocomplete) {
@@ -99,6 +161,7 @@ define([
         this.autocomplete = null;
       }
 
+      // autocomplete setup
       this.autocomplete = new autoComplete({
           selector: '#address-search',
           menuClass: 'address-search-results',
@@ -117,8 +180,27 @@ define([
               var val = term.toLowerCase();
               var results = self.fuse.search(val);
               var matches = results.map(function(d) {
-                var match_key = d.matches[0].key;
-                return [d.item.id, d.item[match_key]];
+                var m = [];
+
+                _.keys(self.SEARCH_KEYS).forEach(function(opt) {
+                  if (!d.item[opt] || !d.item[opt].length) return;
+
+                  var matched = false;
+                  d.matches.forEach(function(mat) {
+                    if (mat.key === opt) matched = true;
+                  });
+
+                  m.push({
+                    key: opt,
+                    value: d.item[opt],
+                    matched: matched
+                  });
+                });
+
+                return {
+                  building_id: d.item.id,
+                  items: m
+                };
               });
 
               wrapper(term, matches);
@@ -126,26 +208,40 @@ define([
 
           },
 
-          renderItem: function (item, search){
-              search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-              var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-              return '<div class="autocomplete-suggestion" data-building="'+item[0]+'" data-val="' + item[1] + '">' + item[1].replace(re, "<b>$1</b>") + '</div>';
+          renderItem: function (result, search){
+            search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+            var template = _.template(AddressSearchResultTemplate);
+
+            result.items.forEach(function(item) {
+              item.formatted_value = (item.matched) ? item.value.replace(re, "<b>$1</b>") : item.value;
+            });
+
+
+            return template(result);
           },
 
           onSelect: function(e, term, item) {
             if (item) {
+
               var id = item.getAttribute('data-building');
 
               var building = buildings.get(id);
               var lat = building.get('lat');
               var lng = building.get('lng');
+
+              var propertyId = self.state.get('city').get('property_id');
+              var propety_id = building.get(propertyId);
+
               self.centerMapOn([lat,lng]);
+              if (self.SYNC_WITH_STATE) self.state.set({building: propety_id});
             }
           }
       });
 
+      if (this.SYNC_WITH_STATE) this.onBuildingChange();
       this.$autocompleteHeader = $('.autocomplete-suggestions-header');
-      this.$autocompleteHeader.text('Nearby buildings...');
+      this.$autocompleteHeader.text(this.SEARCH_EXTERNAL_SEARCH_HEADER);
     },
 
     wrapper: function(term, suggest, started_at, self) {
@@ -214,7 +310,7 @@ define([
     },
 
     getDistances: function(loc) {
-      var limit = 402;
+      var limit = 400;
       var distances = [];
 
       this.things.forEach(function(thing) {
@@ -232,14 +328,17 @@ define([
     },
 
     onAjaxAddressSuccess: function(data, term) {
-      var self = this;
-      var buildings = this.state.get('allbuildings');
       var features = (data.features || []).filter(
         function(feat) {
           return feat.properties.region && feat.properties.region === this.state.get('city').get('address_search_regional_context');
         }.bind(this));
 
       if (!features.length) return [];
+
+      var self = this;
+      var buildings = this.state.get('allbuildings');
+      var match = null;
+      var keys = _.keys(self.SEARCH_KEYS);
 
       var closestBuildings = [];
       features.forEach(function(feature) {
@@ -252,23 +351,32 @@ define([
 
       closestBuildings = closestBuildings.slice(0,10);
 
-      var match = null;
-
       closestBuildings = closestBuildings.map(function(item) {
+
         var building = buildings.get(item.id);
+        var buildingData = self.getBuildingDataForSearch(building);
 
-        var address = building.get('reported_address');
-        var property_name = building.get('property_name');
+        var m = {};
+        m.building_id = buildingData.id;
+        m.items = [];
 
-        if (address === term) {
-          var lat = building.get('lat');
-          var lng = building.get('lng');
-          match = [lat, lng];
-        }
+        keys.forEach(function(k) {
+          var value = buildingData[k] || null;
+          if (!value) return;
 
-        if (address) return [item.id, address];
+          if (k in buildingData && buildingData[k] === term) {
+            match = [buildingData.latlng.lat, buildingData.latlng.lng];
+          }
 
-        return [item.id, property_name];
+          m.items.push({
+            key: k,
+            value: value,
+            matched: false
+          });
+
+        });
+
+        return m;
       });
 
       return {match: match, buildings: closestBuildings};
@@ -316,6 +424,7 @@ define([
           shadowSize: [0, 0],
           shadowAnchor: [22, 94]
       });
+
       this.marker = L.marker(coordinates, {icon: icon}).addTo(map);
     },
 

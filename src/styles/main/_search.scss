@@ -25,16 +25,38 @@
   border: 1px solid #ddd;
   border-radius: 4px;
 
+  .autocomplete-suggestions-header,
+  .autocomplete-suggestions-wrapper {
+    margin-right: 12px;
+    padding: 0;
+  }
+
   .autocomplete-suggestion {
-    line-height: 2;
+    line-height: 1.5;
     color: #666;
     font-size: 0.9em;
+    border-bottom: 1px solid #aaa;
+    padding: 4px 0;
+    margin: 0;
+
+    &:last-child {
+      border-bottom: 0;
+    }
 
     b {
       color: #248C43;
     }
   }
 
+  .autocomplete-suggestion-prop {
+    padding: 0 .6em;
+  }
+
+  .autocomplete-suggestion-prop:last-child {
+    padding: 0 .6em;
+    font-size: 0.9em;
+    color: #666;
+  }
 
   .autocomplete-suggestion.selected {
       background: #ddd;
