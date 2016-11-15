@@ -98,7 +98,6 @@ define([
                 self.state.trigger('clear_map_popups');
               }.bind(self),1);
            }
-
         }
       });
 
