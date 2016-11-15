@@ -1,5 +1,6 @@
 @charset "UTF-8";
 @import url(../lib/toastr/toastr.min.css);
+@import url(../lib/autocomplete/autocomplete.min.css);
 button, input[type="button"], input[type="reset"], input[type="submit"],
 button {
   -webkit-appearance: none;
@@ -739,14 +740,34 @@ header {
   background-color: #f2f2f2;
   border: 1px solid #ddd;
   border-radius: 4px; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestions-header,
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestions-wrapper {
+    margin-right: 12px;
+    padding: 0; }
   .address-search-results.autocomplete-suggestions .autocomplete-suggestion {
-    line-height: 2;
+    line-height: 1.5;
     color: #666;
-    font-size: 0.9em; }
+    font-size: 0.9em;
+    border-bottom: 1px solid #aaa;
+    padding: 4px 0;
+    margin: 0; }
+    .address-search-results.autocomplete-suggestions .autocomplete-suggestion:last-child {
+      border-bottom: 0; }
     .address-search-results.autocomplete-suggestions .autocomplete-suggestion b {
       color: #248C43; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestion-prop {
+    padding: 0 .6em; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestion-prop:last-child {
+    padding: 0 .6em;
+    font-size: 0.9em;
+    color: #666; }
   .address-search-results.autocomplete-suggestions .autocomplete-suggestion.selected {
     background: #ddd; }
+  .address-search-results.autocomplete-suggestions .autocomplete-suggestions-header {
+    color: #aaa;
+    font-size: 0.9em;
+    padding-top: 5px;
+    padding-bottom: 5px; }
 
 .map-category-control {
   display: block;

@@ -78,11 +78,14 @@ define([
       this.listenTo(this.state, 'change:categories', this.onStateChange);
       this.listenTo(this.state, 'change:tableName', this.onStateChange);
       this.listenTo(this.state, 'change:building', this.onBuildingChange);
+      this.listenTo(this.state, 'clear_map_popups', this.onClearPopups);
       this.listenTo(this.allBuildings, 'sync', this.render);
       this.onStateChange();
 
       var self = this;
-
+      this.leafletMap.on('popupclose', function(e) {
+        self.state.set({building: null});
+      });
       // register single handler for showing more attrs in popup
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
@@ -119,6 +122,16 @@ define([
       if (top < 0) {
         this.leafletMap.panBy([0, top]);
       }
+    },
+
+    onClearPopups: function() {
+      var map = this.leafletMap;
+
+      map.eachLayer(function(lyr) {
+        if (lyr._tip) {
+          map.removeLayer(lyr);
+        }
+      });
     },
 
 
