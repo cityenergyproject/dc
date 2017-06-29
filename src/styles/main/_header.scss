@@ -1,8 +1,13 @@
+
+$header-logo-img-height: $header-height / 2;
+$header-logo-img-margin-top: $header-logo-img-height / 2;
 header {
   h1 {
     position: relative;
-    line-height: $header-height / 2;
-    font-size: 2em;
+    line-height: 1;
+    font-size: 1em;
+    height: $header-height;
+    margin: 0;
     @extend .clearfix;
 
     span {
@@ -17,7 +22,7 @@ header {
       top: 0;
       margin: 0;
       padding: 0;
-      height: $header-height / 2;
+      height: 100%;
       float: left;
       font-size: 1em;
       text-decoration: none;
@@ -27,11 +32,20 @@ header {
       img {
         display: block;
         width: auto;
-        height: $header-height / 2;
+        height: $header-height;
         margin: 0;
         padding: 0;
         border: 0;
 
+      }
+    }
+
+    .header-logo {
+      height: 100%;
+
+      img {
+        height: $header-logo-img-height;
+        margin-top: $header-logo-img-margin-top;
       }
     }
 
