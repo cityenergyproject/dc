@@ -123,30 +123,95 @@ header {
   top: 0.5em;
 }
 
+// left side
 #map-controls {
   position: absolute;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  width: $nav-col-fixed-width;
   left: 0;
+  z-index: 2;
+  transition: left 0.3s linear;
+
+  &.close {
+    left: -$nav-col-fixed-width;
+  }
+
+  #map-controls-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  #map-controls--toggle {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background: $base-background-color;
+    color: #000;
+    border: 0;
+    border-radius: 0;
+    margin: 0 0 0 1px;
+    padding: 0;
+    line-height: 1;
+
+    .closed {
+      display: none;
+      padding: 0 5px;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        text-transform: uppercase;
+      }
+    }
+
+    svg {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  &.close #map-controls--toggle {
+    .closed {
+      display: block;
+    }
+
+    .open {
+      display: none;
+    }
+  }
 
   .irs {
     height: 21px;
   }
 
-  width: $nav-col-fixed-width;
+  @include media($medium-screen-up) {
+    left: 0 !important;
+
+    #map-controls--toggle {
+      display: none;
+    }
+  }
 
   @include media($large-screen-up) {
     width: $large-nav-col-fixed-width;
   }
 }
 
+// right side
 #map-wrapper{
   position: absolute;
   height: 100%;
   right: 0;
   overflow: hidden;
-  left: $nav-col-fixed-width;
+  left: 0;
+  z-index: 1;
+
+  @include media($medium-screen-up) {
+    left: $nav-col-fixed-width;
+  }
 
   @include media($large-screen-up) {
     left: $large-nav-col-fixed-width;

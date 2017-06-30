@@ -7,11 +7,11 @@
   <% _.each(banner_images, function(image){ %>
 
     <% if (!image.href) { %>
-      <div class="header-banner-item">
+      <div class="header-banner-item <%= _.escape(image.klass || '') %>">
         <img alt="<%= _.escape(image.alt) %>" src="<%= _.escape(image.src) %>">
       </div>
     <%  } else { %>
-      <a class="header-banner-item" href="<%= _.escape(image.href) %>" target="_blank">
+      <a class="header-banner-item <%= _.escape(image.klass || '') %>" href="<%= _.escape(image.href) %>" target="_blank">
         <img alt="<%= _.escape(image.alt) %>" src="<%= _.escape(image.src) %>">
       </a>
     <% } %>

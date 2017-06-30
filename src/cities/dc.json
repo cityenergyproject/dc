@@ -7,17 +7,20 @@
         {
             "src": "images/dc_skyline@2x.png",
             "href": null,
-            "alt": "DC skyline logo"
+            "alt": "DC skyline logo",
+            "klass": "dc-skyline-logo"
         },
         {
             "src": "images/sustainable_dc_logo@2x.png",
             "href": "http://sustainabledc.org/",
-            "alt": "Sustainable DC logo"
+            "alt": "Sustainable DC logo",
+            "klass": "sustainabledc-logo"
         },
         {
             "src": "images/doee_logo@2x.png",
             "href": "http://doee.dc.gov/",
-            "alt": "DOEE logo"
+            "alt": "DOEE logo",
+            "klass": "doee-logo"
         }
 
     ],

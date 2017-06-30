@@ -36,7 +36,7 @@ $footer-height-lg: 80px;
 }
 
 #footer.nav-up {
-  bottom: -$footer-height-sm;
+  bottom: 0;
 
   @include media($medium-screen-up) {
     bottom: -$footer-height-md;

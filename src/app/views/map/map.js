@@ -16,6 +16,18 @@ define([
       this.listenTo(this.state, 'change:lat', this.onMapChange);
       this.listenTo(this.state, 'change:lng', this.onMapChange);
       this.listenTo(this.state, 'change:zoom', this.onMapChange);
+
+      this.filtersPanelClosed = false;
+      this.filterContainer = $('#map-controls');
+
+      var me = this;
+      $('#map-controls--toggle').on('click', function(e) {
+        if (e.preventDefault) e.preventDefault();
+        me.filtersPanelClosed = !me.filtersPanelClosed;
+        me.filterContainer.toggleClass('close', me.filtersPanelClosed);
+        console.log('Toggle');
+        return false;
+      });
     },
 
     onCityChange: function(){
@@ -82,7 +94,7 @@ define([
 
 
       $('#map-category-controls').empty();
-      $('#map-controls').empty();
+      $('#map-controls-content').empty();
 
       // close/remove any existing MapControlView(s)
       this.controls && this.controls.each(function(view){

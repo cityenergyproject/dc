@@ -51,8 +51,18 @@ header {
 
     .header-banner-item {
       float: right;
+      display: none;
+
+      &.dc-skyline-logo {
+        display: block;
+      }
     }
 
+    @include media($medium-screen-up) {
+      .header-banner-item {
+        display: block;
+      }
+    }
   }
 }
 
