@@ -146,16 +146,21 @@ define([
       this.state = options.state;
       this.$el.html('<div class="building-report-header-container"><table class="building-report"><thead></thead></table></div><table class="building-report"><tbody></tbody></table>');
 
-      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
-      this.listenTo(this.state, 'change:filters', this.onFilterChange);
-      this.listenTo(this.state, 'change:categories', this.onCategoryChange);
-      this.listenTo(this.state, 'change:layer', this.onLayerChange);
-      this.listenTo(this.state, 'change:metrics', this.onMetricsChange);
-      this.listenTo(this.state, 'change:sort', this.onSort);
-      this.listenTo(this.state, 'change:order', this.onSort);
+      var onSortDebounce = _.debounce(_.bind(this.onSort, this), 150);
+      var onUpdateBuildingsDebounce = _.debounce(_.bind(this.updateBuildings, this), 150);
+      var onMetricsChangeDebounce = _.debounce(_.bind(this.onMetricsChange, this), 150);
+      var onLayerChangeDebounce = _.debounce(_.bind(this.onLayerChange, this), 150);
 
+      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
       this.listenTo(this.state, 'change:year', this.onDataSourceChange);
       this.listenTo(this.state, 'change:city', this.onDataSourceChange);
+
+      this.listenTo(this.state, 'change:layer', onLayerChangeDebounce);
+      this.listenTo(this.state, 'change:filters', onUpdateBuildingsDebounce);
+      this.listenTo(this.state, 'change:categories', onUpdateBuildingsDebounce);
+      this.listenTo(this.state, 'change:metrics', onMetricsChangeDebounce);
+      this.listenTo(this.state, 'change:sort', onSortDebounce);
+      this.listenTo(this.state, 'change:order', onSortDebounce);
 
       this.listenTo(this.state, 'building_layer_popup_shown', this.render);
       $(window).scroll(_.bind(this.onScroll, this));
@@ -214,18 +219,6 @@ define([
           cityFields = this.state.get('city').get('map_layers');
 
       this.report.updateMetrics(this.buildings, metricFieldNames);
-    },
-
-    onCategoryChange: function() {
-      this.updateBuildings();
-    },
-
-    onFilterChange: function() {
-      this.updateBuildings();
-    },
-
-    onSearchChange: function(){
-      this.updateBuildings();
     },
 
     onScroll: function() {

@@ -14,7 +14,12 @@ define([
   'views/map/year_control',
   'views/building_comparison/building_comparison',
   'views/layout/activity_indicator',
-], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, FooterView, MapView, AddressSearchView, YearControlView, BuildingComparisonView, ActivityIndicator) {
+  'views/layout/mobileAlert',
+], function($, deparam, _, Backbone, CityModel,
+            CityBuildings, HeaderView, FooterView, MapView,
+            AddressSearchView, YearControlView,
+            BuildingComparisonView, ActivityIndicator, MobileAlert) {
+
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
     defaults: {
@@ -22,11 +27,13 @@ define([
       categories: {},
       filters: []
     },
+
     toQuery: function(){
       var query, attributes = this.pick(this.queryFields);
       query = $.param(attributes);
       return '?' + query;
     },
+
     toUrl: function(){
       var path;
       if (this.get('year')) {
@@ -94,9 +101,23 @@ define([
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
       var comparisonView = new BuildingComparisonView({state: this.state});
       var footerView = new FooterView({state: this.state});
+      var mobileAlert = new MobileAlert({state: this.state});
+
+
+      // $(window).on('resize.main', _.debounce(_.bind(this.onWindowResize, this), 200));
+      // this.onWindowResize();
 
       this.state.on('change', this.onChange, this);
     },
+
+    onWindowResize: function(evt) {
+      var width = this.state.get('width');
+
+      if (width !== window.innerWidth) {
+        this.state.set({width: window.innerWidth});
+      }
+    },
+
     onChange: function(){
       var changed = _.keys(this.state.changed);
 

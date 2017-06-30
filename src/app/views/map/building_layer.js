@@ -86,6 +86,7 @@ define([
       this.leafletMap.on('popupclose', function(e) {
         self.state.set({building: null});
       });
+
       // register single handler for showing more attrs in popup
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
