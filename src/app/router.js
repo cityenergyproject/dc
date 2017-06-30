@@ -14,7 +14,7 @@ define([
   'views/map/year_control',
   'views/building_comparison/building_comparison',
   'views/layout/activity_indicator',
-  'views/layout/mobileAlert',
+  'views/layout/mobile-alert',
 ], function($, deparam, _, Backbone, CityModel,
             CityBuildings, HeaderView, FooterView, MapView,
             AddressSearchView, YearControlView,
