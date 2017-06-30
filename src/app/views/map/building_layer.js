@@ -73,10 +73,11 @@ define([
 
       this.allBuildings = new CityBuildings(null, {});
 
-      this.listenTo(this.state, 'change:layer', this.onStateChange);
-      this.listenTo(this.state, 'change:filters', this.onStateChange);
-      this.listenTo(this.state, 'change:categories', this.onStateChange);
-      this.listenTo(this.state, 'change:tableName', this.onStateChange);
+      var onStateChangeDebounce = _.debounce(_.bind(this.onStateChange, this), 150);
+      this.listenTo(this.state, 'change:layer', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:filters', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:categories', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:tableName', onStateChangeDebounce);
       this.listenTo(this.state, 'change:building', this.onBuildingChange);
       this.listenTo(this.state, 'clear_map_popups', this.onClearPopups);
       this.listenTo(this.allBuildings, 'sync', this.render);
@@ -199,9 +200,13 @@ define([
 
     render: function(){
       if(this.cartoLayer) {
-        this.cartoLayer.getSubLayer(0).set(this.toCartoSublayer()).show();
+        var sub = this.cartoLayer.getSubLayer(0);
+        this.removeCartoInteractivity(sub);
+        var newsub = sub.set(this.toCartoSublayer());
+        this.setCartoInteractivity(newsub);
         return this;
       }
+
       cartodb.createLayer(this.leafletMap, {
         user_name: this.allBuildings.cartoDbUser,
         type: 'cartodb',
@@ -210,13 +215,25 @@ define([
 
       return this;
     },
+
+    setCartoInteractivity: function(sublayer) {
+      sublayer.setInteraction(true);
+      sublayer.on('featureClick', this.onFeatureClick, this);
+      sublayer.on('featureOver', this.onFeatureOver, this);
+      sublayer.on('featureOut', this.onFeatureOut, this);
+    },
+
+    removeCartoInteractivity: function(sublayer) {
+      sublayer.setInteraction(false);
+      sublayer.off('featureClick', this.onFeatureClick, this);
+      sublayer.off('featureOver', this.onFeatureOver, this);
+      sublayer.off('featureOut', this.onFeatureOut, this);
+    },
+
     onCartoLoad: function(layer) {
       var sub = layer.getSubLayer(0);
       this.cartoLayer = layer;
-      sub.setInteraction(true);
-      sub.on('featureClick', this.onFeatureClick, this);
-      sub.on('featureOver', this.onFeatureOver, this);
-      sub.on('featureOut', this.onFeatureOut, this);
+      this.setCartoInteractivity(sub);
       this.onBuildingChange();
     }
   });
