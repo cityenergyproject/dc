@@ -55,12 +55,35 @@ header {
 
       &.dc-skyline-logo {
         display: block;
+        position: absolute;
+        float: none;
+        right: 0;
+        bottom: 0;
+        height: auto;
+        top: auto;
+
+        img {
+          height: $header-height - 1;
+        }
       }
     }
 
     @include media($medium-screen-up) {
       .header-banner-item {
         display: block;
+
+        &.dc-skyline-logo {
+          position: relative;
+          float: right;
+          top: 0;
+          right: auto;
+          bottom: auto;
+          height: 100%;
+
+          img {
+            height: $header-height;
+          }
+        }
       }
     }
   }
