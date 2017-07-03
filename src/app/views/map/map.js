@@ -21,6 +21,7 @@ define([
       this.filterContainer = $('#map-controls');
 
       var me = this;
+      // For small screens
       $('#map-controls--toggle').on('click', function(e) {
         if (e.preventDefault) e.preventDefault();
         me.filtersPanelClosed = !me.filtersPanelClosed;
