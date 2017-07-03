@@ -17,18 +17,53 @@ define([
       this.listenTo(this.state, 'change:lng', this.onMapChange);
       this.listenTo(this.state, 'change:zoom', this.onMapChange);
 
+      this.listenTo(this.state, 'change:reset_all', this.onResetAll);
+
       this.filtersPanelClosed = false;
       this.filterContainer = $('#map-controls');
 
+      // Hack in some events
       var me = this;
+
+      window.poo = this.state;
+
       // For small screens
       $('#map-controls--toggle').on('click', function(e) {
         if (e.preventDefault) e.preventDefault();
         me.filtersPanelClosed = !me.filtersPanelClosed;
         me.filterContainer.toggleClass('close', me.filtersPanelClosed);
-        console.log('Toggle');
         return false;
       });
+
+      // reset all
+      // TODO: fix slowness when resetting
+      $('.reset-all-filters').on('click', function(e) {
+        var city = me.state.get('city').toJSON();
+        var year = me.state.get('year');
+
+        var cat_defaults = city.categoryDefaults || [];
+        var default_layer = city.years[year].default_layer
+
+        if (e.preventDefault) e.preventDefault();
+        me.state.set({
+          'categories': cat_defaults,
+          'filters': [],
+          'metrics': [default_layer],
+          'layer': default_layer,
+          sort: default_layer,
+          'reset_all': true
+        });
+        return false;
+      });
+    },
+
+    onResetAll: function() {
+      var val = this.state.get('reset_all');
+
+      if (val) {
+        this.state.set('reset_all', false, {silent: true});
+        this.onBuildings();
+      }
     },
 
     onCityChange: function(){

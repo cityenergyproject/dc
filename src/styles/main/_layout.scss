@@ -148,14 +148,6 @@ header {
     left: -$nav-col-fixed-width;
   }
 
-  #map-controls-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-
   #map-controls--toggle {
     position: absolute;
     top: 0;
