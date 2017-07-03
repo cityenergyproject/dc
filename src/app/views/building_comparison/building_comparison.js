@@ -162,7 +162,8 @@ define([
       this.listenTo(this.state, 'change:sort', onSortDebounce);
       this.listenTo(this.state, 'change:order', onSortDebounce);
 
-      this.listenTo(this.state, 'building_layer_popup_shown', this.render);
+      this.listenTo(this.state, 'change:building', this.render);
+
       $(window).scroll(_.bind(this.onScroll, this));
     },
 
@@ -291,20 +292,24 @@ define([
     },
 
     renderTableBody: function(){
-      var buildings = this.buildings,
-          $body = this.$el.find('tbody'),
+      var buildings = this.buildings;
+      var buildingId = this.state.get('city').get('property_id');
+
+      var currentBuilding = this.state.get('building');
+      if (!currentBuilding || currentBuilding.length < 1) {
+        currentBuilding = buildings[0].get(buildingId);
+      }
+
+      var $body = this.$el.find('tbody'),
           template = _.template(TableBodyRowsTemplate),
           buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
           cityFields = this.state.get('city').get('map_layers'),
-          buildingId = this.state.get('city').get('property_id'),
-          currentBuilding = this.state.get('building') || (buildings.length) ? buildings[0].get(buildingId) : -1,
           metricFieldNames = this.state.get('metrics'),
           metricFields = _.map(metricFieldNames, function(name) { return _.findWhere(cityFields, {field_name: name}); }),
           report = this.report.toRows(buildings),
           metrics = new MetricAverageCalculator(buildings, metricFields, this.gradientCalculators).calculate(),
           building = buildings.find(function(b) { return b.get(buildingId) == currentBuilding; }),
           buildingMetrics = new BuildingMetricCalculator(building, this.allBuildings, metricFields, this.gradientCalculators);
-
 
       $body.replaceWith(template({
         currentBuilding: currentBuilding,
@@ -323,14 +328,20 @@ define([
     },
 
     onRowClick: function(event){
+      if (event.preventDefault) event.preventDefault();
+
       var $target = $(event.target),
           $row = $target.closest('tr'),
           buildingId = $row.attr('id');
 
       this.state.set({building: buildingId});
+
+      return false;
     },
 
     removeMetric: function(event){
+      if (event.preventDefault) event.preventDefault();
+
       var $target = $(event.target),
           $parent = $target.closest('th'),
           removedField = $parent.find('input').val(),
@@ -341,6 +352,8 @@ define([
       if(removedField == sortedField) { sortedField = metrics[0]; }
       metrics = _.without(metrics, removedField);
       this.state.set({metrics: metrics, sort: sortedField});
+
+      return false;
     },
 
     changeActiveMetric: function(event) {

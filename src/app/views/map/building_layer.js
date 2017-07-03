@@ -85,7 +85,12 @@ define([
 
       var self = this;
       this.leafletMap.on('popupclose', function(e) {
-        self.state.set({building: null});
+        // When the map is closing the popup the id's will match,
+        // so close.  Otherwise were probably closing an old popup
+        // to open a new one for a new building
+        if (e.popup._buildingid === self.state.get('building')) {
+          self.state.set({building: null});
+        }
       });
 
       // register single handler for showing more attrs in popup
@@ -138,32 +143,23 @@ define([
 
 
     onBuildingChange: function() {
-      if (!this.state.get('building')) return;
+      var building = this.state.get('building');
+      if (!building) return;
 
       var template = _.template(BuildingInfoTemplate),
-          presenter = new BuildingInfoPresenter(this.state.get('city'), this.allBuildings, this.state.get('building'));
+          presenter = new BuildingInfoPresenter(this.state.get('city'), this.allBuildings, building);
 
-      L.popup()
+      var popup = L.popup()
        .setLatLng(presenter.toLatLng())
-       .setContent(template({labels: presenter.toPopulatedLabels()}))
-       .openOn(this.leafletMap);
+       .setContent(template({labels: presenter.toPopulatedLabels()}));
 
-      setTimeout(function(){
-        this.state.trigger('building_layer_popup_shown');
-      }.bind(this),1);
+      popup._buildingid = building;
+      popup.openOn(this.leafletMap);
     },
 
     onFeatureClick: function(event, latlng, _unused, data){
       var propertyId = this.state.get('city').get('property_id'),
           buildingId = data[propertyId];
-
-      var current = this.state.get('building');
-
-      // Need to unset building if current is same
-      // as buildingId or the popup will not appear
-      if (current === buildingId) {
-        this.state.unset('building', {silent: true});
-      }
 
       this.state.set({building: buildingId});
     },
