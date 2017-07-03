@@ -6,7 +6,7 @@ $footer-height-lg: 80px;
   background-color: #f2f2f2;
   height: $footer-height-sm;
   position: fixed;
-  display: table;
+  display: block;
   bottom: 0;
   transition: bottom 0.2s ease-in-out;
   width: 100%;
@@ -22,13 +22,13 @@ $footer-height-lg: 80px;
   }
 
   .footer-row {
-    display: table-row;
+    display: block;
     height: 50%;
     margin: 0;
   }
 
   a {
-    display:table-cell;
+    display: inline-block;
     color: #248C43;
     text-decoration: none;
     vertical-align: middle;
