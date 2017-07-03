@@ -2,6 +2,7 @@
   label {
     position: relative;
     margin-bottom: 0;
+    cursor: pointer;
   }
 
   input {
@@ -127,7 +128,7 @@
   }
 
   .category {
-    cursor: pointer;
+    // cursor: pointer;
   }
 
   .category-control-container {
@@ -149,9 +150,23 @@
     box-shadow: inset 1em -1px $base-font-color;
   }
 
+  .helper-collapse {
+    display: none;
+    float: right;
+    margin-right: 1.6em;
+    padding: 0.25em 0;
+    font-size: 0.81em;
+    text-transform: uppercase;
+  }
+
+  .current.category input:checked + label .helper-collapse {
+    display: block;
+  }
+
   .more-info {
     @extend %disable-user-select;
     text-transform: uppercase;
+    cursor: pointer;
   }
 
   .more-info .more,
