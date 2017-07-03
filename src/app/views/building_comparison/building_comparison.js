@@ -164,6 +164,8 @@ define([
 
       this.listenTo(this.state, 'change:building', this.render);
 
+      this.scrollTopElm = $('html').scrollTop() ? 'html' : 'body';
+
       $(window).scroll(_.bind(this.onScroll, this));
     },
 
@@ -333,6 +335,12 @@ define([
       var $target = $(event.target),
           $row = $target.closest('tr'),
           buildingId = $row.attr('id');
+
+
+      var scrollTopElm = $('html').scrollTop() ? 'html' : 'body';
+      $(scrollTopElm).animate({ scrollTop: 0 }, 100, function() {
+        // callback stuff
+      });
 
       this.state.set({building: buildingId});
 
