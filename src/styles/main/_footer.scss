@@ -3,7 +3,7 @@ $footer-height-md: 70px;
 $footer-height-lg: 80px;
 
 #footer {
-  background-color: #f2f2f2;
+  background-color: $base-background-color;
   height: $footer-height-sm;
   position: fixed;
   display: block;
@@ -27,11 +27,21 @@ $footer-height-lg: 80px;
     margin: 0;
   }
 
+  .footer-row:first-child {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
   a {
     display: inline-block;
     color: #248C43;
     text-decoration: none;
     vertical-align: middle;
+  }
+
+  a + a:before {
+    content: '|';
+    padding: 0 5px;
   }
 }
 

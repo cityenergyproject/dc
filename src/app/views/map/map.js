@@ -25,8 +25,6 @@ define([
       // Hack in some events
       var me = this;
 
-      window.poo = this.state;
-
       // For small screens
       $('#map-controls--toggle').on('click', function(e) {
         if (e.preventDefault) e.preventDefault();

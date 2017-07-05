@@ -15,10 +15,12 @@ define([
   'views/building_comparison/building_comparison',
   'views/layout/activity_indicator',
   'views/layout/mobile-alert',
+  'views/modals/modal-model',
+  'views/modals/modal'
 ], function($, deparam, _, Backbone, CityModel,
             CityBuildings, HeaderView, FooterView, MapView,
             AddressSearchView, YearControlView,
-            BuildingComparisonView, ActivityIndicator, MobileAlert) {
+            BuildingComparisonView, ActivityIndicator, MobileAlert, ModalModel, ModalController) {
 
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
@@ -103,7 +105,6 @@ define([
       var footerView = new FooterView({state: this.state});
       var mobileAlert = new MobileAlert({state: this.state});
 
-
       // $(window).on('resize.main', _.debounce(_.bind(this.onWindowResize, this), 200));
       // this.onWindowResize();
 
@@ -154,6 +155,19 @@ define([
           newState = new StateBuilder(results, year, layer).toState(),
           defaultMapState = {lat: city.get('center')[0], lng: city.get('center')[1], zoom: city.get('zoom')},
           mapState = this.state.pick('lat', 'lng', 'zoom');
+
+      if (results.hasOwnProperty('modals')) {
+        var modalModel = new ModalModel({
+          available: _.extend({}, results.modals)
+        });
+
+        var modalController = new ModalController({state: this.state});
+
+        newState = _.extend(newState, {
+          modal: modalModel,
+          setModal: _.bind(modalController.setModal, modalController)
+        });
+      }
 
       _.defaults(mapState, defaultMapState);
 

@@ -1,0 +1,13 @@
+<div class="inner">
+  <button id="modal-close"><span>&times;</span></button>
+  <h3><%= title %></h3>
+  <p><%= desc %></p>
+  <table>
+    <% _.each(rows, function(row){ %>
+      <tr>
+        <td><%= row[0] %></td>
+        <td><%= row[1] %></td>
+      </tr>
+    <% }) %>
+  </table>
+</div>

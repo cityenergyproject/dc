@@ -31,6 +31,12 @@ gulp.task('templates', function() {
     .pipe(notify({ message: 'templates copied' }));
 });
 
+gulp.task('constants', function() {
+  return gulp.src('src/constants/*')
+    .pipe(gulp.dest('dist/constants'))
+    .pipe(notify({ message: 'constants copied' }));
+});
+
 // Styles
 gulp.task('styles', function() {
   return gulp.src('src/styles/**/*.scss')
@@ -84,7 +90,7 @@ gulp.task('copy-lib', function() {
 
 // Default task
 gulp.task('default', ['clean'], function() {
-    gulp.start('fileinclude', 'styles', 'scripts', 'images', 'templates', 'cities_config', 'copy-lib');
+    gulp.start('fileinclude', 'styles', 'scripts', 'images', 'templates', 'constants', 'cities_config', 'copy-lib');
 });
 
 gulp.task('connect', function() {

@@ -215,5 +215,17 @@
             "table_name": "t2015",
             "default_layer": "energy_star_score"
         }
+    },
+    "modals": {
+        "faq": {
+            "title": "Frequently asked questions (FAQ)",
+            "desc": "A quide to using this tool",
+            "csv": "faq.csv"
+        },
+        "glossary": {
+            "title": "Glossary",
+            "desc": "Words and terms used throughout the site",
+            "csv": "glossary.csv"
+        }
     }
 }
