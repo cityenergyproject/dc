@@ -51,17 +51,9 @@ define([
 
         var rows = d3.csv.parseRows(txt);
 
-        var dd = [];
-
-        for (var i = 0; i < 10; i++) {
-          rows.forEach(function(d) {
-            dd.push(d);
-          });
-        }
-
         me.set({
-          cache: _.extend(cache, {[selected]: dd}),
-          viewdata: dd
+          cache: _.extend(cache, {[selected]: rows}),
+          viewdata: rows
         });
       });
 
