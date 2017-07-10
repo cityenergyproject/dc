@@ -203,7 +203,8 @@ $map-control-header-height: 4.2em;
     box-shadow: inset 1em -1px $base-font-color;
   }
 
-  .helper-collapse {
+  .helper-collapse,
+  .helper-expand {
     display: none;
     float: right;
     margin-right: 1.6em;
@@ -212,8 +213,15 @@ $map-control-header-height: 4.2em;
     text-transform: uppercase;
   }
 
-  .current.category input:checked + label .helper-collapse {
+
+  .helper-expand { display: block; }
+
+  input:checked + label .helper-collapse {
     display: block;
+  }
+
+  input:checked + label .helper-expand {
+    display: none;
   }
 
   .more-info {
