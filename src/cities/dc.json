@@ -109,6 +109,7 @@
             "range_slice_count": 18,
             "section": "Energy Use",
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
+            "filter_range": {"min": 0, "max" : 5000000},
             "unit": "kBTU",
             "description": "The total annual electricity consumed by the property, both sourced from the electrical grid and generated from any onsite renewable energy generation systems (if applicable), in kilowatt-hours (kWh)"
         },

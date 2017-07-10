@@ -4,11 +4,34 @@
   padding: 0.5em 0;
 
   .category-list-toggle {
+    position: relative;
     line-height: 1;
     box-sizing: border-box;
     padding: $base-spacing/3 1.2em;
     display: block;
     margin-bottom: .5rem;
+
+    .asc,
+    .desc {
+      position: absolute;
+      width: 12px;
+      right: 10px;
+      top: 50%;
+      font-size: 0;
+      transform: translateY(-50%);
+
+      path { fill: #fff; }
+    }
+
+    .asc {
+      display: none;
+      path { fill: $base-font-color; }
+    }
+  }
+
+  input[type="checkbox"]:checked + .category-list-toggle {
+    .asc { display: block; }
+    .desc { display: none; }
   }
 
   input[type="checkbox"]:checked + .category-list-toggle + .categories {
