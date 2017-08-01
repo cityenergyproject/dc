@@ -24,8 +24,6 @@ $spinner-gray: #666;
 $orange: #248C43;
 $normal-text: $orange;
 
-
-
 // Font Colors
 $base-background-color: #f2f2f2;
 $base-font-color: $orange;
@@ -42,7 +40,18 @@ $base-border: $base-border-size solid $base-border-color;
 $form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
 $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
 
+// Containers
 $header-height: 6em;
+
+$footer-height-sm: 6em;
+$footer-height-md: 6em;
+$footer-height-lg: 6em;
+
+$toolbar-height: 3em;
+$building-comparison-header-height: 3em;
+$building-comparison-metric-row-height: 4em;
+
+
 
 // zIndexes
 $zIndex1: 1;

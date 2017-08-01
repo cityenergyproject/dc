@@ -1,6 +1,4 @@
-$footer-height-sm: 60px;
-$footer-height-md: 70px;
-$footer-height-lg: 80px;
+$footer-padding: 0.8em;
 
 #footer {
   background-color: $base-background-color;
@@ -11,7 +9,8 @@ $footer-height-lg: 80px;
   transition: bottom 0.2s ease-in-out;
   width: 100%;
   text-align: center;
-  padding: 10px;
+  padding: $footer-padding;
+  overflow: hidden;
 
   @include media($medium-screen-up) {
     height: $footer-height-md;
@@ -23,7 +22,6 @@ $footer-height-lg: 80px;
 
   .footer-row {
     display: block;
-    height: 50%;
     margin: 0;
   }
 
@@ -42,6 +40,28 @@ $footer-height-lg: 80px;
   a + a:before {
     content: '|';
     padding: 0 5px;
+  }
+
+  .logo-doee-sm {
+    float: left;
+    position: relative;
+    z-index: 2;
+
+    svg {
+      height: $footer-height-sm - ($footer-padding * 2);
+      user-select: none;
+    }
+  }
+
+  .links {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @include media($medium-screen-up) {
+    .logo-doee-sm { display: none; }
+
   }
 }
 
