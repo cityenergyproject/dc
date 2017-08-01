@@ -43,7 +43,7 @@
         {"field": "report_status", "label": "Report Status: "},
         {"field": "primary_ptype_epa", "label": "Property Type: "},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²): "},
-        {"field": "year_built", "label": "Year Built: "},
+        {"field": "year_built", "label": "Year Built: ", "skipFormatter": true},
         {"field": "energy_star_score", "label": "ENERGY STAR Score: "},
         {"field": "site_eui", "label": "Site Energy Use Intensity (kBTU/ft²): "},
         {"field": "weather_norm_source_eui", "label": "Weather Normalized Source EUI (kBtu/ft²): "},

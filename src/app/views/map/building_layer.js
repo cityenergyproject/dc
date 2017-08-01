@@ -59,8 +59,11 @@ define([
       if (field.start_hidden) default_hidden = true;
       var building = this.toBuilding();
       var value = (typeof building === 'undefined') ? null : building.get(field.field);
+      value = value || 'N/A';
+      value = (field.skipFormatter) ? value : value.toLocaleString();
+
       return _.extend({
-        value: (value || 'N/A').toLocaleString(),
+        value: value,
         default_hidden: default_hidden
       }, field);
     }, this);
