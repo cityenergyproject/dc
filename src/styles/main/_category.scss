@@ -47,12 +47,12 @@
     padding-bottom: 5px;
     height: em(306);
     max-width: 11em;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   .categories-wrapper {
     overflow-y: scroll;
+    overflow-x: hidden;
     position: relative;
     height: 100%;
   }
