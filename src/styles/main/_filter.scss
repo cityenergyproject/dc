@@ -213,16 +213,18 @@ $map-control-header-height: 4.2em;
     text-transform: uppercase;
   }
 
+  @include media($large-screen-up) {
+    .helper-expand { display: block; }
 
-  .helper-expand { display: block; }
+    input:checked + label .helper-collapse {
+      display: block;
+    }
 
-  input:checked + label .helper-collapse {
-    display: block;
+    input:checked + label .helper-expand {
+      display: none;
+    }
   }
 
-  input:checked + label .helper-expand {
-    display: none;
-  }
 
   .more-info {
     @extend %disable-user-select;

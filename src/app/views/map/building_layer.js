@@ -141,7 +141,6 @@ define([
       });
     },
 
-
     onBuildingChange: function() {
       var building = this.state.get('building');
       if (!building) return;
