@@ -190,7 +190,7 @@
   }
 
   .building:not(.current) .value {
-    color: $medium-gray !important;
+    color: darken($medium-gray, 30%) !important;
   }
 
   .metric-container .histogram {
