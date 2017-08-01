@@ -55,9 +55,10 @@ define([
 
   BuildingInfoPresenter.prototype.toPopulatedLabels = function()  {
     var default_hidden = false;
+    var building = this.toBuilding();
+
     return _.map(this.city.get('popup_fields'), function(field) {
       if (field.start_hidden) default_hidden = true;
-      var building = this.toBuilding();
       var value = (typeof building === 'undefined') ? null : building.get(field.field);
       value = value || 'N/A';
       value = (field.skipFormatter) ? value : value.toLocaleString();
@@ -198,17 +199,31 @@ define([
 
     render: function(){
       if(this.cartoLayer) {
-        var sub = this.cartoLayer.getSubLayer(0);
-        this.removeCartoInteractivity(sub);
-        var newsub = sub.set(this.toCartoSublayer());
-        this.setCartoInteractivity(newsub);
+        var query = this.toCartoSublayer();
+        if (this.query.sql === query.sql) return;
+        this.query = query;
+
+        var self = this;
+        this.cartoLayer.getSubLayers().forEach(function(sublayer){
+          self.removeCartoInteractivity(sublayer);
+          sublayer.remove();
+        });
+
+        this.cartoLayer.createSubLayer(this.query);
+
+        this.cartoLayer.getSubLayers().forEach(function(sublayer){
+          self.setCartoInteractivity(sublayer);
+        })
+
         return this;
       }
+
+      this.query = this.toCartoSublayer();
 
       cartodb.createLayer(this.leafletMap, {
         user_name: this.allBuildings.cartoDbUser,
         type: 'cartodb',
-        sublayers: [this.toCartoSublayer()]
+        sublayers: [this.query]
       },{https: true}).addTo(this.leafletMap).on('done', this.onCartoLoad, this);
 
       return this;

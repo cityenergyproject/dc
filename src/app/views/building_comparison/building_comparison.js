@@ -91,6 +91,8 @@ define([
   };
 
   BuildingMetricCalculator.prototype.renderField = function(field) {
+    if (!field) return undefined;
+
     var fieldName = field.field_name,
         gradients = this.gradientCalculators[fieldName],
         slices = field.range_slice_count,
@@ -116,6 +118,8 @@ define([
     rowContainer.find('td.metric').each(_.bind(function(index, cell) {
       var field = this.metricFields[index],
           histogram = this.renderField(field);
+
+        if (!histogram) return;
       $(cell).find('.histogram').replaceWith(histogram.render());
     }, this));
   };
