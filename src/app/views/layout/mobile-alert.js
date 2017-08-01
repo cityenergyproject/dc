@@ -16,6 +16,7 @@ define([
       this.listenTo(this.state, 'change:city', this.onCityChange);
 
       var store = Store.get('cityenergydc');
+      Store.set('cityenergydc', {'mobile_opt_out': false});
       if (store !== undefined) {
         if (store.mobile_opt_out) {
           this.$el.toggleClass('forceoff', true);
