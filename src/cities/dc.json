@@ -91,6 +91,7 @@
             "range_slice_count": 18,
             "color_range": ["#b8cba9","#007749"],
             "unit": "ft²",
+            "filter_range": {"min": 10000, "max": 1000000},
             "section": "Property Information",
             "description": "The Gross Floor Area as reported by owner. The Gross Floor Area is the total size, as measured between the principal exterior surfaces of the enclosing fixed walls of the building(s). This includes all areas inside the building(s) such as: occupied tenant areas, common areas, meeting areas, break rooms, restrooms, elevator shafts, mechanical equipment areas, and storage rooms.  It does not include the floor area of secondary spaces such as parking lots."
         },
@@ -100,6 +101,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "color_range": ["#b8cba9","#007749"],
+            "filter_range": {"min": 1900},
             "section": "Property Information",
             "description": "The year property was constructed, as reported by owner"
         },
@@ -110,7 +112,7 @@
             "range_slice_count": 18,
             "section": "Energy Use",
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
-            "filter_range": {"min": 0, "max" : 5000000},
+            "filter_range": {"max": 4000000},
             "unit": "kBTU",
             "description": "The total annual electricity consumed by the property, both sourced from the electrical grid and generated from any onsite renewable energy generation systems (if applicable), in kilowatt-hours (kWh)"
         },
@@ -120,6 +122,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
+            "filter_range": {"max": 500000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kBTU",
             "description": "The total annual natural gas consumed by the property, in therms (1 therm  equals 100,000 British Thermal Units (BTUs), and is apoximately equal to the energy content of 100 cubic feet (CCF) of natural gas."
@@ -130,6 +133,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Water Use",
+            "filter_range": {"max": 5000000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kgal",
             "description": "Total annual water consumption in kilogallons (1,000 gallons)"
@@ -150,6 +154,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
+            "filter_range": {"max": 5000000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kBTU",
             "description": "Total annual energy consumption from liquid fuel use on the property, inclusive of fuel oil no. 1, fuel oil no. 2, fuel oil no. 4, fuel oil no. 5 and no. 6, diesel, kerosene, and propane, measured in kBTU (1,000 British Thermal Units)."
@@ -169,6 +174,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Performance Metrics",
+            "filter_range": {"max": 300},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kBTU/ft²",
             "description": "The Site Energy Use Intensity (EUI), as calculated by Portfolio Manager, at the property site. This equals the amount of energy consumed at the site in thousand British thermal units (kBtus) per gross square foot (kBtu/ft2) of the property. Site EUI values are the result of self-reported entries."
@@ -179,6 +185,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Performance Metrics",
+            "filter_range": {"max": 500},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kBTU/ft²",
             "description": "Source Energy Use divided by property square footage, normalized for weather. Weather-normalization is based on National Oceanic and Atmospheric Administration (NOAA) weather data for the zip code. Source Energy Use is the total amount of raw fuel that is required to operate the property. In addition to what the property consumes on-site, source energy includes losses that take place during generation, transmission, and distribution of the energy, thereby enabling a complete assessment of energy consumption resulting from building operations. For this reason, Source EUI is the best way to quantify the energy performance of commercial buildings."
@@ -189,6 +196,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Greenhouse Gas Emissions",
+            "filter_range": {"max": 10000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "Metric Tons CO₂e",
             "description": "Greenhouse Gas (GHG) Emissions are the carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O) gases released into the atmosphere as a result of energy consumption at the property. GHG emissions are expressed in Metric Tons of carbon dioxide equivalent (CO2e), a universal unit of measure that combines the quantity and global warming potential of each greenhouse gas. Total Emissions is the sum of Direct Emissions (emissions associated with onsite fuel combustion) and Indirect Emissions (emissions associated with purchases of electricity, district steam, district hot water, or district chilled water. These emissions occur at the utility plant, but they are a result of the property’s energy consumption and therefore contribute to the overall GHG footprint)."
@@ -199,6 +207,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Greenhouse Gas Emissions",
+            "filter_range": {"max": 50},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "Metric Tons CO₂e/ft²",
             "description": "The  total Greenhouse Gas (GHG) Emissions, divided by the floor area of the building, in kilograms of carbon dioxide equivalent (CO2e) per square foot."

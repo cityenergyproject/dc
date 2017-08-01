@@ -198,11 +198,11 @@ define([
     },
 
     render: function(){
-      if(this.cartoLayer) {
-        var query = this.toCartoSublayer();
-        if (this.query.sql === query.sql) return;
-        this.query = query;
+      var query = this.toCartoSublayer();
+      if (this.query.sql === query.sql) return;
+      this.query = query;
 
+      if(this.cartoLayer) {
         var self = this;
         this.cartoLayer.getSubLayers().forEach(function(sublayer){
           self.removeCartoInteractivity(sublayer);
@@ -217,8 +217,6 @@ define([
 
         return this;
       }
-
-      this.query = this.toCartoSublayer();
 
       cartodb.createLayer(this.leafletMap, {
         user_name: this.allBuildings.cartoDbUser,
