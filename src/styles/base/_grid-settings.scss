@@ -7,11 +7,13 @@ $gutter: 0em;
 $max-width: 100%;
 
 // Neat Breakpoints
+$tiny-screen: em(370);
 $small-screen: em(560);
 $medium-screen: em(700);
 $large-screen: em(900);
 $xlarge-screen: em(1200);
 
+$tiny-screen-up: new-breakpoint(min-width $tiny-screen 4);
 $small-screen-up: new-breakpoint(min-width $small-screen 4);
 $medium-screen-up: new-breakpoint(min-width $medium-screen 4);
 $large-screen-up: new-breakpoint(min-width $large-screen 8);

@@ -75,7 +75,10 @@ define([
           zoom = this.state.get('zoom');
 
       if (!this.leafletMap){
-        this.leafletMap = new L.Map(this.el, {center: [lat, lng], zoom: zoom, scrollWheelZoom: false});
+        // TODO: allow for map options to come from city config
+        var map_options = this.state.get('city').get('map_options');
+
+        this.leafletMap = new L.Map(this.el, _.defaults({center: [lat, lng], zoom: zoom}, map_options));
         this.leafletMap.attributionControl.setPrefix("");
 
         var background = city.get('backgroundTileSource'),

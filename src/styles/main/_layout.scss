@@ -103,6 +103,7 @@ header {
   height: $toolbar-height;
 
   .map-category-controls--toggle {
+    display: none;
     position: absolute;
     top: 50%;
     left: $nav-col-fixed-width;
@@ -121,6 +122,10 @@ header {
 
   #map-category-toggle-cb:checked ~ #map-category-controls {
     display: block;
+  }
+
+  @include media($tiny-screen-up) {
+    .map-category-controls--toggle { display: block; }
   }
 
   @include media($medium-screen-up) {

@@ -150,11 +150,13 @@ define([
     },
 
     onCitySync: function(city, results) {
-      var year = this.state.get('year'),
-          layer = this.state.get('layer'),
-          newState = new StateBuilder(results, year, layer).toState(),
-          defaultMapState = {lat: city.get('center')[0], lng: city.get('center')[1], zoom: city.get('zoom')},
-          mapState = this.state.pick('lat', 'lng', 'zoom');
+      var year = this.state.get('year');
+      var layer = this.state.get('layer');
+      var newState = new StateBuilder(results, year, layer).toState();
+
+      var map_options = city.get('map_options');
+      var defaultMapState = {lat: map_options.center[0], lng: map_options.center[1], zoom: map_options.zoom};
+      var mapState = this.state.pick('lat', 'lng', 'zoom');
 
       if (results.hasOwnProperty('modals')) {
         var modalModel = new ModalModel({

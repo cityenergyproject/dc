@@ -274,7 +274,8 @@ define([
       var self = this;
       var url = this.SEARCH_URL;
       var bounds = this.SEARCH_BOUNDS;
-      var center = this.state.get('city').get('center');
+      var map_options = this.state.get('city').get('map_options');
+      var center = map_options.center;
       var api_key = this.SEARCH_API_KEY;
 
       try { this.xhr.abort(); } catch(e){}

@@ -26,11 +26,14 @@
     ],
     "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png",
     "labelTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png",
-    "center": [
-      38.889931,
-      -77.009003
-    ],
-    "zoom": 12,
+    "map_options": {
+        "center": [
+            38.889931,
+            -77.009003
+        ],
+        "zoom": 12,
+        "scrollWheelZoom": true
+    },
     "categoryDefaults": [{"field":"report_status","values":["In Compliance"],"other":false}],
     "cartoDbUser": "dcenergybenchmarkingproject",
     "property_id": "pid",

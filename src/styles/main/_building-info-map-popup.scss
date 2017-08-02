@@ -12,17 +12,25 @@
   }
 }
 
-.leaflet-popup-content .building-info{
+.leaflet-popup-content .building-info {
   line-height: 1;
+
+  ul {
+    max-height: 250px;
+    overflow: scroll;
+  }
+
   li + li {
     padding-top: .5em;
   }
-  li:first-child{
+
+  li:first-child {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: .3em;
   }
-  .show-more-container{
+
+  .show-more-container {
     &.hide {
       li {
         display: none;
@@ -40,9 +48,25 @@
       margin-top: .3em;
     }
   }
+
   .show-hide-attrs {
-    display: inline-block;
+    display: none;
     margin: 10px 0px 0px;
     cursor: pointer;
+    color: #0078a8;
+  }
+
+
+  @include media($tiny-screen-up) {
+    .show-hide-attrs {
+      display: inline-block;
+    }
+  }
+
+  @include media($medium-screen-up) {
+    ul {
+      max-height: initial;
+      overflow: initial;
+    }
   }
 }
