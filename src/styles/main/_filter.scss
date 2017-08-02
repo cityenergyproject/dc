@@ -1,5 +1,5 @@
+$map-control-header-height-sm-screen: 5em;
 $map-control-header-height: 4.2em;
-
 #map-controls {
   label {
     position: relative;
@@ -25,7 +25,7 @@ $map-control-header-height: 4.2em;
 
   #map-controls-header {
     display: table;
-    height: $map-control-header-height;
+    height: $map-control-header-height-sm-screen;
     width: 100%;
     padding-left: 2em;
     text-align: left;
@@ -78,12 +78,22 @@ $map-control-header-height: 4.2em;
     }
   }
 
+  @include media($large-screen-up) {
+    #map-controls-header {
+      height: $map-control-header-height;
+    }
+  }
+
   #map-controls-content {
     position: relative;
     width: 100%;
-    height: calc(100% - #{$map-control-header-height});
+    height: calc(100% - #{$map-control-header-height-sm-screen});
     overflow-y: scroll;
     overflow-x: hidden;
+
+    @include media($large-screen-up) {
+      height: calc(100% - #{$map-control-header-height});
+    }
   }
 
   .map-control {

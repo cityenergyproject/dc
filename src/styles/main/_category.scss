@@ -50,7 +50,7 @@
       top: 0;
       left: -999999px;
       padding-bottom: 5px;
-      height: em(306);
+      height: 0;
       max-width: 11em;
       overflow: hidden;
     }
@@ -63,6 +63,7 @@
   @include media($large-screen-up) {
     input[type="checkbox"]:checked + .category-list-toggle + .categories {
       left: 0;
+      height: em(306);
     }
   }
 
