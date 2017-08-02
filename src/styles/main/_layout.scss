@@ -65,6 +65,7 @@ header {
 #toolbar {
   height: $toolbar-height;
   position: relative;
+  z-index: 999999;
 }
 
 .iframed #toolbar {
@@ -78,49 +79,92 @@ header {
   top: 0;
   height: $toolbar-height;
   left: 0;
-  width: $nav-col-fixed-width;
+  width: $nav-col-fixed-width - 1em;
+  z-index: 1;
+
+  @include media($medium-screen-up) {
+    width: $nav-col-fixed-width;
+  }
 
   @include media($large-screen-up) {
     width: $large-nav-col-fixed-width;
   }
 
   .address-search {
-    width: $nav-col-fixed-width - 4em;
+    width: 100%;
+  }
+}
 
-    @include media($large-screen-up) {
-      width: $large-nav-col-fixed-width - 4em;
-    }
+#map-category-controls-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $toolbar-height;
+
+  .map-category-controls--toggle {
+    position: absolute;
+    top: 50%;
+    left: $nav-col-fixed-width;
+    transform: translateY(-50%);
+    line-height: 0;
+  }
+
+  label.map-category-controls--toggle {
+    cursor: pointer;
+  }
+
+  input.map-category-controls--toggle {
+    opacity: 0;
+    left: -9999px;
+  }
+
+  #map-category-toggle-cb:checked ~ #map-category-controls {
+    display: block;
+  }
+
+  @include media($medium-screen-up) {
+    left: 0;
+  }
+
+  @include media($large-screen-up) {
+    left: $large-nav-col-fixed-width;
+    .map-category-controls--toggle { display: none; }
   }
 }
 
 #map-category-controls {
-  position: absolute;
-  top: 0;
-  height: $toolbar-height;
-  left: $nav-col-fixed-width;
-  right: 0;
-
-  @include media($large-screen-up) {
-    left: $large-nav-col-fixed-width;
-  }
+  display: none;
+  position: relative;
+  background-color: rgba($medium-gray, 0.9);
+  width: 100%;
+  padding: 0.5em 0;
+  top: $toolbar-height;
 
   .map-category-control + .map-category-control {
-    margin-left: 1em;
+    margin-left: 0;
   }
 
   .map-category-control {
-    display: none;
-
-    @include media($small-screen-up) {
-      &:nth-child(1), &:nth-child(2){
-        display: block;
-        float: left;
-      }
-    }
+    display: block;
 
     @include media($large-screen-up) {
-      display: block;
       float: left;
+    }
+  }
+
+  @include media($medium-screen-up) {
+    width: $nav-col-fixed-width;
+  }
+
+  @include media($large-screen-up) {
+    display: block;
+    padding: 0;
+    top: 0;
+    width: 100%;
+
+    .map-category-control + .map-category-control {
+      margin-left: 1em;
     }
   }
 }
@@ -148,11 +192,11 @@ header {
     position: absolute;
     top: 0;
     left: 100%;
-    background: $base-background-color;
-    color: #000;
+    background: $orange;
+    color: #fff;
     border: 0;
     border-radius: 0;
-    margin: 0 0 0 1px;
+    margin: 0;
     padding: 0;
     line-height: 1;
 
@@ -170,6 +214,7 @@ header {
     svg {
       display: inline-block;
       vertical-align: middle;
+      fill: #fff;
     }
   }
 

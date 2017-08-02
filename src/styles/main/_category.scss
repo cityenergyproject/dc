@@ -1,7 +1,11 @@
 .map-category-control {
   display: block;
   position: relative;
-  padding: 0.5em 0;
+  padding: 0;
+
+  @include media($large-screen-up) {
+    padding: 0.5em 0;
+  }
 
   .category-list-toggle {
     position: relative;
@@ -34,20 +38,32 @@
     .desc { display: none; }
   }
 
-  input[type="checkbox"]:checked + .category-list-toggle + .categories {
-    left: 0;
+  .categories {
+    display: none;
+    position: relative;
+
+
+    @include media($large-screen-up) {
+      display: block;
+      position: relative;
+      z-index: 99;
+      top: 0;
+      left: -999999px;
+      padding-bottom: 5px;
+      height: em(306);
+      max-width: 11em;
+      overflow: hidden;
+    }
   }
 
-  .categories {
+  input[type="checkbox"]:checked + .category-list-toggle + .categories {
     display: block;
-    position: relative;
-    z-index: 99;
-    top: 0;
-    left: -999999px;
-    padding-bottom: 5px;
-    height: em(306);
-    max-width: 11em;
-    overflow: hidden;
+  }
+
+  @include media($large-screen-up) {
+    input[type="checkbox"]:checked + .category-list-toggle + .categories {
+      left: 0;
+    }
   }
 
   .categories-wrapper {
@@ -55,6 +71,13 @@
     overflow-x: hidden;
     position: relative;
     height: 100%;
+    max-height: 200px;
+  }
+
+  @include media($medium-screen-up) {
+    .categories-wrapper {
+      max-height: initial;
+    }
   }
 
   ul {
