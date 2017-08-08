@@ -179,7 +179,7 @@ $map-control-header-height: 4.2em;
 
   h2:after, label:after {
     content: "\A";
-    display: block;
+    display: none !important;
     position: absolute;
     height: 0;
     width: 0;
@@ -225,9 +225,47 @@ $map-control-header-height: 4.2em;
     box-shadow: inset 1em -1px $base-font-color;
   }
 
+  .filter-toggle {
+    position: absolute;
+    display: none;
+    width: 12px;
+    right: 10px;
+    padding: 0;
+    margin: 0;
+    top: 50%;
+    background: transparent;
+    border: 0;
+    text-indent: 0;
+    transform: translateY(-50%);
+
+    &.expand {
+      display: block;
+    }
+
+    svg {
+      path { fill: $base-font-color; }
+    }
+
+  }
+
+  input:checked + label .filter-toggle {
+    &.expand {
+      display: none;
+    }
+
+    &.collapse {
+      display: block;
+    }
+
+    svg {
+      path { fill: $medium-gray; }
+    }
+  }
+
+
   .helper-collapse,
   .helper-expand {
-    display: none;
+    display: none !important;
     float: right;
     margin-right: 1.6em;
     padding: 0.25em 0;
@@ -236,6 +274,7 @@ $map-control-header-height: 4.2em;
   }
 
   @include media($large-screen-up) {
+    /*
     .helper-expand { display: block; }
 
     input:checked + label .helper-collapse {
@@ -245,6 +284,7 @@ $map-control-header-height: 4.2em;
     input:checked + label .helper-expand {
       display: none;
     }
+    */
   }
 
 
