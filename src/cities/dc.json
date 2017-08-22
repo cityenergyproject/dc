@@ -136,7 +136,7 @@
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Water Use",
-            "filter_range": {"max": 5000000},
+            "filter_range": {"min": 1, "max": 18000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "kgal",
             "description": "Total annual water consumption in kilogallons (1,000 gallons)"
