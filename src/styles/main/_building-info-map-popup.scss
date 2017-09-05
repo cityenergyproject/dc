@@ -50,7 +50,7 @@
   }
 
   .show-hide-attrs {
-    display: none;
+    display: inline-block;
     margin: 10px 0px 0px;
     cursor: pointer;
     color: #0078a8;
@@ -58,9 +58,11 @@
 
 
   @include media($tiny-screen-up) {
+    /*
     .show-hide-attrs {
       display: inline-block;
     }
+    */
   }
 
   @include media($medium-screen-up) {

@@ -100,7 +100,7 @@ define([
       // register single handler for showing more attrs in popup
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
 
         var is_show = $(this).text().indexOf('more') > -1 ? true: false;
         if(is_show){
