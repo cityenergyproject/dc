@@ -19,8 +19,8 @@ define([
 
       this.listenTo(this.state, 'change:reset_all', this.onResetAll);
 
-      this.filtersPanelClosed = false;
       this.filterContainer = $('#map-controls');
+      this.filtersPanelClosed = this.filterContainer.hasClass('close');
 
       // Hack in some events
       var me = this;
@@ -28,7 +28,8 @@ define([
       // For small screens
       $('#map-controls--toggle').on('click', function(e) {
         if (e.preventDefault) e.preventDefault();
-        me.filtersPanelClosed = !me.filtersPanelClosed;
+
+        me.filtersPanelClosed = !me.filterContainer.hasClass('close');
         me.filterContainer.toggleClass('close', me.filtersPanelClosed);
         return false;
       });
