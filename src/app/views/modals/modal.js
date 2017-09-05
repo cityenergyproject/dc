@@ -38,7 +38,7 @@ define([
 
     onModalSync: function() {
       var model = this.state.get('modal');
-      console.log('Sync: ', model);
+      // console.log('Sync: ', model);
     },
 
     onModalChange: function() {
@@ -53,8 +53,8 @@ define([
       var selected  = model.get('selected');
       var viewdata = model.get('viewdata');
       var props = model.modalProps();
-      console.log('onViewDataChange: ', model);
-      console.log('selected: ', selected);
+      // console.log('onViewDataChange: ', model);
+      // console.log('selected: ', selected);
       this.render(viewdata, props);
     },
 

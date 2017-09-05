@@ -22,6 +22,12 @@ define([
       return available[selected] || {};
     },
 
+    wrapBreaks: function(txt) {
+      return txt.split('<br>').map(function(d) {
+        return '<p>' + d + '</p>';
+      }).join('');
+    },
+
     fetchViewData: function() {
       var selected = this.get('selected');
 
@@ -49,7 +55,24 @@ define([
           return;
         }
 
-        var rows = d3.csv.parseRows(txt);
+        var rows = d3.csv.parse(txt);
+
+        if (selected === 'faq') {
+          rows = rows.map(function(row) {
+            return [row.question.trim(), me.wrapBreaks(row.answer.trim())];
+          });
+        } else if (selected === 'glossary') {
+          rows = rows.map(function(row){
+            if (row.url && row.url.length > 5) {
+              var moreinfo = '<a class="link-ref" href="' + row.url.trim() + '" target="_blank">Reference Link</a>';
+
+              var definition = row.definition.trim() + moreinfo;
+              return [row.attribute.trim(), definition];
+            }
+
+            return [row.attribute.trim(), row.definition.trim()];
+          });
+        }
 
         me.set({
           cache: _.extend(cache, {[selected]: rows}),

@@ -36,6 +36,18 @@ body.modal-active {
     overflow-y: auto;
   }
 
+  a {
+    color: $base-font-color;
+    font-weight: 500;
+    text-decoration: underline;
+
+    &.link-ref {
+      display: block;
+      margin-top: 0.5rem;
+      text-align: left;
+    }
+  }
+
   button {
     position: absolute;
     top: 0;
@@ -59,7 +71,16 @@ body.modal-active {
   }
 
   p {
+    margin: 0 0 0.6em;
+  }
 
+  .indent {
+    margin: 0 1.5rem;
+  }
+
+  .list {
+    list-style-type: circle;
+    margin-bottom: 0.6em;
   }
 
   table {
