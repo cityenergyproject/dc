@@ -199,7 +199,7 @@ define([
 
     render: function(){
       var query = this.toCartoSublayer();
-      if (this.query && this.query.sql === query.sql) return;
+      // if (this.query && this.query.sql === query.sql) return;
       this.query = query;
 
       if(this.cartoLayer) {
