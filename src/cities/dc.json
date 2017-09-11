@@ -1,7 +1,7 @@
 {
     "url_name": "dc",
     "name": "D.C. Energy Benchmarking",
-    "logo_link_url": "http://doee.dc.gov/energybenchmarking/",
+    "logo_link_url": "/",
     "address_search_regional_context": "District of Columbia",
     "header_banner_images": [
         {
@@ -227,6 +227,10 @@
         },
         "2015": {
             "table_name": "t2015",
+            "default_layer": "energy_star_score"
+        },
+        "2016": {
+            "table_name": "t2016",
             "default_layer": "energy_star_score"
         }
     },

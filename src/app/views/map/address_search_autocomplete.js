@@ -230,11 +230,10 @@ define([
 
           onSelect: function(e, term, item) {
             if (item) {
-
               var id = item.getAttribute('data-building');
 
               var building = buildings.get(id);
-              var latlng = this.getLatLng(building);
+              var latlng = self.getLatLng(building);
 
               var propertyId = self.state.get('city').get('property_id');
               var propety_id = building.get(propertyId);
