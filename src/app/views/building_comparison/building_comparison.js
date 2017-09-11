@@ -10,12 +10,13 @@ define([
   'text!templates/building_comparison/table_body.html'
 ], function($, _, Backbone, BuildingComparator, BuildingColorBucketCalculator, BuildingBucketCalculator, HistogramView, TableHeadTemplate,TableBodyRowsTemplate){
 
-  var ReportTranslator = function(buildingId, buildingFields, buildings, gradientCalculators) {
+  var ReportTranslator = function(buildingId, buildingFields, buildings, gradientCalculators, mapLayers) {
     this.buildingId = buildingId;
     this.buildingFields = buildingFields;
     this.buildings = buildings;
     this.lookup = {};
     this.gradientCalculators = gradientCalculators;
+    this.mapLayers = mapLayers;
 
     this.init();
   };
@@ -40,8 +41,26 @@ define([
       if (currentMetricHash === metrichash) return;
 
       var metrics = _.map(metricFields, function(field) {
-        var value = building.get(field),
-            color = this.gradientCalculators[field].toColor(value);
+        var metricConfig = _.findWhere(this.mapLayers, {field_name: field});
+
+        var valueType = metricConfig.valueType || '';
+        var skipFormatting = metricConfig.skipFormatting || false;
+
+        var value = building.get(field);
+        var color = this.gradientCalculators[field].toColor(value);
+
+        if (valueType === 'number') {
+          if (!isNaN(value)) {
+            value = +value;
+          } else {
+            value = '';
+          }
+        } else {
+          value = value || '';
+        }
+
+        value = (skipFormatting) ? value : value.toLocaleString();
+
         return {
           value: value,
           color: color,
@@ -74,7 +93,7 @@ define([
         gradientCalculator = this.gradientCalculators[fieldName];
 
     return _.extend({}, field, {
-      median: median,
+      median: field.skipFormatting ? median : median.toLocaleString(),
       color: gradientCalculator.toColor(median)
     });
   };
@@ -82,6 +101,7 @@ define([
   MetricAverageCalculator.prototype.calculate = function(){
     return _.map(this.fields, _.bind(this.calculateField, this));
   };
+
 
   var BuildingMetricCalculator = function(currentBuilding, buildings, metricFields, gradientCalculators) {
     this.currentBuilding = currentBuilding;
@@ -200,7 +220,7 @@ define([
       var buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
           buildingId = this.state.get('city').get('property_id');
 
-      this.report = new ReportTranslator(buildingId, buildingFields, buildings, gradientCalculators);
+      this.report = new ReportTranslator(buildingId, buildingFields, buildings, gradientCalculators, layers);
 
       this.updateBuildings();
     },

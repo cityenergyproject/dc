@@ -106,6 +106,7 @@
             "color_range": ["#b8cba9","#007749"],
             "filter_range": {"min": 1900},
             "section": "Property Information",
+            "skipFormatting": true,
             "description": "The year property was constructed, as reported by owner"
         },
         {
@@ -117,6 +118,7 @@
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "filter_range": {"max": 4000000},
             "unit": "kBTU",
+            "valueType": "number",
             "description": "The total annual electricity consumed by the property, both sourced from the electrical grid and generated from any onsite renewable energy generation systems (if applicable), in kilowatt-hours (kWh)"
         },
         {
