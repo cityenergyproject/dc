@@ -53,7 +53,7 @@
         {"field": "water_use", "label": "Water Use (kgal): "},
         {"field": "total_ghg_emissions", "label": "Total GHG Emissions (Metric Tons CO₂e): ", "start_hidden": true },
         {"field": "total_ghg_emissions_intensity", "label": "Total GHG Emissions Intensity (kgCO2e/ft²): "},
-        {"field": "electricity_use", "label": "Electricity Use (kWh): "},
+        {"field": "electricity_use", "label": "Electricity Use (kWh): ", "isNumber": true},
         {"field": "natural_gas_use", "label": "Natural Gas Use (therms): "},
         {"field": "district_water_use", "label": "District Water-Based Energy Use (kBtu): "},
         {"field": "fuel_use", "label": "Diesel and Fuel Oil Use (kBtu): "},

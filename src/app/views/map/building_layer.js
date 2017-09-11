@@ -60,7 +60,17 @@ define([
     return _.map(this.city.get('popup_fields'), function(field) {
       if (field.start_hidden) default_hidden = true;
       var value = (typeof building === 'undefined') ? null : building.get(field.field);
-      value = value || 'N/A';
+
+      if (field.isNumber && value !== null) {
+        if (isNaN(value)) {
+          value = 'N/A';
+        } else {
+          value = +value;
+        }
+      } else {
+        value = value || 'N/A';
+      }
+
       value = (field.skipFormatter) ? value : value.toLocaleString();
 
       return _.extend({
