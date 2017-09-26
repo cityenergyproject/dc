@@ -16,6 +16,53 @@ define([
       this.listenTo(this.state, 'change:lat', this.onMapChange);
       this.listenTo(this.state, 'change:lng', this.onMapChange);
       this.listenTo(this.state, 'change:zoom', this.onMapChange);
+
+      this.listenTo(this.state, 'change:reset_all', this.onResetAll);
+
+      this.filterContainer = $('#map-controls');
+      this.filtersPanelClosed = this.filterContainer.hasClass('close');
+
+      // Hack in some events
+      var me = this;
+
+      // For small screens
+      $('#map-controls--toggle').on('click', function(e) {
+        if (e.preventDefault) e.preventDefault();
+
+        me.filtersPanelClosed = !me.filterContainer.hasClass('close');
+        me.filterContainer.toggleClass('close', me.filtersPanelClosed);
+        return false;
+      });
+
+      // reset all
+      // TODO: fix slowness when resetting
+      $('.reset-all-filters').on('click', function(e) {
+        var city = me.state.get('city').toJSON();
+        var year = me.state.get('year');
+
+        var cat_defaults = city.categoryDefaults || [];
+        var default_layer = city.years[year].default_layer
+
+        if (e.preventDefault) e.preventDefault();
+        me.state.set({
+          'categories': cat_defaults,
+          'filters': [],
+          'metrics': [default_layer],
+          'layer': default_layer,
+          sort: default_layer,
+          'reset_all': true
+        });
+        return false;
+      });
+    },
+
+    onResetAll: function() {
+      var val = this.state.get('reset_all');
+
+      if (val) {
+        this.state.set('reset_all', false, {silent: true});
+        this.onBuildings();
+      }
     },
 
     onCityChange: function(){
@@ -29,7 +76,10 @@ define([
           zoom = this.state.get('zoom');
 
       if (!this.leafletMap){
-        this.leafletMap = new L.Map(this.el, {center: [lat, lng], zoom: zoom, scrollWheelZoom: false});
+        // TODO: allow for map options to come from city config
+        var map_options = this.state.get('city').get('map_options');
+
+        this.leafletMap = new L.Map(this.el, _.defaults({center: [lat, lng], zoom: zoom}, map_options));
         this.leafletMap.attributionControl.setPrefix("");
 
         var background = city.get('backgroundTileSource'),
@@ -82,7 +132,7 @@ define([
 
 
       $('#map-category-controls').empty();
-      $('#map-controls').empty();
+      $('#map-controls-content').empty();
 
       // close/remove any existing MapControlView(s)
       this.controls && this.controls.each(function(view){

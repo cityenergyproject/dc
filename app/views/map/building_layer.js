@@ -55,12 +55,26 @@ define([
 
   BuildingInfoPresenter.prototype.toPopulatedLabels = function()  {
     var default_hidden = false;
+    var building = this.toBuilding();
+
     return _.map(this.city.get('popup_fields'), function(field) {
       if (field.start_hidden) default_hidden = true;
-      var building = this.toBuilding();
       var value = (typeof building === 'undefined') ? null : building.get(field.field);
+
+      if (field.isNumber && value !== null) {
+        if (isNaN(value)) {
+          value = 'N/A';
+        } else {
+          value = +value;
+        }
+      } else {
+        value = value || 'N/A';
+      }
+
+      value = (field.skipFormatter) ? value : value.toLocaleString();
+
       return _.extend({
-        value: (value || 'N/A').toLocaleString(),
+        value: value,
         default_hidden: default_hidden
       }, field);
     }, this);
@@ -73,10 +87,11 @@ define([
 
       this.allBuildings = new CityBuildings(null, {});
 
-      this.listenTo(this.state, 'change:layer', this.onStateChange);
-      this.listenTo(this.state, 'change:filters', this.onStateChange);
-      this.listenTo(this.state, 'change:categories', this.onStateChange);
-      this.listenTo(this.state, 'change:tableName', this.onStateChange);
+      var onStateChangeDebounce = _.debounce(_.bind(this.onStateChange, this), 150);
+      this.listenTo(this.state, 'change:layer', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:filters', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:categories', onStateChangeDebounce);
+      this.listenTo(this.state, 'change:tableName', onStateChangeDebounce);
       this.listenTo(this.state, 'change:building', this.onBuildingChange);
       this.listenTo(this.state, 'clear_map_popups', this.onClearPopups);
       this.listenTo(this.allBuildings, 'sync', this.render);
@@ -84,12 +99,18 @@ define([
 
       var self = this;
       this.leafletMap.on('popupclose', function(e) {
-        self.state.set({building: null});
+        // When the map is closing the popup the id's will match,
+        // so close.  Otherwise were probably closing an old popup
+        // to open a new one for a new building
+        if (e.popup._buildingid === self.state.get('building')) {
+          self.state.set({building: null});
+        }
       });
+
       // register single handler for showing more attrs in popup
       $('body').on('click', '.show-hide-attrs', function (e) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
 
         var is_show = $(this).text().indexOf('more') > -1 ? true: false;
         if(is_show){
@@ -134,34 +155,24 @@ define([
       });
     },
 
-
     onBuildingChange: function() {
-      if (!this.state.get('building')) return;
+      var building = this.state.get('building');
+      if (!building) return;
 
       var template = _.template(BuildingInfoTemplate),
-          presenter = new BuildingInfoPresenter(this.state.get('city'), this.allBuildings, this.state.get('building'));
+          presenter = new BuildingInfoPresenter(this.state.get('city'), this.allBuildings, building);
 
-      L.popup()
+      var popup = L.popup()
        .setLatLng(presenter.toLatLng())
-       .setContent(template({labels: presenter.toPopulatedLabels()}))
-       .openOn(this.leafletMap);
+       .setContent(template({labels: presenter.toPopulatedLabels()}));
 
-      setTimeout(function(){
-        this.state.trigger('building_layer_popup_shown');
-      }.bind(this),1);
+      popup._buildingid = building;
+      popup.openOn(this.leafletMap);
     },
 
     onFeatureClick: function(event, latlng, _unused, data){
       var propertyId = this.state.get('city').get('property_id'),
           buildingId = data[propertyId];
-
-      var current = this.state.get('building');
-
-      // Need to unset building if current is same
-      // as buildingId or the popup will not appear
-      if (current === buildingId) {
-        this.state.unset('building', {silent: true});
-      }
 
       this.state.set({building: buildingId});
     },
@@ -197,25 +208,53 @@ define([
     },
 
     render: function(){
+      var query = this.toCartoSublayer();
+      // if (this.query && this.query.sql === query.sql) return;
+      this.query = query;
+
       if(this.cartoLayer) {
-        this.cartoLayer.getSubLayer(0).set(this.toCartoSublayer()).show();
+        var self = this;
+        this.cartoLayer.getSubLayers().forEach(function(sublayer){
+          self.removeCartoInteractivity(sublayer);
+          sublayer.remove();
+        });
+
+        this.cartoLayer.createSubLayer(this.query);
+
+        this.cartoLayer.getSubLayers().forEach(function(sublayer){
+          self.setCartoInteractivity(sublayer);
+        })
+
         return this;
       }
+
       cartodb.createLayer(this.leafletMap, {
         user_name: this.allBuildings.cartoDbUser,
         type: 'cartodb',
-        sublayers: [this.toCartoSublayer()]
+        sublayers: [this.query]
       },{https: true}).addTo(this.leafletMap).on('done', this.onCartoLoad, this);
 
       return this;
     },
+
+    setCartoInteractivity: function(sublayer) {
+      sublayer.setInteraction(true);
+      sublayer.on('featureClick', this.onFeatureClick, this);
+      sublayer.on('featureOver', this.onFeatureOver, this);
+      sublayer.on('featureOut', this.onFeatureOut, this);
+    },
+
+    removeCartoInteractivity: function(sublayer) {
+      sublayer.setInteraction(false);
+      sublayer.off('featureClick', this.onFeatureClick, this);
+      sublayer.off('featureOver', this.onFeatureOver, this);
+      sublayer.off('featureOut', this.onFeatureOut, this);
+    },
+
     onCartoLoad: function(layer) {
       var sub = layer.getSubLayer(0);
       this.cartoLayer = layer;
-      sub.setInteraction(true);
-      sub.on('featureClick', this.onFeatureClick, this);
-      sub.on('featureOver', this.onFeatureOver, this);
-      sub.on('featureOut', this.onFeatureOut, this);
+      this.setCartoInteractivity(sub);
       this.onBuildingChange();
     }
   });

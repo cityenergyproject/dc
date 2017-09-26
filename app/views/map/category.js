@@ -16,6 +16,8 @@ define([
       this.allBuildings = options.allBuildings;
       this.state = options.state;
 
+      this.listenTo(this.state, 'close_category_panels', this.closePanel);
+
       var fieldName = this.layer.field_name,
           counts = this.allBuildings.countBy(fieldName);
 
@@ -84,9 +86,31 @@ define([
     },
 
     events: {
+      'change .category-list-toggle-cb': 'onPanelChange',
       'change .categories input' : 'toggleCategory',
       'click .categories .showAll': 'showAll',
       'click .categories .hideAll': 'hideAll'
+    },
+
+    closePanel: function(exclude) {
+      if (this.layer.field_name === exclude) return;
+
+      $('#category-' + this.layer.field_name).prop('checked', false).change();
+    },
+
+    onPanelChange: function(evt) {
+      var name = 'click.catpanel-'+this.layer.field_name;
+
+      var me = this;
+      if (evt.target.checked) {
+        $('body').on(name, function(evt) {
+          if (!me.$el.find(evt.target).length) {
+            me.closePanel();
+          }
+        });
+      } else {
+        $('body').off(name);
+      }
     },
 
     toggleCategory: function(){

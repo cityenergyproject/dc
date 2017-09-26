@@ -1,6 +1,17 @@
 <div class='map-category-control'>
-  <input type="checkbox" id="category-<%= id %>" />
-  <label class="category-list-toggle" for="category-<%= id %>"><%= title %></label>
+  <input type="checkbox" id="category-<%= id %>" class="category-list-toggle-cb"/>
+  <label class="category-list-toggle" for="category-<%= id %>"><%= title %>
+    <div class="asc">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 24">
+        <path fill="#000" d="M48,24L24,0L0,24H48z"/>
+      </svg>
+    </div>
+    <div class="desc">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 24">
+        <path fill="#000" d="M0,0l24,24L48,0H0z"/>
+      </svg>
+    </div>
+  </label>
   <div class='categories'>
     <div class='categories-wrapper'>
       <ul>

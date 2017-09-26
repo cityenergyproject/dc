@@ -13,7 +13,7 @@ define([
 
   var MapControlView = Backbone.View.extend({
     className: "map-control",
-    $container: $('#map-controls'),
+    $container: $('#map-controls-content'),
 
     initialize: function(options){
       this.layer = options.layer;

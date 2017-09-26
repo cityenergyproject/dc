@@ -39,7 +39,8 @@ define([
       var self = this;
       var url = "https://search.mapzen.com/v1/search";
       var search = this.$el.val();
-      var center = this.state.get('city').get('center');
+      var map_options = this.state.get('city').get('map_options');
+      var center = map_options.center;
       if (search === ""){
         this.clearMarker();
         return;

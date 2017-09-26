@@ -73,8 +73,6 @@ define([
         }, this);
 
       if (building) {
-        var lat = parseFloat(building.get('lat')),
-            lng = parseFloat(building.get('lng'));
         $('#address-search').val(building.get(this.SEARCH_KEY_FOR_SELECTED));
       } else {
         $('#address-search').val('');
@@ -108,16 +106,26 @@ define([
       'search' : 'search',
     },
 
+    getLatLng: function(building) {
+      var lat = parseFloat(building.get('lat'));
+      var lng = parseFloat(building.get('lng'));
+
+      if (_.isNaN(lat) || _.isNaN(lng)) return undefined;
+
+      return [lat, lng];
+    },
+
     getBuildingDataForSearch: function(building) {
       var self = this;
       var keys = _.keys(this.SEARCH_KEYS);
 
-      var lat = parseFloat(building.get('lat')),
-          lng = parseFloat(building.get('lng'));
+      var latlng = this.getLatLng(building);
+
+      if (!latlng) return null;
 
       var rsp = {
         id: building.cid,
-        latlng: L.latLng(lat, lng)
+        latlng: L.latLng(latlng[0], latlng[1])
       };
 
       var valid = true;
@@ -222,17 +230,15 @@ define([
 
           onSelect: function(e, term, item) {
             if (item) {
-
               var id = item.getAttribute('data-building');
 
               var building = buildings.get(id);
-              var lat = building.get('lat');
-              var lng = building.get('lng');
+              var latlng = self.getLatLng(building);
 
               var propertyId = self.state.get('city').get('property_id');
               var propety_id = building.get(propertyId);
 
-              self.centerMapOn([lat,lng]);
+              if (latlng) self.centerMapOn([latlng[0], latlng[1]]);
               if (self.SYNC_WITH_STATE) self.state.set({building: propety_id});
             }
           }
@@ -267,7 +273,8 @@ define([
       var self = this;
       var url = this.SEARCH_URL;
       var bounds = this.SEARCH_BOUNDS;
-      var center = this.state.get('city').get('center');
+      var map_options = this.state.get('city').get('map_options');
+      var center = map_options.center;
       var api_key = this.SEARCH_API_KEY;
 
       try { this.xhr.abort(); } catch(e){}

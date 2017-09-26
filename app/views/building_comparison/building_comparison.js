@@ -10,12 +10,13 @@ define([
   'text!templates/building_comparison/table_body.html'
 ], function($, _, Backbone, BuildingComparator, BuildingColorBucketCalculator, BuildingBucketCalculator, HistogramView, TableHeadTemplate,TableBodyRowsTemplate){
 
-  var ReportTranslator = function(buildingId, buildingFields, buildings, gradientCalculators) {
+  var ReportTranslator = function(buildingId, buildingFields, buildings, gradientCalculators, mapLayers) {
     this.buildingId = buildingId;
     this.buildingFields = buildingFields;
     this.buildings = buildings;
     this.lookup = {};
     this.gradientCalculators = gradientCalculators;
+    this.mapLayers = mapLayers;
 
     this.init();
   };
@@ -40,8 +41,26 @@ define([
       if (currentMetricHash === metrichash) return;
 
       var metrics = _.map(metricFields, function(field) {
-        var value = building.get(field),
-            color = this.gradientCalculators[field].toColor(value);
+        var metricConfig = _.findWhere(this.mapLayers, {field_name: field});
+
+        var valueType = metricConfig.valueType || '';
+        var skipFormatting = metricConfig.skipFormatting || false;
+
+        var value = building.get(field);
+        var color = this.gradientCalculators[field].toColor(value);
+
+        if (valueType === 'number') {
+          if (!isNaN(value)) {
+            value = +value;
+          } else {
+            value = '';
+          }
+        } else {
+          value = value || '';
+        }
+
+        value = (skipFormatting) ? value : value.toLocaleString();
+
         return {
           value: value,
           color: color,
@@ -74,7 +93,7 @@ define([
         gradientCalculator = this.gradientCalculators[fieldName];
 
     return _.extend({}, field, {
-      median: median,
+      median: field.skipFormatting ? median : median.toLocaleString(),
       color: gradientCalculator.toColor(median)
     });
   };
@@ -82,6 +101,7 @@ define([
   MetricAverageCalculator.prototype.calculate = function(){
     return _.map(this.fields, _.bind(this.calculateField, this));
   };
+
 
   var BuildingMetricCalculator = function(currentBuilding, buildings, metricFields, gradientCalculators) {
     this.currentBuilding = currentBuilding;
@@ -91,6 +111,8 @@ define([
   };
 
   BuildingMetricCalculator.prototype.renderField = function(field) {
+    if (!field) return undefined;
+
     var fieldName = field.field_name,
         gradients = this.gradientCalculators[fieldName],
         slices = field.range_slice_count,
@@ -116,6 +138,8 @@ define([
     rowContainer.find('td.metric').each(_.bind(function(index, cell) {
       var field = this.metricFields[index],
           histogram = this.renderField(field);
+
+        if (!histogram) return;
       $(cell).find('.histogram').replaceWith(histogram.render());
     }, this));
   };
@@ -146,18 +170,26 @@ define([
       this.state = options.state;
       this.$el.html('<div class="building-report-header-container"><table class="building-report"><thead></thead></table></div><table class="building-report"><tbody></tbody></table>');
 
-      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
-      this.listenTo(this.state, 'change:filters', this.onFilterChange);
-      this.listenTo(this.state, 'change:categories', this.onCategoryChange);
-      this.listenTo(this.state, 'change:layer', this.onLayerChange);
-      this.listenTo(this.state, 'change:metrics', this.onMetricsChange);
-      this.listenTo(this.state, 'change:sort', this.onSort);
-      this.listenTo(this.state, 'change:order', this.onSort);
+      var onSortDebounce = _.debounce(_.bind(this.onSort, this), 150);
+      var onUpdateBuildingsDebounce = _.debounce(_.bind(this.updateBuildings, this), 150);
+      var onMetricsChangeDebounce = _.debounce(_.bind(this.onMetricsChange, this), 150);
+      var onLayerChangeDebounce = _.debounce(_.bind(this.onLayerChange, this), 150);
 
+      this.listenTo(this.state, 'change:allbuildings', this.onBuildings, this);
       this.listenTo(this.state, 'change:year', this.onDataSourceChange);
       this.listenTo(this.state, 'change:city', this.onDataSourceChange);
 
-      this.listenTo(this.state, 'building_layer_popup_shown', this.render);
+      this.listenTo(this.state, 'change:layer', onLayerChangeDebounce);
+      this.listenTo(this.state, 'change:filters', onUpdateBuildingsDebounce);
+      this.listenTo(this.state, 'change:categories', onUpdateBuildingsDebounce);
+      this.listenTo(this.state, 'change:metrics', onMetricsChangeDebounce);
+      this.listenTo(this.state, 'change:sort', onSortDebounce);
+      this.listenTo(this.state, 'change:order', onSortDebounce);
+
+      this.listenTo(this.state, 'change:building', this.render);
+
+      this.scrollTopElm = $('html').scrollTop() ? 'html' : 'body';
+
       $(window).scroll(_.bind(this.onScroll, this));
     },
 
@@ -188,7 +220,7 @@ define([
       var buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
           buildingId = this.state.get('city').get('property_id');
 
-      this.report = new ReportTranslator(buildingId, buildingFields, buildings, gradientCalculators);
+      this.report = new ReportTranslator(buildingId, buildingFields, buildings, gradientCalculators, layers);
 
       this.updateBuildings();
     },
@@ -214,18 +246,6 @@ define([
           cityFields = this.state.get('city').get('map_layers');
 
       this.report.updateMetrics(this.buildings, metricFieldNames);
-    },
-
-    onCategoryChange: function() {
-      this.updateBuildings();
-    },
-
-    onFilterChange: function() {
-      this.updateBuildings();
-    },
-
-    onSearchChange: function(){
-      this.updateBuildings();
     },
 
     onScroll: function() {
@@ -298,20 +318,24 @@ define([
     },
 
     renderTableBody: function(){
-      var buildings = this.buildings,
-          $body = this.$el.find('tbody'),
+      var buildings = this.buildings;
+      var buildingId = this.state.get('city').get('property_id');
+
+      var currentBuilding = this.state.get('building');
+      if (!currentBuilding || currentBuilding.length < 1) {
+        currentBuilding = buildings[0].get(buildingId);
+      }
+
+      var $body = this.$el.find('tbody'),
           template = _.template(TableBodyRowsTemplate),
           buildingFields = _.values(this.state.get('city').pick('property_name', 'building_type')),
           cityFields = this.state.get('city').get('map_layers'),
-          buildingId = this.state.get('city').get('property_id'),
-          currentBuilding = this.state.get('building') || (buildings.length) ? buildings[0].get(buildingId) : -1,
           metricFieldNames = this.state.get('metrics'),
           metricFields = _.map(metricFieldNames, function(name) { return _.findWhere(cityFields, {field_name: name}); }),
           report = this.report.toRows(buildings),
           metrics = new MetricAverageCalculator(buildings, metricFields, this.gradientCalculators).calculate(),
           building = buildings.find(function(b) { return b.get(buildingId) == currentBuilding; }),
           buildingMetrics = new BuildingMetricCalculator(building, this.allBuildings, metricFields, this.gradientCalculators);
-
 
       $body.replaceWith(template({
         currentBuilding: currentBuilding,
@@ -330,14 +354,26 @@ define([
     },
 
     onRowClick: function(event){
+      if (event.preventDefault) event.preventDefault();
+
       var $target = $(event.target),
           $row = $target.closest('tr'),
           buildingId = $row.attr('id');
 
+
+      var scrollTopElm = $('html').scrollTop() ? 'html' : 'body';
+      $(scrollTopElm).animate({ scrollTop: 0 }, 100, function() {
+        // callback stuff
+      });
+
       this.state.set({building: buildingId});
+
+      return false;
     },
 
     removeMetric: function(event){
+      if (event.preventDefault) event.preventDefault();
+
       var $target = $(event.target),
           $parent = $target.closest('th'),
           removedField = $parent.find('input').val(),
@@ -348,6 +384,8 @@ define([
       if(removedField == sortedField) { sortedField = metrics[0]; }
       metrics = _.without(metrics, removedField);
       this.state.set({metrics: metrics, sort: sortedField});
+
+      return false;
     },
 
     changeActiveMetric: function(event) {

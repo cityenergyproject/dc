@@ -14,7 +14,14 @@ define([
   'views/map/year_control',
   'views/building_comparison/building_comparison',
   'views/layout/activity_indicator',
-], function($, deparam, _, Backbone, CityModel, CityBuildings, HeaderView, FooterView, MapView, AddressSearchView, YearControlView, BuildingComparisonView, ActivityIndicator) {
+  'views/layout/mobile-alert',
+  'views/modals/modal-model',
+  'views/modals/modal'
+], function($, deparam, _, Backbone, CityModel,
+            CityBuildings, HeaderView, FooterView, MapView,
+            AddressSearchView, YearControlView,
+            BuildingComparisonView, ActivityIndicator, MobileAlert, ModalModel, ModalController) {
+
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
     defaults: {
@@ -22,11 +29,13 @@ define([
       categories: {},
       filters: []
     },
+
     toQuery: function(){
       var query, attributes = this.pick(this.queryFields);
       query = $.param(attributes);
       return '?' + query;
     },
+
     toUrl: function(){
       var path;
       if (this.get('year')) {
@@ -94,9 +103,22 @@ define([
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
       var comparisonView = new BuildingComparisonView({state: this.state});
       var footerView = new FooterView({state: this.state});
+      var mobileAlert = new MobileAlert({state: this.state});
+
+      // $(window).on('resize.main', _.debounce(_.bind(this.onWindowResize, this), 200));
+      // this.onWindowResize();
 
       this.state.on('change', this.onChange, this);
     },
+
+    onWindowResize: function(evt) {
+      var width = this.state.get('width');
+
+      if (width !== window.innerWidth) {
+        this.state.set({width: window.innerWidth});
+      }
+    },
+
     onChange: function(){
       var changed = _.keys(this.state.changed);
 
@@ -128,11 +150,26 @@ define([
     },
 
     onCitySync: function(city, results) {
-      var year = this.state.get('year'),
-          layer = this.state.get('layer'),
-          newState = new StateBuilder(results, year, layer).toState(),
-          defaultMapState = {lat: city.get('center')[0], lng: city.get('center')[1], zoom: city.get('zoom')},
-          mapState = this.state.pick('lat', 'lng', 'zoom');
+      var year = this.state.get('year');
+      var layer = this.state.get('layer');
+      var newState = new StateBuilder(results, year, layer).toState();
+
+      var map_options = city.get('map_options');
+      var defaultMapState = {lat: map_options.center[0], lng: map_options.center[1], zoom: map_options.zoom};
+      var mapState = this.state.pick('lat', 'lng', 'zoom');
+
+      if (results.hasOwnProperty('modals')) {
+        var modalModel = new ModalModel({
+          available: _.extend({}, results.modals)
+        });
+
+        var modalController = new ModalController({state: this.state});
+
+        newState = _.extend(newState, {
+          modal: modalModel,
+          setModal: _.bind(modalController.setModal, modalController)
+        });
+      }
 
       _.defaults(mapState, defaultMapState);
 
