@@ -219,6 +219,10 @@
         }
     ],
     "years": {
+        "2012": {
+            "table_name": "t2012",
+            "default_layer": "energy_star_score"
+        },
         "2013": {
             "table_name": "t2013",
             "default_layer": "energy_star_score"
