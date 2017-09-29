@@ -1,5 +1,5 @@
 .year-control {
-  border-bottom: 0.1em solid transparent;
+
   li {
     position: relative;
     display: inline-block;
@@ -8,8 +8,8 @@
   input {
     display: none;
   }
-  label {
 
+  label {
     &::after {
       height: 0.5em;
       width: 0.5em;
@@ -57,6 +57,130 @@
     &::after {
       opacity: 1;
       background-color: white;
+    }
+  }
+}
+
+
+
+#year-select-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $toolbar-height * 2;
+  height: $toolbar-height;
+  z-index: 1;
+
+  .year-control-inner {
+    display: block;
+    position: relative;
+    height: 3em;
+    text-align: center;
+  }
+
+  .yearselect-controls--toggle {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: $nav-col-fixed-width;
+    transform: translateY(-50%);
+    line-height: 0;
+  }
+
+  label.yearselect-controls--toggle {
+    position: relative;
+    left: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+
+    svg, span {
+      display: inline-block;
+      vertical-align: top;
+      line-height: 1;
+    }
+
+    span {
+      vertical-align: bottom;
+    }
+  }
+
+  input.yearselect-controls--toggle {
+    opacity: 0;
+    left: -9999px;
+  }
+
+
+  #yearselect-toggle-cb:checked ~ #year-select {
+    display: block;
+
+  }
+
+}
+
+#year-select {
+  display: none;
+  position: absolute;
+  top: 3em;
+
+  width: $toolbar-height * 2;
+  background-color: $orange;
+  right: 0;
+}
+
+.year-control {
+  border-bottom: 0;
+
+  li {
+    display: block;
+  }
+
+  li + li {
+    margin-left: 0;
+  }
+
+  li label:after { display: none; }
+
+  label {
+    margin-bottom: 0;
+    line-height: 2em;
+  }
+}
+
+
+@include media(990px) {
+  #year-select-wrapper {
+    width: auto;
+
+    .yearselect-controls--toggle { display: none; }
+  }
+
+  #year-select {
+    position: relative;
+    display: block;
+    top: 0.5em;
+    right: 1em;
+    width: auto;
+    background: none;
+  }
+
+  .year-control {
+    margin-top: -.25em;
+    border-bottom: 1px solid rgba(20, 79, 38, 0.7);
+
+    li {
+      display: inline-block;
+    }
+
+    li + li {
+      margin-left: 0.75em;
+    }
+
+    li label:after { display: block; }
+
+    label {
+      margin-bottom: 0;
     }
   }
 }

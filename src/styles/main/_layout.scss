@@ -113,6 +113,9 @@ header {
 
   label.map-category-controls--toggle {
     cursor: pointer;
+    left: auto;
+    right: 6em;
+    margin-top: 2px;
   }
 
   input.map-category-controls--toggle {
@@ -141,13 +144,14 @@ header {
 #map-category-controls {
   display: none;
   position: relative;
-  background-color: rgba($medium-gray, 0.9);
+  // background-color: rgba($medium-gray, 0.9);
+  background-color: $orange;
   width: 100%;
   padding: 0.5em 0;
   top: $toolbar-height;
 
   .map-category-control + .map-category-control {
-    margin-left: 0;
+    // margin-left: 0;
   }
 
   .map-category-control {
@@ -173,6 +177,7 @@ header {
     }
   }
 }
+
 
 #year-select{
   position: absolute;
