@@ -77,6 +77,18 @@ $footer-padding: 0.8em;
   }
 }
 
+.modal-active #footer {
+  bottom: 0 !important;
+
+  @include media($medium-screen-up) {
+    height: $footer-height-md !important;
+  }
+
+  @include media($xlarge-screen-up) {
+    height: $footer-height-lg !important;
+  }
+}
+
 // TODO: Come up with a better solution
 #buildings {
   margin-bottom: $footer-height-sm;
