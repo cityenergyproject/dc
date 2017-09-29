@@ -6,8 +6,8 @@ define([
 ], function($, _, Backbone, YearControlTemplate){
 
   var YearControlView = Backbone.View.extend({
-    $container: $('#year-select'),
-    className: "year-control",
+    $container: $('#year-select-wrapper'),
+    className: "year-control-inner",
 
     initialize: function(options){
       this.state = options.state;
@@ -37,7 +37,7 @@ define([
     },
 
     events: {
-      'change input' : 'selectYear'
+      'change input.ys-year' : 'selectYear'
     },
 
     selectYear: function(event){
