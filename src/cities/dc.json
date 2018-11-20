@@ -238,7 +238,7 @@
         "2016": {
             "table_name": "t2016",
             "default_layer": "energy_star_score"
-        }
+        },
         "2017": {
             "table_name": "t2017",
             "default_layer": "energy_star_score"
