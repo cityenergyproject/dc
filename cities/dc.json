@@ -240,7 +240,7 @@
             "default_layer": "energy_star_score"
         },
         "2017": {
-            "table_name": "t2017_20181130_test",
+            "table_name": "t2017_20181130_v2",
             "default_layer": "energy_star_score"
         }
     },
