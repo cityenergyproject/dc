@@ -249,6 +249,10 @@
         "2018": {
             "table_name": "t2018",
             "default_layer": "energy_star_score"
+        },
+        "2019": {
+            "table_name": "t2019",
+            "default_layer": "energy_star_score"
         }
     },
     "modals": {
