@@ -176,7 +176,6 @@ define([
     },
 
     onChange: function(){
-      // console.log(Date.now(), 'VOLOS: router.js onChange ==>', );
       var changed = _.keys(this.state.changed);
 
       if (_.contains(changed, 'url_name')){
@@ -189,7 +188,6 @@ define([
     },
 
     onCityChange: function(){
-      // console.log(Date.now(), 'VOLOS: router.js onCityChange ==>', );
       this.state.trigger("showActivityLoader");
       var city = new CityModel(this.state.pick('url_name', 'year'));
       city.fetch({success: _.bind(this.onCitySync, this)});
@@ -197,7 +195,6 @@ define([
     },
 
     onYearChange: function() {
-      // var year = this.state.get('year');
       var previous = this.state.previous('year');
 
       // skip undefined since it's most likely the
@@ -208,7 +205,6 @@ define([
     },
 
     onCitySync: function(city, results) {
-      // console.log(Date.now(), 'VOLOS: router.js onCitySync ==>', );
       var year = this.state.get('year');
       var layer = this.state.get('layer');
       var categories = this.state.get('categories');
@@ -249,7 +245,6 @@ define([
     },
 
     fetchBuildings: function(year) {
-      // console.log(Date.now(), 'VOLOS: router.js fetchBuildings ==>', );
       this.allBuildings = this.state.asBuildings();
       this.listenToOnce(this.allBuildings, 'sync', this.onBuildingsSync, this);
 
@@ -257,7 +252,6 @@ define([
     },
 
     onBuildingsSync: function() {
-      // console.log(Date.now(), 'VOLOS: router.js onBuildingsSync ==>', );
       this.state.set({allbuildings: this.allBuildings});
       this.state.trigger("hideActivityLoader");
     },
@@ -267,7 +261,6 @@ define([
     },
 
     city: function(cityname){
-      // console.log(Date.now(), 'VOLOS: router.js city ==>', {cityname});
       this.state.set({url_name: cityname});
     },
 
