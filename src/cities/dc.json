@@ -44,6 +44,7 @@
         {"field": "owner_of_record", "label": "Owner of Record: "},
         {"field": "reported_address", "label": "Reported Address: "},
         {"field": "report_status", "label": "Report Status: "},
+        {"field": "meets_beps", "label": "Meets BEPS: "},
         {"field": "primary_ptype_epa", "label": "Property Type: "},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²): "},
         {"field": "year_built", "label": "Year Built: ", "skipFormatter": true},
@@ -84,6 +85,15 @@
             "field_name": "report_status",
             "display_type": "category",
             "onload_display_values": "In Compliance",
+            "section": "Property Information",
+            "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
+        },
+        {
+            "title": "Meets BEPS",
+            "field_name": "meets_beps",
+            "display_type": "category",
+            "sort_by_key": true,
+            "hide_other_category": true,
             "section": "Property Information",
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
@@ -216,6 +226,17 @@
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "Metric Tons CO₂e/ft²",
             "description": "The  total Greenhouse Gas (GHG) Emissions, divided by the floor area of the building, in kilograms of carbon dioxide equivalent (CO2e) per square foot."
+        },
+        {
+            "title": "Estimated distance from BEPS",
+            "field_name": "distance_from_beps_estimated",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Estimated distance from BEPS",
+            "filter_range": {"max": 0},
+            "color_range": ["#1f5dbe", "#599b67", "#ffd552", "#da863f", "#ab2328"],
+            "unit": "%",
+            "description": "The building&#39;s distance from the BEPS estimated by DOEE measured in % Source EUI."
         }
     ],
     "years": {
