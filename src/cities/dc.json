@@ -35,7 +35,7 @@
         "scrollWheelZoom": true
     },
     "categoryDefaults": [{"field":"report_status","values":["In Compliance"],"other":false}],
-    "cartoDbUser": "dcenergybenchmarkingproject",
+    "cartoDbUser": "tivalii",
     "property_id": "pid",
     "property_name": "property_name",
     "building_type": "primary_ptype_epa",
@@ -220,29 +220,47 @@
     ],
     "years": {
         "2012": {
-            "table_name": "t2012",
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         },
         "2013": {
-            "table_name": "t2013",
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         },
         "2014": {
-            "table_name": "t2014",
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         },
         "2015": {
-            "table_name": "t2015",
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         },
         "2016": {
-            "table_name": "t2016",
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         },
         "2017": {
-            "table_name": "t2017",
+            "table_name": "table_20210804",
+            "default_layer": "energy_star_score"
+        },
+        "2018": {
+            "table_name": "table_20210804",
+            "default_layer": "energy_star_score"
+        },
+        "2019": {
+            "table_name": "table_20210804",
+            "default_layer": "energy_star_score"
+        },
+        "2020": {
+            "table_name": "table_20210804",
             "default_layer": "energy_star_score"
         }
+    },
+    "building_footprints": {
+        "allowable": true,
+        "atZoom": 15,
+        "property_id": "id",
+        "table_name": "building_footprints"
     },
     "modals": {
         "faq": {
