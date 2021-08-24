@@ -36,10 +36,20 @@ npm run dist
 
 to compile, and copy all site files to the `dist/` folder
 
+## How I should install correct node version, npm and bower?
+the best result you can have with [nvm](https://github.com/nvm-sh/nvm).
+
+* Install it with a simple instruction on the link.
+* install correct node version for the app by using `nvm install 8`
+* use installed `node` with command `nvm use 8`
+* Install `bower` with command `npm install -g bower`
+* you already have correct `npm version`
+
+
 ## How do I install it?
 
   * clone the repo
-  * make sure you have [node](https://nodejs.org/) and [bower](http://bower.io/) installed
+  * make sure you have [node](https://nodejs.org/) and [bower](http://bower.io/) installed. Check `How I should install correct node version?` section in case of any problem.
   * in the root of the repo, run ```npm install```
   * in the root of the repo, run ```bower install```
   * in a separate terminal window run ```npm start```

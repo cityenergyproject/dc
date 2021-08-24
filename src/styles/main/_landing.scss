@@ -1,0 +1,177 @@
+#landing {
+  display: block;
+  position: absolute;
+  top: $header-height + $toolbar-height;
+  left: 0;
+  width: 100%;
+  height: calc(100vh + 6em);
+  background: $base-background-color;
+  z-index: $zIndex10;
+
+  @include media($medium-screen-up) {
+    height: calc(100vh + 2em);
+  }
+
+  .landing-main-container {
+    color: $dark-gray;
+    margin: 0;
+    padding: 1em 2em 6cm 2em;
+
+    @include media($medium-screen-up) {
+      padding: 1em 4em 6em 4em;
+    }
+
+    &--description {
+      text-align: justify;
+      margin-bottom: 0.6em;
+
+      span {
+        font-weight: 600;
+      }
+    }
+
+    &--cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.6em;
+
+      .card-block {
+        border: $base-border-size solid $medium-gray;
+        width: 10em;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.1em;
+        align-items: center;
+        text-align: center;
+        padding: 0.8em 0.4em;
+        background-color: $base-white;
+        margin: 0.6em;
+
+        &--unit-value {
+          margin-top: auto;
+        }
+      }
+    }
+
+    &--chart-block  {
+      margin-bottom: 2em;
+
+      .chart-block {
+        &--histogram {
+          position: relative;
+          max-width: 860px; // for histogram
+          margin: 0 auto;
+
+          .tooltip {
+            position: absolute;
+            opacity: 0;
+            display: none;
+            width: fit-content;
+
+            &__visible {
+              display: none;
+
+              @include media($medium-screen-up) {
+                display: block;
+                opacity: 1;
+              }
+            }
+
+            span {
+              font-weight: 500;
+            }
+          }
+
+          svg {
+            background-color: $base-white;
+            display: block;
+            margin: 0 auto;
+          }
+
+          .x-axis path,
+          .y-axis path {
+            fill: none;
+            stroke: $dark-gray;
+          }
+
+          .x-axis .grid-line,
+          .y-axis .grid-line,{
+            stroke: $spinner-gray;
+            stroke-opacity: 0.2;
+          }
+        }
+      }
+    }
+
+    &--button {
+      margin: 0 auto;
+      display: block;
+      border-radius: 0.4em;
+      line-height: 1.5em;
+      padding: 0.4em 0.8em;
+      background-color: $orange;
+      color: white;
+    }
+  }
+
+  .landing-footer-container {
+    background-color: $base-background-color;
+    height: $footer-height-sm;
+    position: fixed;
+    display: block;
+    bottom: 0;
+    transition: bottom 0.2s ease-in-out;
+    width: 100%;
+    text-align: center;
+    padding: $footer-padding;
+    overflow: hidden;
+
+    @include media($medium-screen-up) {
+      height: $footer-height-md;
+    }
+
+    @include media($xlarge-screen-up) {
+      height: $footer-height-lg;
+    }
+
+    .footer-row {
+      display: block;
+      margin: 0;
+    }
+
+    .footer-row:first-child {
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    a {
+      display: inline-block;
+      color: #248C43;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+
+    a + a:before {
+      content: '|';
+      padding: 0 5px;
+    }
+
+    .logo-doee-sm {
+      float: left;
+      position: relative;
+      z-index: 2;
+
+      svg {
+        height: $footer-height-sm - ($footer-padding * 2);
+        user-select: none;
+      }
+    }
+
+    .links {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

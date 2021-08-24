@@ -142,6 +142,12 @@ define([
     return output.join(' WHERE ');
   };
 
+  CityBuildingQuery.prototype.toSimpleSql = function (fields) {
+    var table = this.tableName;
+    var output = ['SELECT'].concat(fields.join(', ')).concat('FROM ' + table);
+    return output.join(' ');
+  }
+
   CityBuildingQuery.prototype.toSqlComponents = function(prefix) {
     return {
       table: this.tableName,
@@ -176,6 +182,11 @@ define([
     },
     toFilter: function(buildings, categories, ranges) {
       return cityBuildingsFilterizer(buildings, categories, ranges);
+    },
+    fetchFields: function (fields) {
+      var query = new CityBuildingQuery(this.tableName).toSimpleSql(fields);
+      var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
+      return result;
     }
   });
 
