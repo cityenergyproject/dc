@@ -15,7 +15,7 @@
   .landing-main-container {
     color: $dark-gray;
     margin: 0;
-    padding: 1em 2em 6cm 2em;
+    padding: 1em 2em 6em 2em;
 
     @include media($medium-screen-up) {
       padding: 1em 4em 6em 4em;

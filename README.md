@@ -36,7 +36,7 @@ npm run dist
 
 to compile, and copy all site files to the `dist/` folder
 
-## How I should install correct node version, npm and bower?
+## How should I install correct node version, npm and bower?
 the best result you can have with [nvm](https://github.com/nvm-sh/nvm).
 
 * Install it with a simple instruction on the link.
