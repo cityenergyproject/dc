@@ -295,7 +295,6 @@ define([
 
     // Keep popup in map view after showing more details
     adjustPopup: function(layer) {
-      console.log(Date.now(), 'VOLOS: building_layer.js adjustPopup ==>', );
       var container = $(layer._container);
       var latlng = layer.getLatLng();
       // var mapSize = this.leafletMap.getSize();

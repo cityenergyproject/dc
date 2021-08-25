@@ -16,11 +16,12 @@ define([
   'views/layout/activity_indicator',
   'views/layout/mobile-alert',
   'views/modals/modal-model',
-  'views/modals/modal'
+  'views/modals/modal',
+  'views/layout/landing'
 ], function($, deparam, _, Backbone, CityModel,
             CityBuildings, HeaderView, FooterView, MapView,
             AddressSearchView, YearControlView,
-            BuildingComparisonView, ActivityIndicator, MobileAlert, ModalModel, ModalController) {
+            BuildingComparisonView, ActivityIndicator, MobileAlert, ModalModel, ModalController, Landing) {
 
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
@@ -75,7 +76,7 @@ define([
 
     asBuildings: function() {
       return new CityBuildings(null, this.pick('tableName', 'cartoDbUser'));
-    }
+    },
   });
 
   var StateBuilder = function(city, year, layer, categories) {
@@ -160,6 +161,7 @@ define([
       var comparisonView = new BuildingComparisonView({state: this.state});
       var footerView = new FooterView({state: this.state});
       var mobileAlert = new MobileAlert({state: this.state});
+      var landing = new Landing({state: this.state});
 
       // $(window).on('resize.main', _.debounce(_.bind(this.onWindowResize, this), 200));
       // this.onWindowResize();
@@ -246,14 +248,22 @@ define([
 
     fetchBuildings: function(year) {
       this.allBuildings = this.state.asBuildings();
+      this.landingData = this.state.asBuildings();
       this.listenToOnce(this.allBuildings, 'sync', this.onBuildingsSync, this);
+      this.listenToOnce(this.landingData, 'sync', this.onLandingSync, this);
 
       this.allBuildings.fetch(year);
+      this.landingData.fetchFields(['year_ending', 'site_eui']);
     },
 
     onBuildingsSync: function() {
       this.state.set({allbuildings: this.allBuildings});
       this.state.trigger("hideActivityLoader");
+    },
+
+    onLandingSync: function() {
+      this.state.set({landingData: this.landingData});
+      this.state.trigger("buildLandingD3");
     },
 
     root: function () {
