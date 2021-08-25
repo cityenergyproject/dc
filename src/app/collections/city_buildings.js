@@ -124,7 +124,7 @@ define([
       var values = _.map(category.values, self.toWrappedValue);
       if (values.length === 0) return '';
       return prefix + category.field + ' ' + operation + ' (' + values.join(', ') + ')';
-    });
+    }).filter(function (category) { return category });
   };
 
   CityBuildingQuery.prototype.toYearSql = function(prefix) {

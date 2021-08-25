@@ -44,7 +44,7 @@ body {
     bottom: $building-comparison-header-height + $building-comparison-metric-row-height + 1em;
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     bottom: $building-comparison-header-height + $building-comparison-metric-row-height;
   }
 }
@@ -86,7 +86,7 @@ header {
     width: $nav-col-fixed-width;
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     width: $large-nav-col-fixed-width;
   }
 
@@ -135,12 +135,11 @@ header {
     left: 0;
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     left: $large-nav-col-fixed-width;
     .map-category-controls--toggle { display: none; }
   }
 }
-
 #map-category-controls {
   display: none;
   position: relative;
@@ -157,7 +156,7 @@ header {
   .map-category-control {
     display: block;
 
-    @include media($large-screen-up) {
+    @include media($xslarge-screen-up) {
       float: left;
     }
   }
@@ -166,7 +165,7 @@ header {
     width: $nav-col-fixed-width;
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     display: block;
     padding: 0;
     top: 0;
@@ -250,7 +249,7 @@ header {
     }
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     width: $large-nav-col-fixed-width;
   }
 }
@@ -268,7 +267,7 @@ header {
     left: $nav-col-fixed-width;
   }
 
-  @include media($large-screen-up) {
+  @include media($xslarge-screen-up) {
     left: $large-nav-col-fixed-width;
   }
 }
@@ -289,7 +288,7 @@ header {
       height: $building-comparison-header-height + 1em;
     }
 
-    @include media($large-screen-up) {
+    @include media($xslarge-screen-up) {
       height: $building-comparison-header-height;
     }
   }
@@ -316,7 +315,7 @@ header {
       width: $nav-col-fixed-width;
     }
 
-    @include media($large-screen-up) {
+    @include media($xslarge-screen-up) {
       width: $large-nav-col-fixed-width;
     }
   }

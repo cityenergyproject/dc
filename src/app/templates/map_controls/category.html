@@ -25,7 +25,14 @@
             <%= category.checked %>
           />
           <label for="filter-<%=id%>-<%=category.name.toString().toLowerCase().replace(/\s/g, "-")%>">
-            <div class="content"><div class="check"></div><%= category.name %></div>
+            <div class="content">
+              <div class="check"></div>
+              <% if (category.name) { %>
+                <%= category.name %>
+                  <% } else { %>
+                    None
+                    <% } %>
+            </div>
           </label>
         </li>
       <% }) %>
