@@ -17,10 +17,7 @@ define([
     var SUBMISSIONS_RECEIVED = '% Submissions Received';
     var DATA_COMPLETE_AND_ACCURATE = 'Data Complete and Accurate';
 
-    // TODO Asked about this list here https://dcra-marketplace.atlassian.net/browse/DWEM-1?focusedCommentId=10014
     var reportIncompleteStatuses = [
-        'Incomplete Report',
-        'No Report Received',
         'Missing Report'
     ];
 
