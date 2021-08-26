@@ -157,17 +157,6 @@
       padding: 0 5px;
     }
 
-    .logo-doee-sm {
-      float: left;
-      position: relative;
-      z-index: 2;
-
-      svg {
-        height: $footer-height-sm - ($footer-padding * 2);
-        user-select: none;
-      }
-    }
-
     .links {
       position: relative;
       top: 50%;
