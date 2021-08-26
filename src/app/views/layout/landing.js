@@ -28,6 +28,7 @@ define([
             this.state = options.state;
             this.template = _.template(LandingTemplate);
             this.cardTemplate = _.template(LandingCardsTemplate);
+            this.mainContainer = $('.main-container');
 
             // when loader hide, we have all the data
             this.listenTo(this.state, 'hideActivityLoader', this.renderCardsAndHistogram);
@@ -55,6 +56,7 @@ define([
         },
 
         onContinue: function() {
+            this.mainContainer.removeClass('scroll-blocked');
             this.remove();
             window.scrollTo({top: 0}) // Return page position to start
         },
@@ -364,6 +366,8 @@ define([
         },
 
         render: function(){
+            this.mainContainer.addClass('scroll-blocked');
+
             this.$el.html(this.template({
                 footer: FooterTemplate
             }));
