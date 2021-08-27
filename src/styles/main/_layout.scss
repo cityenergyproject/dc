@@ -47,6 +47,13 @@ body {
   @include media($xslarge-screen-up) {
     bottom: $building-comparison-header-height + $building-comparison-metric-row-height;
   }
+
+  &.scroll-blocked {
+    @include media($medium-screen-up) {
+      height: 100vh;
+      overflow-y: hidden;
+    }
+  }
 }
 
 header {

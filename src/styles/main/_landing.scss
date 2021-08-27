@@ -147,7 +147,7 @@
 
     a {
       display: inline-block;
-      color: #248C43;
+      color: $orange;
       text-decoration: none;
       vertical-align: middle;
     }
@@ -155,17 +155,6 @@
     a + a:before {
       content: '|';
       padding: 0 5px;
-    }
-
-    .logo-doee-sm {
-      float: left;
-      position: relative;
-      z-index: 2;
-
-      svg {
-        height: $footer-height-sm - ($footer-padding * 2);
-        user-select: none;
-      }
     }
 
     .links {

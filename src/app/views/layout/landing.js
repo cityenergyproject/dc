@@ -17,10 +17,7 @@ define([
     var SUBMISSIONS_RECEIVED = '% Submissions Received';
     var DATA_COMPLETE_AND_ACCURATE = 'Data Complete and Accurate';
 
-    // TODO Asked about this list here https://dcra-marketplace.atlassian.net/browse/DWEM-1?focusedCommentId=10014
     var reportIncompleteStatuses = [
-        'Incomplete Report',
-        'No Report Received',
         'Missing Report'
     ];
 
@@ -31,6 +28,7 @@ define([
             this.state = options.state;
             this.template = _.template(LandingTemplate);
             this.cardTemplate = _.template(LandingCardsTemplate);
+            this.mainContainer = $('.main-container');
 
             // when loader hide, we have all the data
             this.listenTo(this.state, 'hideActivityLoader', this.renderCardsAndHistogram);
@@ -58,6 +56,7 @@ define([
         },
 
         onContinue: function() {
+            this.mainContainer.removeClass('scroll-blocked');
             this.remove();
             window.scrollTo({top: 0}) // Return page position to start
         },
@@ -367,6 +366,8 @@ define([
         },
 
         render: function(){
+            this.mainContainer.addClass('scroll-blocked');
+
             this.$el.html(this.template({
                 footer: FooterTemplate
             }));
