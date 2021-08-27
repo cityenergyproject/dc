@@ -12,6 +12,16 @@
     height: calc(100vh + 2em);
   }
 
+  a {
+    color: $blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: blueviolet;
+    }
+  }
+
   .landing-main-container {
     color: $dark-gray;
     margin: 0;
