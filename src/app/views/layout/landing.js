@@ -12,7 +12,7 @@ define([
     var TOTAL_GHG_EMISSIONS_UNIT = 'kg CO2e';
     var TOTAL_GROSS_FLOOR_AREA_COVERED = 'Total Gross Floor Area Covered';
     var TOTAL_ENERGY_CONSUMPTION = 'Total Energy Consumption';
-    var TOTAL_ENERGY_CONSUMPTION_UNIT = '(% kBtu)';
+    var TOTAL_ENERGY_CONSUMPTION_UNIT = '(KBtu/yr)';
     var TOTAL_BUILDING_REPORTED = 'Total building Reported';
     var SUBMISSIONS_RECEIVED = '% Submissions Received';
     var DATA_COMPLETE_AND_ACCURATE = 'Data Complete and Accurate';
@@ -46,9 +46,9 @@ define([
         renderCardsAndHistogram: function () {
             this.$el.find('.landing-main-container--cards').html(
                 this.getTotalGhgEmissions() +
+                this.getTotalEnergyConsumption() +
                 this.getReportedGrossFloorArea() +
                 this.getTotalBuildingsReported() +
-                this.getTotalEnergyConsumption() +
                 this.getSubmissionReceived() +
                 this.getDataCompleteAndAccurate()
             );
@@ -282,7 +282,7 @@ define([
             return this.cardTemplate({
                 title: TOTAL_GROSS_FLOOR_AREA_COVERED,
                 unit: '',
-                value: reportedGrossFloorArea
+                value: parseFloat(reportedGrossFloorArea).toFixed(2)
             })
         },
 
