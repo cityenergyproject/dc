@@ -15,7 +15,7 @@ define([
     var TOTAL_ENERGY_CONSUMPTION_UNIT = '(KBtu/yr)';
     var TOTAL_BUILDING_REPORTED = 'Total building Reported';
     var SUBMISSIONS_RECEIVED = '% Submissions Received';
-    var DATA_COMPLETE_AND_ACCURATE = 'Data Complete and Accurate';
+    var DATA_COMPLETE_AND_ACCURATE = '% Data Complete and Accurate';
 
     var reportIncompleteStatuses = [
         'Missing Report'
