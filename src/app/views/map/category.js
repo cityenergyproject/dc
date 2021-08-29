@@ -30,7 +30,6 @@ define([
           // default is to sort by max count value asc
           return counts[a] - counts[b];
         }.bind(this));
-
       this.values = orderedValues.slice(0, this.layer.hide_other_category ? orderedValues.length++ : 9 );
       if(!this.layer.hide_other_category) this.values.concat([OTHER_LABEL]);
       this.otherValues = this.layer.hide_other_category ? [] : orderedValues.slice(9);
@@ -137,6 +136,9 @@ define([
         }
 
         categories.push({field: fieldName, values: checkedValues, other: false});
+      } else {
+        // the case when all options are unchecked
+          categories.push({field: fieldName, values: unchecked.toArray(), other: true});
       }
 
       this.state.set({categories: categories});
