@@ -34,7 +34,7 @@
         "zoom": 12,
         "scrollWheelZoom": true
     },
-    "categoryDefaults": [{"field":"report_status","values":["In Compliance"],"other":false}],
+    "categoryDefaults": [],
     "cartoDbUser": "dcenergybenchmarkingproject",
     "property_id": "pid",
     "property_name": "property_name",
@@ -84,7 +84,6 @@
             "title": "Report Status",
             "field_name": "report_status",
             "display_type": "category",
-            "onload_display_values": "In Compliance",
             "section": "Property Information",
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
