@@ -1,0 +1,48 @@
+<div class='inner'>
+  <div class='section-head'>
+    <h3 class='sc-heading'><%= year %> energy performance ranges by building type</h3>
+    <p class='sc-txt small bold'>See how Seattle building types compare in their energy usage:</p>
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <td></td>
+      <td colspan="5" class="gray-bk no-border header">Annual Energy Use Intensity<br>(Site EUI in kBTU/sf)</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Building Type</td>
+      <td class="gray-bk">Median</td>
+      <% _.each(threshold_headers, function(threshold){ %>
+        <td class="gray-bk">
+          <span><%= threshold.label %></span><br>
+          <span style="color: <%= threshold.clr %>;"><%= threshold.quartile %></span>
+        </td>
+      <% }) %>
+      <td>Num. of Buildings</td>
+      <td>Year Built<br>(median)</td>
+      <td>Size<br>(median ft²)</td>
+      <td>EPA<br>Energy Star<br>(median)</td>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(rows, function(row){ %>
+    <tr>
+    <td><%= row.label %></td>
+    <td class="gray-bk"><%= row.site_eui %></td>
+    <% _.each(row.thresholds, function(threshold){ %>
+      <td class="gray-bk" style="color: <%= threshold.clr %>;"><%= threshold.val %></td>
+    <% }) %>
+    <td><%= row.count %></td>
+    <td><%= row.built %></td>
+    <td><%= row.size %></td>
+    <td><%= row.ess || "n/a" %></td>
+    </tr>
+    <% }) %>
+    </tbody>
+  </table>
+
+</div>

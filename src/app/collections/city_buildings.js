@@ -158,6 +158,16 @@ define([
   };
 
   var CityBuildings = Backbone.Collection.extend({
+    /**
+     * because dc.json has "property_id": "pid"
+     * we need to specify default id for each model
+     * more info about Collection-model https://backbonejs.org/#Collection-model
+     * more info about idAttribute https://backbonejs.org/#Model-idAttribute
+     */
+    model: Backbone.Model.extend({
+      idAttribute: "pid"
+    }),
+
     initialize: function(models, options){
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;

@@ -1,0 +1,49 @@
+<div class='inner'>
+  <div class='section-head'>
+    <h3 class='sc-heading'>Energy Use Trends</h3>
+    <% if (!isCity) { %>
+      <p class='sc-txt small bold'>See how this building’s energy performance has shifted over time:</p>
+    <% } else { %>
+      <p class='sc-txt small bold'>See how citywide performance has shifted since last year:</p>
+    <% } %>
+  </div>
+  <% if (noyear) { %>
+    <div class='row no-year'>
+      <div class='col-4 compare-desc'>
+        <p>No data available for the year <%= year_needed %>. Please select another year to view this chart.</p>
+      </div>
+    </div>
+  <% } else if (!isValid) { %>
+    <div class='row not-valid'>
+      <div class='col-4 compare-desc'>
+        <p>Not enough data available to show energy use trends for this building.</p>
+      </div>
+    </div>
+  <% } else { %>
+    <div class='row'>
+      <div class='col-4 compare-desc'>
+        <% if (change !== 0) { %>
+        <p class='change-arrow <%= direction %>'><span><%= pct %></span></p>
+        <% } %>
+        <p class="sc-txt light pg">
+          <% if (!isCity) { %>
+          <span>After adjusting for weather, from <%= years[0] %> to <%= years[1] %> this building’s site EUI</span>
+          <% } else { %>
+          <span>After adjusting for weather, from <%= years[0] %> to <%= years[1] %> citywide energy use</span>
+          <% } %>
+          <% if (change === 0) { %>
+            <span class='change-txt bold'> remained the same</span>.
+          <% } else { %>
+            <span class='change-txt bold <%= direction %>'><%= direction %> by <%= pct %></span>.
+          <% } %>
+        </p>
+      </div>
+      <div id='change-chart' class='col-8'>
+        <div class='change-chart-inner'>
+          <div id='change-chart-vis'></div>
+        </div>
+      </div>
+    </div>
+  <% } %>
+
+</div>

@@ -1,0 +1,31 @@
+<div class='inner links-container'>
+  <div class='section-head links-container--title-wrapper'>
+    <h2 class='sc-heading large links-container--title'>Find ways to save</h2>
+  </div>
+  <% if (!error) { %>
+  <table>
+    <tr>
+      <% _.each(links, function(item, idx) { %>
+      <td>
+        <div class='link-cell'>
+<!--          <div class='link-num'><%= (idx + 1) %></div>-->
+          <div class='link-content'>
+            <p><strong><%= item.header %></strong> <%= item.txt %></p>
+          </div>
+        </div>
+        </td>
+      <% }) %>
+    </tr>
+    <tr>
+      <% _.each(links, function(item) { %>
+      <td>
+        <div class='link-link'>
+          <a href='<%= item.link_href %>' target='_blank' class='link-button'><%= item.link_txt %> &gt;</a>
+<!--          <a href='<%= item.link_href %>' target='_blank' class='link-text'><%= item.link_href %></a>-->
+        </div>
+      </td>
+      <% }) %>
+    </tr>
+  </table>
+  <% } %>
+</div>

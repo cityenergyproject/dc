@@ -6,6 +6,7 @@ define([
   'underscore',
   'backbone',
   'models/city',
+  'models/scorecard',
   'collections/city_buildings',
   'views/layout/header',
   'views/layout/footer',
@@ -14,21 +15,26 @@ define([
   'views/map/year_control',
   'views/building_comparison/building_comparison',
   'views/layout/activity_indicator',
+  'views/scorecards/controller',
   'views/layout/mobile-alert',
   'views/modals/modal-model',
   'views/modals/modal',
   'views/layout/landing'
-], function($, deparam, _, Backbone, CityModel,
+], function($, deparam, _, Backbone, CityModel, ScorecardModel,
             CityBuildings, HeaderView, FooterView, MapView,
             AddressSearchView, YearControlView,
-            BuildingComparisonView, ActivityIndicator, MobileAlert, ModalModel, ModalController, Landing) {
+            BuildingComparisonView, ActivityIndicator,
+            ScorecardController, MobileAlert, ModalModel,
+            ModalController, Landing) {
 
   var RouterState = Backbone.Model.extend({
     queryFields: ['filters', 'categories', 'layer', 'metrics', 'sort', 'order', 'lat', 'lng', 'zoom', 'building'],
     defaults: {
       metrics: [],
       categories: {},
-      filters: []
+      filters: [],
+      // selected_buildings: [],
+      scorecard: new ScorecardModel()
     },
 
     toQuery: function(){
@@ -41,10 +47,6 @@ define([
         delete attributes.report_active;
       }
 
-      if (attributes.hasOwnProperty('city_report_active') && !attributes.city_report_active) {
-        delete attributes.city_report_active;
-      }
-
       if (attributes.hasOwnProperty('building') && _.isNull(attributes.building)) {
         delete attributes.building;
       }
@@ -55,10 +57,6 @@ define([
     mapParamsToState: function(params) {
       if (params.hasOwnProperty('report_active') && !_.isBoolean(params.report_active)) {
         params.report_active = (params.report_active === 'true');
-      }
-
-      if (params.hasOwnProperty('city_report_active') && !_.isBoolean(params.city_report_active)) {
-        params.city_report_active = (params.city_report_active === 'true');
       }
 
       return params;
@@ -109,7 +107,7 @@ define([
   StateBuilder.prototype.toCategory = function() {
     if (!this.categories || !this.categories.length) return this.city.categoryDefaults || [];
     this.categories.forEach(c => {
-      if (c.field === 'property_type') {
+      if (c.field === 'primary_ptype_self') {
         const val = c.values[0];
         const thresholds = this.city.scorecard.thresholds.eui;
         if (!thresholds.hasOwnProperty(val)) {
@@ -162,6 +160,7 @@ define([
       var footerView = new FooterView({state: this.state});
       var mobileAlert = new MobileAlert({state: this.state});
       var landing = new Landing({state: this.state});
+      var scoreCard = new ScorecardController({ state: this.state, mapView: mapView });
 
       // $(window).on('resize.main', _.debounce(_.bind(this.onWindowResize, this), 200));
       // this.onWindowResize();
@@ -169,13 +168,13 @@ define([
       this.state.on('change', this.onChange, this);
     },
 
-    onWindowResize: function(evt) {
-      var width = this.state.get('width');
-
-      if (width !== window.innerWidth) {
-        this.state.set({width: window.innerWidth});
-      }
-    },
+    // onWindowResize: function(evt) {
+    //   var width = this.state.get('width');
+    //
+    //   if (width !== window.innerWidth) {
+    //     this.state.set({width: window.innerWidth});
+    //   }
+    // },
 
     onChange: function(){
       var changed = _.keys(this.state.changed);

@@ -5,7 +5,10 @@ define([
   'views/map/building_layer',
   'views/map/filter',
   'views/map/category',
-], function($, _, Backbone, BuildingLayer, Filter, Category) {
+  'utils/threshold',
+  'selectize',
+  'text!templates/map_controls/property_type_selectlist.html'
+], function($, _, Backbone, BuildingLayer, Filter, Category, ThresholdUtils, selectize, ProptypeSelectListTemplate) {
   var MapView = Backbone.View.extend({
     el: $("#map"),
 
@@ -69,6 +72,67 @@ define([
       this.render();
     },
 
+    getCurrentCatValue: function() {
+      const currentCategories = this.state.get('categories');
+      const match = currentCategories.find(cat => {
+        return cat.field === 'primary_ptype_self';
+      });
+
+      return match ? match.values[0] : null;
+    },
+
+    createPropTypeSelector: function(buildings) {
+      const items = _.uniq(buildings.pluck('primary_ptype_self')).sort();
+
+      var template = _.template(ProptypeSelectListTemplate);
+
+      $('#building-proptype-selector').html(template({ items, current: this.getCurrentCatValue() }));
+
+      $('#building-proptype-selector > select').selectize({
+        onChange: val => {
+          if (val === '*') val = null;
+
+          const currentCategories = this.state.get('categories');
+          const match = currentCategories.find(cat => {
+            return cat.field === 'primary_ptype_self';
+          });
+
+          const currentValue = match ? match.values[0] : null;
+
+          if (val === currentValue) return;
+
+          const newCats = currentCategories.filter(cat => cat.field !== 'primary_ptype_self');
+
+          if (val !== null) {
+            newCats.push({
+              field: 'primary_ptype_self',
+              other: false,
+              values: [val]
+            });
+          }
+
+          this.state.set({
+            categories: newCats,
+            layer_thresholds: this.getThreshold(val)
+          });
+        }
+      });
+    },
+
+    getThreshold: function(propType) {
+      // TODO: This will fail loudly
+      const availableThresholds = this.state.get('city').get('scorecard').thresholds.eui;
+      const year = this.state.get('year');
+      const threshold = ThresholdUtils.getThresholds(availableThresholds, propType, year);
+
+      if (threshold.error) {
+        console.warn(threshold.error);
+        return null;
+      }
+
+      return threshold.data;
+    },
+
     render: function(){
       var city = this.state.get('city'),
           lat = this.state.get('lat'),
@@ -104,7 +168,11 @@ define([
 
         // TODO: Possibly remove the need for this
         // layer to make seperate Carto calls
-        this.currentLayerView = new BuildingLayer({leafletMap: this.leafletMap, state: this.state});
+        this.currentLayerView = new BuildingLayer({
+          leafletMap: this.leafletMap,
+          state: this.state,
+          mapView: this
+        });
       }
     },
 
@@ -124,12 +192,22 @@ define([
       this.leafletMap.setZoom(zoom);
     },
 
+    getControls: function() {
+      return this.controls;
+    },
+
     onBuildings: function(){
       var state = this.state;
       var city = state.get('city');
       var layers = city.get('map_layers');
       var allBuildings = state.get('allbuildings');
 
+      this.createPropTypeSelector(allBuildings);
+
+      // close/remove any existing MapControlView(s)
+      this.controls && this.controls.each(function(view){
+        view.close();
+      });
 
       $('#map-category-controls').empty();
       $('#map-controls-content').empty();
@@ -149,6 +227,7 @@ define([
         return new viewClass({layer: layer, allBuildings: allBuildings, state: state});
       }).each(function(view){ view.render(); });
 
+      if (this.currentLayerView) this.currentLayerView.onBuildingChange();
       return this;
     }
   });

@@ -1,0 +1,17 @@
+<div class="building-info">
+  <ul>
+    <%_.each(labels, function (label) {%>
+      <% if ( !label.default_hidden ) {%>
+        <li><%= label.label %> <strong><%= label.value %></strong></li>
+      <%}%>
+    <%})%>
+    <span class="show-more-container hide">
+    <%_.each(labels, function (label) {%>
+      <% if ( label.default_hidden ) {%>
+        <li><%= label.label %> <strong><%= label.value %></strong></li>
+      <%}%>
+    <%})%>
+    </span>
+  </ul>
+  <a class="show-hide-attrs" style="cursor:pointer;">more details...</a>
+</div>
