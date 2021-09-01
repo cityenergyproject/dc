@@ -12,7 +12,7 @@ define([
     var TOTAL_GHG_EMISSIONS_UNIT = 'kg CO2e';
     var TOTAL_GROSS_FLOOR_AREA_COVERED = 'Total Gross Floor Area Covered';
     var TOTAL_ENERGY_CONSUMPTION = 'Total Energy Consumption';
-    var TOTAL_ENERGY_CONSUMPTION_UNIT = '(KBtu/yr)';
+    var TOTAL_ENERGY_CONSUMPTION_UNIT = '(MMbtu/yr)';
     var TOTAL_BUILDING_REPORTED = 'Total building Reported';
     var SUBMISSIONS_RECEIVED = '% Submissions Received';
     var DATA_COMPLETE_AND_ACCURATE = '% Data Complete and Accurate';
@@ -309,9 +309,10 @@ define([
 
             if(allbuildings) {
                 var totalEnergyConsumption = allbuildings.reduce((acc, val) => {
-                    var total_energy_consumption = val.get('total_energy_consumption');
-                    if(val.get('report_status') === 'In Compliance' && total_energy_consumption) {
-                        return acc + total_energy_consumption
+                    var site_eui = val.get('site_eui');
+                    var reported_gross_floor_area = val.get('reported_gross_floor_area');
+                    if(val.get('report_status') === 'In Compliance' && site_eui && reported_gross_floor_area) {
+                        return acc + (site_eui * reported_gross_floor_area / 1000);
                     }
 
                     return acc
@@ -321,7 +322,7 @@ define([
             return this.cardTemplate({
                 title: TOTAL_ENERGY_CONSUMPTION,
                 unit: TOTAL_ENERGY_CONSUMPTION_UNIT,
-                value: totalEnergyConsumption
+                value: totalEnergyConsumption.toFixed(0)
             })
         },
 
