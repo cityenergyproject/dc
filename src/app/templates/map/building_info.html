@@ -20,7 +20,7 @@
         <tr class="lead">
           <% if (data.chart.lead.nodata) { %>
             <td colspan='2' class='nodata'>
-              We don't have an EUI for this building for this year. Contact <a href="mailto:energybenchmarking@seattle.gov">energybenchmarking@seattle.gov</a> if this is incorrect.
+              We don't have an EUI for this building for this year.
             </td>
           <% } else { %>
             <td style="color: <%= data.chart.lead.color %>;"><%= data.chart.lead.value %></td>
