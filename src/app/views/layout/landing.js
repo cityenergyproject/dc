@@ -97,7 +97,7 @@ define([
                 var d3Data = [];
                 for (const [year, values] of Object.entries(siteEuiObj)) {
                     d3Data.push({
-                        date: `${year}-01-01`,
+                        date: `01-01-${year}`,
                         value: values.reduce((acc, value, i, arr) => {
                             // on the last step calculate average
                             if(i === arr.length - 1) {
