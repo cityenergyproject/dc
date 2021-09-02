@@ -5,7 +5,8 @@ define([
   'collections/city_buildings',
   'models/building_color_bucket_calculator',
   'text!templates/map/building_info.html'
-], function($, _, Backbone, CityBuildings, BuildingColorBucketCalculator, BuildingInfoTemplate){
+], function($, _, Backbone, CityBuildings,
+            BuildingColorBucketCalculator, BuildingInfoTemplate){
 
   var baseCartoCSS = {
     dots: [
@@ -55,7 +56,7 @@ define([
     this.idKey = idKey;
     this.controls = controls;
     this.layerName = layerName;
-    this.defaultColor = defaultColor || 'blue';
+    this.defaultColor = defaultColor || '#7b6127';
   };
 
   BuildingInfoPresenter.prototype.toLatLng = function() {
@@ -270,42 +271,10 @@ define([
         }
       });
 
-      // register single handler for showing more attrs in popup
-      $('body').on('click', '.show-hide-attrs', function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-
-        var is_show = $(this).text().indexOf('more') > -1 ? true: false;
-        if(is_show){
-          $(this).text('less details...');
-          $('.show-more-container').removeClass('hide').addClass('show');
-        }
-        else {
-          $(this).text('more details...');
-          $('.show-more-container').removeClass('show').addClass('hide');
-        }
-
-        self.leafletMap.eachLayer(function(layer){
-            if (layer._tip) {
-              self.adjustPopup(layer);
-            }
-        });
+      this.leafletMap.on('popupopen', function(e) {
+        $('#view-report').on('click', self.onViewReportClick.bind(self));
+        $('#compare-building').on('click', self.onCompareBuildingClick.bind(self));
       });
-    },
-
-    // Keep popup in map view after showing more details
-    adjustPopup: function(layer) {
-      var container = $(layer._container);
-      var latlng = layer.getLatLng();
-      // var mapSize = this.leafletMap.getSize();
-
-      var pt = this.leafletMap.latLngToContainerPoint(latlng);
-      var height = container.height();
-      var top = pt.y - height;
-
-      if (top < 0) {
-        this.leafletMap.panBy([0, top]);
-      }
     },
 
     onClearMapPopupTrigger: function() {
@@ -379,6 +348,7 @@ define([
       // src/app/views/map/map.js SHOULD HAS getControls
       if (!this.mapView.getControls()) return;
 
+      console.warn("There can be a bug here, needs to check if we have property_id field");
       var propertyId = this.state.get('city').get('property_id');
 
       if (this.buildingLayerWatcher.mode !== 'dots') {
@@ -397,11 +367,12 @@ define([
 
       if (!presenter.toLatLng()) return;
 
-      // POPUP NOT WORKING NOW
-      console.error('POPUP SHOULD BE FIXED');
       var popup = L.popup()
        .setLatLng(presenter.toLatLng())
-       .setContent(template({labels: presenter.toPopulatedLabels()}));
+          .setContent(template({
+            data: presenter.toPopulatedLabels(),
+            compare_disabled: ''
+          }));
 
       this._popupid = building_id;
       popup._buildingid = building_id;
@@ -409,6 +380,7 @@ define([
     },
 
     onFeatureClick: function(event, latlng, _unused, data){
+      console.warn("There can be a bug here, needs to check if we have property_id field");
       var propertyId = this.state.get('city').get('property_id');
 
       if (this.buildingLayerWatcher.mode !== 'dots') {
@@ -431,11 +403,9 @@ define([
     },
 
     onFeatureOver: function(){
-      // $('#map').css('cursor', "help");
       this.mapElm.css('cursor', 'help');
     },
     onFeatureOut: function(){
-      // $('#map').css('cursor', '');
       this.mapElm.css('cursor', '');
     },
 

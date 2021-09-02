@@ -1,0 +1,46 @@
+<% if (energy_star_score) { %>
+  <div class='scorecard-wrapper'>
+<% } else { %>
+  <div class='scorecard-wrapper no-energy-star-score'>
+<% } %>
+
+  <!-- Navigation -->
+  <div class='scorecard--nav'>
+    <a id='back-to-map-link' class='sc-link' href='#'>&lt; Back to Map</a>
+    <div class="share-icons-block">
+      <a id='open-share-email' class='sc-link' href='mailto:?subject=<%= email.subject %>&body=<%= email.body %>'>Share by email</a>
+      <a id='open-save-as-pdf' class='sc-link' href='#'>Save as PDF</a>
+    </div>
+    <a id='comparison-view-link' class='sc-link' href='#'>Building Comparison View &gt;</a>
+  </div>
+
+  <div class='scorecard--header'>
+    <h2 class='sc-heading large'><%= name %></h2>
+    <% if (building_view) { %>
+      <h2 class='sc-heading large'><%= year %> Performance Profile</h2>
+    <% } %>
+  </div>
+
+  <!-- Dynamic content -->
+  <div id='scorecard-content'>
+    <div id='scorecard-view'></div>
+  </div>
+
+  <% if (building_view) { %>
+
+    <% if (comments) { %>
+      <div id='building-comments' class='scorecard--section'></div>
+    <% } %>
+
+  <!-- Links -->
+  <div id='links' class='scorecard--section'></div>
+  <% } %>
+
+
+  <div class='scorecard--print-footer'>
+    <img src='images/logo@2x.png' />
+    <span class='footer-text'>
+      <a href="http://energybenchmarkingdc.org/">energybenchmarkingdc.org</a> | <a href="tel:x-xxx-xxx-xxx">xxx-xxx-xxxx</a>
+    </span>
+  </div>
+</div> <!-- end .scorecard-content -->

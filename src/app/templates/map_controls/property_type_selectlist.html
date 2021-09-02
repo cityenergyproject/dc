@@ -1,0 +1,6 @@
+<select>
+  <option value="*">Show All Buildings</option>
+<% _.each(items, function(item){ %>
+  <option value="<%= item %>" <%= current === item ? 'selected' : '' %> ><%= item %></option>
+<% }) %>
+</select>
