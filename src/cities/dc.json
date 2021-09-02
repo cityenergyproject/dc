@@ -48,7 +48,7 @@
         {"field": "property_size", "label": "Property Size (ft²):"},
         {"field": "property_name", "label": "Property Name:"},
         {"field": "reported_address", "label": "Property Address:"},
-        {"field": "primary_ptype_epa", "label": "Property Type:"},
+        {"field": "primary_ptype_self", "label": "Property Type:"},
         {"field": "year_built", "label": "Built: ", "skipFormatter": true}
     ],
     "popup_chart": {
@@ -83,7 +83,7 @@
         },
         {
             "title": "Property Type",
-            "field_name": "primary_ptype_epa",
+            "field_name": "primary_ptype_self",
             "display_type": "category",
             "sort_by_key": true,
             "hide_other_category": true,
