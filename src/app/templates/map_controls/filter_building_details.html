@@ -1,0 +1,9 @@
+<tr>
+  <% _.each(table, function(c){ %>
+    <% if (c) { %>
+      <td class="<%= c.cell_klass %>"><span class="value"><%= c.value %></span><span class="unit"><%= c.unit %></span></td>
+    <% } else { %>
+      <td>-</td>
+    <% } %>
+  <% }) %>
+</tr>

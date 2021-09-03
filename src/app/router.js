@@ -13,7 +13,9 @@ define([
   'views/map/map',
   'views/map/address_search_autocomplete',
   'views/map/year_control',
+  'views/layout/building_counts',
   'views/building_comparison/building_comparison',
+  'views/layout/compare_bar',
   'views/layout/activity_indicator',
   'views/scorecards/controller',
   'views/layout/mobile-alert',
@@ -22,8 +24,8 @@ define([
   'views/layout/landing'
 ], function($, deparam, _, Backbone, CityModel, ScorecardModel,
             CityBuildings, HeaderView, FooterView, MapView,
-            AddressSearchView, YearControlView,
-            BuildingComparisonView, ActivityIndicator,
+            AddressSearchView, YearControlView, BuildingCounts,
+            BuildingComparisonView, CompareBar, ActivityIndicator,
             ScorecardController, MobileAlert, ModalModel,
             ModalController, Landing) {
 
@@ -33,7 +35,7 @@ define([
       metrics: [],
       categories: {},
       filters: [],
-      // selected_buildings: [],
+      selected_buildings: [],
       scorecard: new ScorecardModel()
     },
 
@@ -157,6 +159,8 @@ define([
       var mapView = new MapView({state: this.state});
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
       var comparisonView = new BuildingComparisonView({state: this.state});
+      var compareBar = new CompareBar({state: this.state});
+      var buildingsCounts = new BuildingCounts({state: this.state});
       var footerView = new FooterView({state: this.state});
       var mobileAlert = new MobileAlert({state: this.state});
       var landing = new Landing({state: this.state});

@@ -32,7 +32,7 @@ $footer-padding: 0.8em;
 
   a {
     display: inline-block;
-    color: #248C43;
+    color: $orange;
     text-decoration: none;
     vertical-align: middle;
   }
@@ -46,18 +46,6 @@ $footer-padding: 0.8em;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-  }
-}
-
-#footer.nav-up {
-  bottom: 0;
-
-  @include media($medium-screen-up) {
-    bottom: -$footer-height-md;
-  }
-
-  @include media($xlarge-screen-up) {
-    bottom: -$footer-height-lg;
   }
 }
 

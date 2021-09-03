@@ -22,39 +22,38 @@ define([
 
       this.listenTo(this.state, 'change:reset_all', this.onResetAll);
 
-      this.filterContainer = $('#map-controls');
-      this.filtersPanelClosed = this.filterContainer.hasClass('close');
-
       // Hack in some events
-      var me = this;
+      // var me = this;
 
       // For small screens
-      $('#map-controls--toggle').on('click', function(e) {
-        if (e.preventDefault) e.preventDefault();
-
-        me.filtersPanelClosed = !me.filterContainer.hasClass('close');
-        me.filterContainer.toggleClass('close', me.filtersPanelClosed);
-        return false;
-      });
+      // $('#map-controls--toggle').on('click', function(e) {
+      //   if (e.preventDefault) e.preventDefault();
+      //
+      //   me.filtersPanelClosed = !me.filterContainer.hasClass('close');
+      //   me.filterContainer.toggleClass('close', me.filtersPanelClosed);
+      //   return false;
+      // });
 
       // reset all
       // TODO: fix slowness when resetting
-      $('.reset-all-filters').on('click', function(e) {
-        var city = me.state.get('city').toJSON();
-        var year = me.state.get('year');
+      $('.reset-all-filters').on('click', e => {
+        if (e.preventDefault) e.preventDefault();
+
+        var city = this.state.get('city').toJSON();
+        var year = this.state.get('year');
 
         var cat_defaults = city.categoryDefaults || [];
-        var default_layer = city.years[year].default_layer
+        var default_layer = city.years[year].default_layer;
 
-        if (e.preventDefault) e.preventDefault();
-        me.state.set({
-          'categories': cat_defaults,
-          'filters': [],
-          'metrics': [default_layer],
-          'layer': default_layer,
+        this.state.set({
+          categories: cat_defaults,
+          filters: [],
+          metrics: [default_layer],
+          layer: default_layer,
           sort: default_layer,
-          'reset_all': true
+          reset_all: true
         });
+
         return false;
       });
     },
@@ -210,7 +209,7 @@ define([
       });
 
       $('#map-category-controls').empty();
-      $('#map-controls-content').empty();
+      $('#map-controls-content--inner').empty();
 
       // close/remove any existing MapControlView(s)
       this.controls && this.controls.each(function(view){
