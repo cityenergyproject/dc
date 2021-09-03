@@ -33,6 +33,10 @@ $action-color: $base-white;
 
 $inverse-font-color: $base-white;
 
+$metric-left-width: em(360);
+$metric-left-width-mobile: em(300);
+$metric-footer-height: 4em; // Building comparsion column height
+
 // Border
 $base-border-size: 1px;
 $base-border-color: $base-white;

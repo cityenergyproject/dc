@@ -6,7 +6,7 @@
   width: 100%;
   height: calc(100vh + 6em);
   background: $base-background-color;
-  z-index: $zIndex10;
+  z-index: $zIndexMax;
 
   @include media($medium-screen-up) {
     height: calc(100vh + 2em);
