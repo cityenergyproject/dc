@@ -142,7 +142,6 @@ define([
         // the case when all options are unchecked
           categories.push({field: fieldName, values: unchecked.toArray(), other: true});
       }
-      console.log('categories', categories);
       this.state.set({categories: categories});
     },
 
