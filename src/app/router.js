@@ -7,6 +7,7 @@ define([
   'backbone',
   'models/city',
   'models/scorecard',
+  'app/models/category_filter_model.js',
   'collections/city_buildings',
   'views/layout/header',
   'views/layout/footer',
@@ -22,7 +23,7 @@ define([
   'views/modals/modal-model',
   'views/modals/modal',
   'views/layout/landing'
-], function($, deparam, _, Backbone, CityModel, ScorecardModel,
+], function($, deparam, _, Backbone, CityModel, ScorecardModel, CategoryFiltersModel,
             CityBuildings, HeaderView, FooterView, MapView,
             AddressSearchView, YearControlView, BuildingCounts,
             BuildingComparisonView, CompareBar, ActivityIndicator,
@@ -223,7 +224,16 @@ define([
         zoom: map_options.zoom
       };
       var mapState = this.state.pick('lat', 'lng', 'zoom');
+      var categoryFilterFields = city.get("map_layers")
+        .filter(category => category.display_type === "category")
+        .map(category => category.field_name);
+      var categoryFiltersModel = new CategoryFiltersModel({
+        categoryFilterFields,
+        cartoDbUser: city.get('cartoDbUser'),
+        tableName: city.get('table_name'),
+      });
 
+        this.state.set('categoryFilters', categoryFiltersModel)
       // Configure modals
       if (results.hasOwnProperty('modals')) {
         var modalModel = new ModalModel({
