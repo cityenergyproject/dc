@@ -117,7 +117,9 @@ define([
           c.kill = true;
         }
 
-        this.layer_thresholds = thresholds[val][this.year];
+        if (thresholds[val]) {
+          this.layer_thresholds = thresholds[val][this.year];
+        }
       }
     });
 

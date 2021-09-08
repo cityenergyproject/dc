@@ -113,7 +113,7 @@ define([
   };
 
   CityBuildingQuery.prototype.toWrappedValue = function(value) {
-    return `'${value}'`;
+    return `'${value.replace('\'', '\'\'')}'`;
   };
 
   CityBuildingQuery.prototype.toCategorySql = function(prefix) {
