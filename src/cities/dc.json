@@ -94,6 +94,7 @@
             "title": "Report Status",
             "field_name": "report_status",
             "display_type": "category",
+            "hide_other_category": true,
             "section": "Property Information",
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
