@@ -291,8 +291,8 @@
     "building_footprints": {
         "allowable": true,
         "atZoom": 15,
-        "property_id": "id",
-        "table_name": "building_footprints"
+        "property_id": "ssl",
+        "table_name": "unique_building_identifier"
     },
     "scorecard": {
         "citywide": {
