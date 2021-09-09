@@ -206,7 +206,7 @@ define([
     this.mapLayerFields = maplayers.map(function(lyr) {
       return 'b.' + lyr.field_name;
     });
-    this.mapLayerFields.push('b.id');
+    this.mapLayerFields.push('b.dc_real_pid');
 
     this.mapLayerFields = _.uniq(this.mapLayerFields);
     this.mapLayerFields = this.mapLayerFields.join(',');
@@ -216,12 +216,17 @@ define([
     var tableFootprint = this.footprintConfig.table_name;
     var tableData = components.table;
 
+    // TODO - use this.mapLayerFields when there are needed fields in the table
+    var cutMapLayerFields = this.mapLayerFields
+      .replace('b.electricity_use,', '')
+      .replace('b.district_water_use,', '')
+
     // Base query
     var query = 'SELECT a.*,' +
-        this.mapLayerFields +
+        cutMapLayerFields +
         ' FROM ' + tableFootprint +
         ' a,' + tableData +
-        ' b WHERE a.buildingid = b.id AND ';
+        ' b WHERE a.ssl = b.dc_real_pid AND ';
 
     var filterSql = components.year.concat(components.range)
         .concat(components.category)
@@ -477,11 +482,14 @@ define([
 
       var cartocss = stylesheet.toCartoCSS();
       var interactivity = this.state.get('city').get('property_id');
+      var footprintInteractivityField = 'dc_real_pid';
 
       return {
-        sql: buildings.toSql(year, state.get('categories'), state.get('filters')),
-        cartocss: stylesheet.toCartoCSS(),
-        interactivity: this.state.get('city').get('property_id')
+        sql: sql,
+        cartocss: cartocss,
+        interactivity: (layerMode === 'dots' )
+          ? interactivity
+          : footprintInteractivityField += ',' + this.footprints_cfg.property_id
       };
     },
 
