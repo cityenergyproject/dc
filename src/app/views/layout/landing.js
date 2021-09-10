@@ -21,6 +21,11 @@ define([
         'Missing Report'
     ];
 
+    var submissionMissingReceivedStatuses = [
+      'No Report Received',
+      'Exempt from this year\'s disclosure'
+    ];
+
     var Landing = Backbone.View.extend({
         el: '#landing',
 
@@ -329,7 +334,7 @@ define([
         getSubmissionReceived: function () {
             var allbuildings = this.state.get('allbuildings');
             var totalBuildingsReported = allbuildings.reduce((acc, val) => {
-                if(!reportIncompleteStatuses.includes(val.get('report_status')) && val.get('pid')) {
+                if(!submissionMissingReceivedStatuses.includes(val.get('report_status')) && val.get('pid')) {
                     return acc + 1
                 }
 
