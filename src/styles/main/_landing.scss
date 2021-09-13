@@ -6,7 +6,7 @@
   width: 100%;
   height: calc(100vh + 6em);
   background: $base-background-color;
-  z-index: $zIndexMax;
+  z-index: $zIndexMax - 1; // landing shouldn't be higher than toolbar
 
   @include media($medium-screen-up) {
     height: calc(100vh + 2em);
