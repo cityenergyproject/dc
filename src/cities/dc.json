@@ -244,8 +244,8 @@
             "range_slice_count": 18,
             "section": "Estimated distance from BEPS",
             "filter_range": {"max": 0},
+            "color_range": ["#dd020a", "#43883d"],
             "filter_step": 0.001,
-            "color_range": ["#1f5dbe", "#599b67", "#ffd552", "#da863f", "#ab2328"],
             "unit": "%",
             "description": "The building&#39;s distance from the BEPS estimated by DOEE measured in % Source EUI."
         }
