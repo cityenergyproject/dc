@@ -353,11 +353,20 @@ define([
       // src/app/views/map/map.js SHOULD HAS getControls
       if (!this.mapView.getControls()) return;
 
-      console.warn("There can be a bug here, needs to check if we have property_id field");
       var propertyId = this.state.get('city').get('property_id');
 
       if (this.buildingLayerWatcher.mode !== 'dots') {
-        propertyId = this.footprints_cfg.property_id;
+        /**
+         * dc.json building_footprints section
+         * sometimes (it's our case) property with real id for building has different names in consolidation data table
+         * and building footprints table.
+         * e.g.: in consolidation table name for column with this id is - dc_real_pid, but in footprint table - ssl
+         * When both table has the same name for those columns  - everything works as expected. But not in our case,
+         * that's why we have alt_name_property_id section.
+         * It help our code to connect correctly id from footprints table and consolidation table with different
+         * columns names.
+         */
+        propertyId = this.footprints_cfg.alt_name_property_id || this.footprints_cfg.property_id;
       }
 
       var template = _.template(BuildingInfoTemplate),
@@ -385,7 +394,6 @@ define([
     },
 
     onFeatureClick: function(event, latlng, _unused, data){
-      console.warn("There can be a bug here, needs to check if we have property_id field");
       var propertyId = this.state.get('city').get('property_id');
 
       if (this.buildingLayerWatcher.mode !== 'dots') {
