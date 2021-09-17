@@ -355,20 +355,6 @@ define([
 
       var propertyId = this.state.get('city').get('property_id');
 
-      if (this.buildingLayerWatcher.mode !== 'dots') {
-        /**
-         * dc.json building_footprints section
-         * sometimes (it's our case) property with real id for building has different names in consolidation data table
-         * and building footprints table.
-         * e.g.: in consolidation table name for column with this id is - dc_real_pid, but in footprint table - ssl
-         * When both table has the same name for those columns  - everything works as expected. But not in our case,
-         * that's why we have alt_name_property_id section.
-         * It help our code to connect correctly id from footprints table and consolidation table with different
-         * columns names.
-         */
-        propertyId = this.footprints_cfg.alt_name_property_id || this.footprints_cfg.property_id;
-      }
-
       var template = _.template(BuildingInfoTemplate),
           presenter = new BuildingInfoPresenter(
               this.state.get('city'),
@@ -395,12 +381,26 @@ define([
 
     onFeatureClick: function(event, latlng, _unused, data){
       var propertyId = this.state.get('city').get('property_id');
+      var buildingId = data[propertyId];
 
       if (this.buildingLayerWatcher.mode !== 'dots') {
-        propertyId = this.footprints_cfg.property_id;
+        /**
+         * dc.json building_footprints section
+         * sometimes (it's our case) property with real id for building has different names in consolidation data table
+         * and building footprints table.
+         * e.g.: in consolidation table name for column with this id is - dc_real_pid, but in footprint table - ssl
+         * When both table has the same name for those columns  - everything works as expected. But not in our case,
+         * that's why we have alt_name_property_id section.
+         * It help our code to connect correctly id from footprints table and consolidation table with different
+         * columns names.
+         * fotprints column name (ssl) cannot be changed because it's a default from government for footprints
+         */
+        var propertyRealId = this.footprints_cfg.alt_name_property_id || this.footprints_cfg.property_id;
+        var propertyRealIdValue = data[propertyRealId];
+        // now try to find pid record (its also an id of our model)
+        buildingId = this.state.get('allbuildings').find(item => item.get(propertyRealId) === propertyRealIdValue).get(propertyId);
       }
 
-      var buildingId = data[propertyId];
       var state = {
         building: buildingId
       };
