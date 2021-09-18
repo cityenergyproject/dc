@@ -131,7 +131,7 @@
         },
         {
             "title": "Electricity Use",
-            "field_name": "electricity_use",
+            "field_name": "electricity_grid_use",
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
