@@ -284,7 +284,6 @@ define([
     },
 
     renderEnergyConsumptionChart: function(data, totals) {
-      console.log(Date.now(), 'VOLOS: fueluse.js renderEnergyConsumptionChart ==>', );
       const parent = d3.select(this.viewParent).select('.energy-consumption-bar-chart-container');
       if (!parent.node()) return;
 

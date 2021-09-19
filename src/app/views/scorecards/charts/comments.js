@@ -18,7 +18,7 @@ define([
 
     render: function(cb){
       console.warn('field comment - mocked')
-      let commentsMock = 'This is awesome comment 1. This is mocked comment2. Third comment.'
+      const commentsMock = 'This is awesome comment 1. This is mocked comment2. Third comment.'
       cb(this.template({
         // comments: this.building.comments
         comments: commentsMock
