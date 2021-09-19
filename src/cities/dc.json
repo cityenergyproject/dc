@@ -45,7 +45,7 @@
         {"field": "ubid", "label": "Unique building:"},
         {"field": "pid", "label": "Identifier:"},
         {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
-        {"field": "property_size", "label": "Property Size (ft²):"},
+        {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "property_name", "label": "Property Name:"},
         {"field": "reported_address", "label": "Property Address:"},
         {"field": "primary_ptype_self", "label": "Property Type:"},
