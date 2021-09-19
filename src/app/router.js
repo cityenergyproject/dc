@@ -161,7 +161,7 @@ define([
       var yearControlView = new YearControlView({state: this.state});
       var mapView = new MapView({state: this.state});
       var addressSearchView = new AddressSearchView({mapView: mapView, state: this.state});
-      var comparisonView = new BuildingComparisonView({state: this.state});
+      // var comparisonView = new BuildingComparisonView({state: this.state}); // TODO dead code, should be removed
       var compareBar = new CompareBar({state: this.state});
       var buildingsCounts = new BuildingCounts({state: this.state});
       var footerView = new FooterView({state: this.state});
