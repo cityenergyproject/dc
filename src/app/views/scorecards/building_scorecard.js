@@ -497,11 +497,12 @@ define([
       var selectedIndex = null;
       var avgIndex = null;
 
+      const propertyIdName = this.state.get('city').get('property_id')
       data.forEach(function(d, i) {
         if (selectedIndex !== null) return;
 
         var f = d.find(function(r){
-          return r.id === id;
+          return r[propertyIdName] === id;
         });
 
         if (f) selectedIndex = i;
@@ -554,11 +555,9 @@ define([
 
       if (!this.validNumber(avg)) avg = null;
 
-      console.warn('selectedIndex - MOCKED if null');
       console.warn('mean - MOCKED if null');
       return {
-        // selectedIndex: selectedIndex,
-        selectedIndex: selectedIndex || 2,
+        selectedIndex: selectedIndex,
         avgIndex: avgIndex,
         data: data,
         thresholds: thresholds,

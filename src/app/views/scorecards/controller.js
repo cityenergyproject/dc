@@ -193,7 +193,11 @@ define([
         name = buildingModel.get('property_name');
         building_type = buildingModel.get('primary_ptype_self');
         energy_star_score = buildingModel.get('energy_star_score');
-        comments = buildingModel.get('comments');
+
+        console.warn('field comment - mocked')
+        this.commentsMock = 'This is awesome comment 11. This is mocked comment22. Third comment33.'
+        // comments = buildingModel.get('comments');
+
       } else {
         name = 'Citywide Report';
         building_type = 'citywide';
@@ -201,7 +205,8 @@ define([
 
       this.$el.html(this.template({
         building_view: this.viewclass === BuildingScorecard,
-        comments,
+        // comments,
+        comments: this.commentsMock,
         name,
         energy_star_score,
         year,
