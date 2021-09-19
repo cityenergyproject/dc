@@ -218,7 +218,6 @@ define([
 
     // TODO - use this.mapLayerFields when there are needed fields in the table
     var cutMapLayerFields = this.mapLayerFields
-      .replace('b.electricity_use,', '')
       .replace('b.district_water_use,', '')
 
     // Base query
