@@ -1,12 +1,13 @@
 #map-controls-bar {
   --nav-col-fixed-width: $nav-col-fixed-width;
   position: absolute;
-  left: $nav-col-fixed-width;
-  top: calc(100% - 1em);
-  width: calc(100% - var(--nav-col-fixed-width));
+  left: 0;
+  top: calc(100% - 5em);
+  width: 100%;
   z-index: 1000;
   cursor: pointer;
   font-size: 1em;
+  background: $base-font-color;
 
   @include media($xslarge-screen-up) {
     --large-nav-col-fixed-width: $large-nav-col-fixed-width;
@@ -57,24 +58,33 @@
     }
   }
 
+  .comparables-wrapper {
+    width: calc(100% - 100px);
+    overflow-x: auto;
+
+    @include media($xslarge-screen-up) {
+      width: calc(100% - 160px);
+    }
+  }
+
   .comparables {
-    width: 100%;
+    width: 500px;
     list-style: none;
     margin: 0;
     padding: 0 1em;
     overflow: hidden;
     cursor: default;
     height: $metric-footer-height;
-    background: $base-font-color;
+
+    @include media($xslarge-screen-up) {
+      width: 100%;
+    }
 
     td {
       padding: 0;
       width: auto;
       border: 0;
 
-      &:last-child {
-        width: 160px;
-      }
     }
 
     td > div {
@@ -130,10 +140,52 @@
       .close {}
     }
   }
+
+  .toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+
+    @include media($xslarge-screen-up) {
+      width: 160px;
+    }
+  }
 }
 
 .compare-mode #map-controls-bar {
   top: 0;
+  left: 18.75em;
+  width: calc(100% - 18.75em);
+
+  @include media($xslarge-screen-up) {
+    left: 22.5em;
+    width: calc(100% - 22.5em);
+  }
+
+  .toggle {
+    width: 50px;
+
+    @include media($xslarge-screen-up) {
+      width: 160px;
+    }
+
+    .toggle-text {
+      display: none;
+
+      @include media($xslarge-screen-up) {
+        display: block;
+      }
+    }
+  }
+
+  .comparables-wrapper {
+    width: calc(100% - 50px);
+
+    @include media($xslarge-screen-up) {
+      width: calc(100% - 160px);
+    }
+  }
 
   .toggle .toggle-close {
     display: block;
