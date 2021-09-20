@@ -284,50 +284,6 @@ header {
   width: 100%;
 }
 
-#buildings {
-  position: absolute;
-  top: 100%;
-
-  .building-report-header-container {
-    height: $building-comparison-header-height;
-
-    @include media($medium-screen-up) {
-      height: $building-comparison-header-height + 1em;
-    }
-
-    @include media($xslarge-screen-up) {
-      height: $building-comparison-header-height;
-    }
-  }
-
-  .building-report-header-container.fixed table {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-  }
-
-  h2 {
-    font-size: 1.1em;
-
-    @include media($medium-screen-up) {
-      font-size: 1.5em;
-    }
-  }
-
-  th:first-child, td:first-child {
-    width: $nav-col-fixed-width / 2;
-
-    @include media($medium-screen-up) {
-      width: $nav-col-fixed-width;
-    }
-
-    @include media($xslarge-screen-up) {
-      width: $large-nav-col-fixed-width;
-    }
-  }
-}
-
 .clearfix {
   &:after {
     content: "";
