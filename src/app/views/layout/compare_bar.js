@@ -6,6 +6,8 @@ define([
 ], function($, _, Backbone, CompareBarTemplate){
   var CompareBar = Backbone.View.extend({
     el: $('#map-controls-bar'),
+    filterContainer: $("#map-controls"),
+
 
     initialize: function(options){
       this.state = options.state;
@@ -20,6 +22,13 @@ define([
 
       this.propertyTypeKey = 'property_type';
       this._lastPropertyType = null;
+
+      var it = this;
+      this.filterContainer.find(".compare-closer").click(function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        it.state.set({building_compare_active: false });
+      });
 
       this.render();
     },
@@ -44,6 +53,7 @@ define([
     onCompareChange: function() {
       var mode = this.state.get('building_compare_active');
       this.$applyTo.toggleClass('compare-mode', mode);
+      this.filterContainer.toggleClass('close', !mode);
     },
 
     onNameClickHandler: function(evt) {

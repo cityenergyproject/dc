@@ -461,13 +461,6 @@ define([
     events: {
       'click' : 'showLayer',
       'click .more-info': 'toggleMoreInfo',
-      'click .compare-closer': 'closeCompare'
-    },
-
-    closeCompare: function(evt) {
-      evt.preventDefault();
-      evt.stopImmediatePropagation();
-      this.state.set({ building_compare_active: false });
     },
 
     showLayer: function(){

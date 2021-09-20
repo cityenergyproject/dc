@@ -335,3 +335,9 @@ header {
     clear: both;
   }
 }
+
+.compare-mode {
+  #map-controls--toggle {
+    display: none;
+  }
+}

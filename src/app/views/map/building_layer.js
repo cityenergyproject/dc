@@ -237,6 +237,8 @@ define([
   };
 
   var LayerView = Backbone.View.extend({
+    filterContainer: $("#map-controls"),
+
     initialize: function(options){
       this.state = options.state;
       this.leafletMap = options.leafletMap;
@@ -333,6 +335,7 @@ define([
 
       this.onClearPopups();
       this.state.set({ building_compare_active: true });
+      this.filterContainer.removeClass('close');
       return false;
     },
 

@@ -4,6 +4,11 @@
     width: 100%;
   }
 
+  @include media($xslarge-screen-up) {
+    height: calc(100% - 2em);
+    overflow-y: auto;
+  }
+
   #map-controls-bk {
     position: absolute;
     top: 0;
@@ -65,19 +70,49 @@
 
    #map-controls-content {
     position: relative;
-    height: calc(100% - 5em);
+    height: calc(100% - 10em);
+
+    @include media($xslarge-screen-up) {
+      height: 100%;
+    }
    }
 
    #map-controls-content--inner {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 100%;
-   }
+    overflow-x: hidden;
+  }
+
+  .compare-mode & #map-controls-content--inner {
+    width: calc(100% - 50px);
+    overflow-x: auto;
+
+    @include media($xslarge-screen-up) {
+      width: 100%;
+      overflow: unset;
+    }
+  }
+
+  .compare-closer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: red;
+    visibility: hidden;
+  }
+
+  .compare-mode & .compare-closer {
+    visibility: visible;
+  }
 
   label {
     position: relative;
     margin-bottom: 0;
     width: 100%;
-
+    z-index: 1;
   }
 
   input {
@@ -94,8 +129,16 @@
     box-shadow: inset 0 -1px $base-font-color;
   }
 
-  .compare-mode & h2 {
-    width: calc(100% - 160px);
+  .compare-mode & label {
+    width: 725px;
+
+    @include media($medium-screen-up) {
+      width: calc(18.75em + 500px);
+    }
+
+    @include media($xslarge-screen-up) {
+      width: calc(100% - 160px);
+    }
   }
 
   h3 {
@@ -157,9 +200,13 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: calc(100% - 160px);
+      width: 500px;
       padding: 0;
       background-color: lighten(#d0d0d0, 4%);
+
+      @include media($xslarge-screen-up) {
+        width: calc(100% - 160px);
+      }
     }
 
     .compare-closer {

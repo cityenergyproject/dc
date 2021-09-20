@@ -12,6 +12,8 @@ define([
   var MapView = Backbone.View.extend({
     el: $("#map"),
 
+    filterContainer: $("#map-controls"),
+
     initialize: function(options){
       this.state = options.state;
       this.listenTo(this.state, 'change:city', this.onCityChange);
@@ -21,18 +23,17 @@ define([
       this.listenTo(this.state, 'change:zoom', this.onMapChange);
 
       this.listenTo(this.state, 'change:reset_all', this.onResetAll);
-
       // Hack in some events
-      // var me = this;
+      var me = this;
 
       // For small screens
-      // $('#map-controls--toggle').on('click', function(e) {
-      //   if (e.preventDefault) e.preventDefault();
-      //
-      //   me.filtersPanelClosed = !me.filterContainer.hasClass('close');
-      //   me.filterContainer.toggleClass('close', me.filtersPanelClosed);
-      //   return false;
-      // });
+      $('#map-controls--toggle').on('click', function(e) {
+        if (e.preventDefault) e.preventDefault();
+      
+        me.filtersPanelClosed = !me.filterContainer.hasClass('close');
+        me.filterContainer.toggleClass('close', me.filtersPanelClosed);
+        return false;
+      });
 
       // reset all
       // TODO: fix slowness when resetting
