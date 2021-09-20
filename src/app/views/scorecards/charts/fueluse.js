@@ -15,11 +15,8 @@ define([
       this.template = _.template(FuelUseTemplate);
       this.formatters = options.formatters;
       this.data = options.data;
-      console.warn('fueluse.js MOCK')
-      const dataMOCK = JSON.parse("[{\"id\":26429,\"eui\":82.8,\"emissions\":288.2,\"emissionsIntensity\":3},{\"id\":24137,\"eui\":34.3,\"emissions\":33.1,\"emissionsIntensity\":0.5},{\"id\":21568,\"eui\":64,\"emissions\":112.3,\"emissionsIntensity\":1.3},{\"id\":24888,\"eui\":32.3,\"emissions\":8.1,\"emissionsIntensity\":0.1},{\"id\":20970,\"eui\":156.5,\"emissions\":216.3,\"emissionsIntensity\":5.2},{\"id\":25965,\"eui\":101.8,\"emissions\":868.6,\"emissionsIntensity\":10.7},{\"id\":25737,\"eui\":62.5,\"emissions\":122.8,\"emissionsIntensity\":1.8},{\"id\":27071,\"eui\":33,\"emissions\":17.4,\"emissionsIntensity\":0.1},{\"id\":25259,\"eui\":80.6,\"emissions\":63.6,\"emissionsIntensity\":2},{\"id\":20377,\"eui\":58.2,\"emissions\":9.1,\"emissionsIntensity\":0.1},{\"id\":24769,\"eui\":43.6,\"emissions\":252.3,\"emissionsIntensity\":1.4},{\"id\":26989,\"eui\":65.6,\"emissions\":76,\"emissionsIntensity\":1.3},{\"id\":26550,\"eui\":110.7,\"emissions\":834.5,\"emissionsIntensity\":4.2},{\"id\":50179,\"eui\":37.8,\"emissions\":120.4,\"emissionsIntensity\":0.9},{\"id\":85,\"eui\":172.4,\"emissions\":581.3,\"emissionsIntensity\":6.2},{\"id\":20145,\"eui\":45.3,\"emissions\":40.4,\"emissionsIntensity\":0.8},{\"id\":25490,\"eui\":66.2,\"emissions\":197.6,\"emissionsIntensity\":2.2},{\"id\":50085,\"eui\":75,\"emissions\":67.2,\"emissionsIntensity\":1.6},{\"id\":29069,\"eui\":49.4,\"emissions\":142.6,\"emissionsIntensity\":1.1},{\"id\":22955,\"eui\":88.1,\"emissions\":70.3,\"emissionsIntensity\":2.1},{\"id\":278,\"eui\":97.3,\"emissions\":179.4,\"emissionsIntensity\":2},{\"id\":26157,\"eui\":141.8,\"emissions\":745.1,\"emissionsIntensity\":5.4},{\"id\":26249,\"eui\":50.4,\"emissions\":97.3,\"emissionsIntensity\":1.1},{\"id\":19451,\"eui\":55.3,\"emissions\":284,\"emissionsIntensity\":4.3},{\"id\":20885,\"eui\":156,\"emissions\":338.4,\"emissionsIntensity\":9.8},{\"id\":21114,\"eui\":42.9,\"emissions\":1018.3,\"emissionsIntensity\":1.6},{\"id\":21879,\"eui\":38.4,\"emissions\":62.7,\"emissionsIntensity\":1.2},{\"id\":50167,\"eui\":52.7,\"emissions\":147.6,\"emissionsIntensity\":1.5},{\"id\":49829,\"eui\":96.5,\"emissions\":192.9,\"emissionsIntensity\":2.7},{\"id\":22956,\"eui\":45.1,\"emissions\":90.4,\"emissionsIntensity\":1},{\"id\":26324,\"eui\":89.2,\"emissions\":70.5,\"emissionsIntensity\":3.1},{\"id\":49945,\"eui\":82.6,\"emissions\":82.5,\"emissionsIntensity\":2},{\"id\":21244,\"eui\":100.8,\"emissions\":138.7,\"emissionsIntensity\":3},{\"id\":84,\"eui\":144.6,\"emissions\":1691.8,\"emissionsIntensity\":5.7},{\"id\":26730,\"eui\":66.5,\"emissions\":72.5,\"emissionsIntensity\":1.7},{\"id\":25772,\"eui\":82.2,\"emissions\":134,\"emissionsIntensity\":2.9},{\"id\":26930,\"eui\":106.6,\"emissions\":218.2,\"emissionsIntensity\":2.9},{\"id\":23025,\"eui\":54,\"emissions\":108.8,\"emissionsIntensity\":0.9},{\"id\":23682,\"eui\":30.3,\"emissions\":55.8,\"emissionsIntensity\":0.4},{\"id\":49987,\"eui\":26.8,\"emissions\":25.3,\"emissionsIntensity\":0.5},{\"id\":26846,\"eui\":37.7,\"emissions\":99.4,\"emissionsIntensity\":0.9},{\"id\":24746,\"eui\":59.5,\"emissions\":115.9,\"emissionsIntensity\":1.8},{\"id\":22961,\"eui\":88.5,\"emissions\":74.8,\"emissionsIntensity\":3.5},{\"id\":26289,\"eui\":113.3,\"emissions\":206.5,\"emissionsIntensity\":3.7},{\"id\":21741,\"eui\":52.9,\"emissions\":974.2,\"emissionsIntensity\":1.5}]");
-      this.emissionsChartData = dataMOCK;
 
-      // this.emissionsChartData = options.emissionsChartData;
+      this.emissionsChartData = options.emissionsChartData;
       this.building_name = options.name || '';
       this.year = options.year || '';
       this.isCity = options.isCity || false;
@@ -183,6 +180,7 @@ define([
       let total_usage;
 
       let fuels;
+      console.warn('this.isCity = true - didnt find how to run this case')
       if (this.isCity) {
         fuels = this.getCityWideFuels([...this.fuels], data);
         total_ghg_emissions = data.total_emissions;
