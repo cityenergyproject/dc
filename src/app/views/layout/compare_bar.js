@@ -133,7 +133,7 @@ define([
         const disabled = (propertyType && model.get(this.propertyTypeKey) !== propertyType);
 
         o.compares.splice(i, 1, {
-          name: model.get('property_name'),
+          name: model.get('property_name') || model.get('reported_address') || model.get('address_of_record') || model.id, // use id if property doesn't have name or address
           disabled,
           id: building.id
         });
