@@ -60,19 +60,3 @@ $footer-padding: 0.8em;
     height: $footer-height-lg !important;
   }
 }
-
-// TODO: Come up with a better solution
-#buildings {
-  margin-bottom: $footer-height-sm;
-
-  @include media($medium-screen-up) {
-    margin-bottom: $footer-height-md;
-  }
-
-  @include media($xlarge-screen-up) {
-    margin-bottom: $footer-height-lg;
-  }
-}
-
-
-// 56
