@@ -47,7 +47,7 @@
         {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "property_name", "label": "Property Name:"},
-        {"field": "reported_address", "label": "Property Address:"},
+        {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
         {"field": "primary_ptype_self", "label": "Property Type:"},
         {"field": "year_built", "label": "Built: ", "skipFormatter": true}
     ],
