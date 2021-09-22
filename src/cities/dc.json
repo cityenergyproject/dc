@@ -165,7 +165,7 @@
         },
         {
             "title": "Water-Based Energy Use",
-            "field_name": "district_water_use",
+            "field_name": "district_energy_use",
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
