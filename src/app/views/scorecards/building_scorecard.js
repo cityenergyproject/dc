@@ -241,7 +241,13 @@ define([
         value,
         valueColor,
         costs: this.costs(building, selected_year),
-        compareEui: this.compare(building, 'eui', config, chartdata),
+        /**
+         * compareEui is not used
+         * all section disabled in template
+         * https://dcra-marketplace.atlassian.net/browse/DWEM-5?focusedCommentId=10111
+         */
+        // compareEui: this.compare(building, 'eui', config, chartdata),
+        compareEui: null,
         compareEss: this.compare(building, 'ess', config, essChartData)
       }));
 

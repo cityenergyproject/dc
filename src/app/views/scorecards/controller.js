@@ -45,29 +45,32 @@ define([
 
     events: {
       'click #back-to-map-link': 'closeReport',
-      'click #comparison-view-link': 'showComparisonView',
-      'click #open-save-as-pdf': 'openSaveAsPDF',
+      // TODO Commented until we come back to this features
+      // 'click #comparison-view-link': 'showComparisonView',
+      // 'click #open-save-as-pdf': 'openSaveAsPDF',
     },
 
     onBuildingsChange: function() {
       if (this.dirty) this.render();
     },
 
-    openSaveAsPDF: function () {
-      window.print();
-    },
+    // TODO Commented until we come back to this features
+    // openSaveAsPDF: function () {
+    //   window.print();
+    // },
 
-    getEmailTemplates: function () {
-      /**
-       * TODO
-       * mailto doesn't support huge bodies or attach blobs (any attachments).
-       * Needs to find another solution
-       */
-      return {
-        subject: `Your link to building report for ${this.state.get('building')}`,
-        body: `Hello. You can find your report for building number ${this.state.get('building')} on the next link - ${window.location.origin}`
-      }
-    },
+    // TODO Commented until we come back to this features
+    // getEmailTemplates: function () {
+    //   /**
+    //    * TODO
+    //    * mailto doesn't support huge bodies or attach blobs (any attachments).
+    //    * Needs to find another solution
+    //    */
+    //   return {
+    //     subject: `Your link to building report for ${this.state.get('building')}`,
+    //     body: `Hello. You can find your report for building number ${this.state.get('building')} on the next link - ${window.location.origin}`
+    //   }
+    // },
 
     onViewChange: function() {
       this.updateViewClass();
@@ -193,10 +196,7 @@ define([
         name = buildingModel.get('property_name');
         building_type = buildingModel.get('primary_ptype_self');
         energy_star_score = buildingModel.get('energy_star_score');
-
-        console.warn('field comment - mocked')
-        this.commentsMock = 'This is awesome comment 11. This is mocked comment22. Third comment33.'
-        // comments = buildingModel.get('comments');
+        comments = buildingModel.get('comments');
 
       } else {
         name = 'Citywide Report';
@@ -205,12 +205,12 @@ define([
 
       this.$el.html(this.template({
         building_view: this.viewclass === BuildingScorecard,
-        // comments,
-        comments: this.commentsMock,
+        comments,
         name,
         energy_star_score,
         year,
-        email: this.getEmailTemplates()
+        email: '', // TODO Commented until we come back to this features
+        // email: this.getEmailTemplates() // TODO Commented until we come back to this features
       }));
 
       this.renderLinks(building, building_type, isBuildingRenderer);

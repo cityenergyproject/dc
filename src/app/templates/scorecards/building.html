@@ -42,13 +42,17 @@
 <div class='scorecard--section scorecard-compare-chart <%= view %>-selected'>
   <div class='inner'>
     <div class='sc-toggle'>
-      <h4 class='sc-heading small'>TOGGLE VIEW:</h4>
       <div class='sc-toggle-row'>
+        <% if (compareEui) { %>
+        <!-- Disabled-->
         <label class='cb-plain sc-txt small'><input class="sc-toggle--input" type="checkbox" <%= view === 'eui' ? 'checked' : '' %> data-view='eui'/><span class='cb'><span class='cb-inner'></span></span><span>Energy Use Intensity (EUI)</span></label>
-        <label class='cb-plain sc-txt small'><input class="sc-toggle--input" type="checkbox" <%= view === 'ess' ? 'checked' : '' %> data-view='ess'/><span class='cb'><span class='cb-inner'></span></span><span>ENERGY STAR Score</span></label>
+        <% } %>
+        <label class='cb-plain sc-txt small'><span>ENERGY STAR Score</span></label>
       </div>
     </div>
 
+    <% if (compareEui) { %>
+    <!-- Disabled-->
     <div class='scorecard-compare-section eui'>
       <div class='section-head'>
         <h3 class='sc-heading'>Energy Use Compared to Average</h3>
@@ -71,6 +75,7 @@
         <% } %>
       </div>
     </div>
+    <% } %>
 
     <div class='scorecard-compare-section ess screen-only'>
       <div class='section-head'>
