@@ -41,15 +41,15 @@
     "property_name": "property_name",
     "building_type": "primary_ptype_self",
     "popup_fields": [
-        {"field": "dc_real_pid", "label": "SSL:"},
-        {"field": "ubid", "label": "Unique building:"},
-        {"field": "pid", "label": "Identifier:"},
-        {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
-        {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "property_name", "label": "Property Name:"},
         {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
+        {"field": "dc_real_pid", "label": "SSL:"},
+        {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
+        {"field": "ubid", "label": "Unique building Identifier:"},
+        {"field": "pid", "label": "Identifier:"},
         {"field": "primary_ptype_self", "label": "Property Type:"},
-        {"field": "year_built", "label": "Built: ", "skipFormatter": true}
+        {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
+        {"field": "year_built", "label": "Year Built: ", "skipFormatter": true}
     ],
     "popup_chart": {
         "lead": {
