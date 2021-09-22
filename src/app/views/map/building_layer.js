@@ -379,6 +379,11 @@ define([
       this._popupid = building_id;
       popup._buildingid = building_id;
       popup.openOn(this.leafletMap);
+
+      var selected_buildings = this.makeSelectedBuildingsState(building_id);
+      if (selected_buildings !== null && selected_buildings.length) {
+        this.state.set({selected_buildings})
+      }
     },
 
     onFeatureClick: function(event, latlng, _unused, data){
@@ -406,13 +411,6 @@ define([
       var state = {
         building: buildingId
       };
-
-
-      var selectedBuildings = this.makeSelectedBuildingsState(buildingId);
-
-      if (selectedBuildings) {
-        state.selected_buildings = selectedBuildings;
-      }
 
       this.state.set(state);
     },
