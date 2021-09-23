@@ -204,6 +204,7 @@ define([
       var prop_type = building.primary_ptype_self; //We use primary_ptype_self as primary_type
       var id = building.pid; // we use pid in db
       var pm_pid = building.pm_pid;
+      var zip = building.postal_code;
 
       var config = this.state.get('city').get('scorecard');
 
@@ -232,6 +233,7 @@ define([
         name,
         addr1: building.reported_address,
         addr2: this.addressLine2(building),
+        zip,
         sqft: sqft.toLocaleString(),
         type: prop_type,
         pm_pid,
