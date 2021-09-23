@@ -7,13 +7,13 @@
   <!-- Navigation -->
   <div class='scorecard--nav'>
     <a id='back-to-map-link' class='sc-link' href='#'>&lt; Back to Map</a>
-    <% if (email) { %>
-    <!-- DISABLED-->
     <div class="share-icons-block">
-      <a id='open-share-email' class='sc-link' href='mailto:?subject=<%= email.subject %>&body=<%= email.body %>'>Share by email</a>
+      <!-- DISABLED-->
+      <% if (email) { %>
+        <a id='open-share-email' class='sc-link' href='mailto:?subject=<%= email.subject %>&body=<%= email.body %>'>Share by email</a>
+      <% } %>
       <a id='open-save-as-pdf' class='sc-link' href='#'>Save as PDF</a>
     </div>
-    <% } %>
     <a id='comparison-view-link' class='sc-link' href='#'>Building Comparison View &gt;</a>
   </div>
 
