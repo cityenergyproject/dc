@@ -203,6 +203,7 @@ define([
       var sqft = +(building.reported_gross_floor_area);
       var prop_type = building.primary_ptype_self; //We use primary_ptype_self as primary_type
       var id = building.pid; // we use pid in db
+      var pm_pid = building.pm_pid;
 
       var config = this.state.get('city').get('scorecard');
 
@@ -233,7 +234,7 @@ define([
         addr2: this.addressLine2(building),
         sqft: sqft.toLocaleString(),
         type: prop_type,
-        id,
+        pm_pid,
         year: selected_year,
         year_built: building.year_built,
         view,
