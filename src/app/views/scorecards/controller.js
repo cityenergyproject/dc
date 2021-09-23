@@ -47,17 +47,20 @@ define([
       'click #back-to-map-link': 'closeReport',
       // TODO Commented until we come back to this features
       // 'click #comparison-view-link': 'showComparisonView',
-      // 'click #open-save-as-pdf': 'openSaveAsPDF',
+      'click #open-save-as-pdf': 'openSaveAsPDF',
     },
 
     onBuildingsChange: function() {
       if (this.dirty) this.render();
     },
 
-    // TODO Commented until we come back to this features
-    // openSaveAsPDF: function () {
-    //   window.print();
-    // },
+    openSaveAsPDF: function () {
+      var building = this.state.get('allbuildings').find((i) => i.get('pid') === this.state.get('building'));
+      var tempTitle = document.title;
+      document.title = building ? "DC Building Energy Performance Scorecard_" + building.get('pm_pid') : document.title;
+      window.print();
+      document.title = tempTitle;
+    },
 
     // TODO Commented until we come back to this features
     // getEmailTemplates: function () {
