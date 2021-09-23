@@ -78,8 +78,23 @@ define([
 
     if (typeof building === 'undefined') return o;
 
+    /**
+     * dc.json popup_fields
+     * section field can have string aka - "field": "property_name"
+     * in this case data for label will be searched only in one field
+     *
+     * section field can have array of string aka "field": ["reported_address", "address_of_record"]
+     * in this case we try to find first non falsy value
+     */
     o.items = _.map(this.city.get('popup_fields'), function(field) {
-      var value = building.get(field.field);
+      var value;
+      if(Array.isArray(field.field)) {
+        value = field.field
+            .map(prop => building.get(prop))
+            .filter(prop => !!prop !== false)[0]
+      } else {
+        value = building.get(field.field);
+      }
 
       value = (field.skipFormatter) ?
           (value || 'N/A') : (value || 'N/A').toLocaleString();
