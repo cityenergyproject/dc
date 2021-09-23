@@ -73,6 +73,10 @@ header {
   height: $toolbar-height;
   position: relative;
   z-index: 999999;
+
+  @media print {
+    display: none;
+  }
 }
 
 .iframed #toolbar {
