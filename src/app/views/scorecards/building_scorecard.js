@@ -143,7 +143,8 @@ define([
 
       var _bins;
       if (view === 'eui') {
-       _bins = this.calculateEuiBins(buildingsOfType_min, buildingsOfType_max, config.thresholds.eui[prop_type][selected_year], config.thresholds.eui_schema);
+        var thresholds = config.thresholds.eui[prop_type] && config.thresholds.eui[prop_type][selected_year];
+       _bins = this.calculateEuiBins(buildingsOfType_min, buildingsOfType_max, thresholds, config.thresholds.eui_schema);
       } else {
         _bins = this.calculateEnergyStarBins(config.thresholds.energy_star);
       }
@@ -430,8 +431,8 @@ define([
       var max;
 
       schema.forEach(function(d, i) {
-        min = (thresholds[i - 1]) ? thresholds[i - 1] : data_min;
-        max = (thresholds[i]) ? thresholds[i] : data_max;
+        min = thresholds && (thresholds[i - 1]) ? thresholds[i - 1] : data_min;
+        max = thresholds && (thresholds[i]) ? thresholds[i] : data_max;
 
         me.binRange(min, max, d.steps, _bins);
       });
