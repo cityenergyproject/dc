@@ -212,6 +212,8 @@ define([
       var compareField = this.getViewField('eui');
 
       var value = building.hasOwnProperty(compareField) ? building[compareField] : null;
+      var weatherNormSiteEuiName = "weather_norm_site_eui_" + selected_year;
+      var weatherNormSiteEui = building[weatherNormSiteEuiName];
       let data = this.getCompareChartBinnedData(config, buildings, prop_type, 'eui', selected_year);
 
       let thresholds = this.getThresholdLabels(config.thresholds.eui_schema);
@@ -219,8 +221,8 @@ define([
       if (compareField === 'site_eui') {
         valueColor = this.getCompareChartColor(data, thresholds, id);
       }
-      if (!_.isNumber(value) || !_.isFinite(value)) {
-        value = null;
+      if (!_.isNumber(weatherNormSiteEui) || !_.isFinite(weatherNormSiteEui)) {
+        // value = null;
         valueColor = '#aaa';
       }
 
@@ -239,7 +241,7 @@ define([
         year_built: building.year_built,
         view,
         ess_logo: this.energyStarCertified('eui', building, config),
-        value,
+        value: weatherNormSiteEui,
         valueColor,
         costs: this.costs(building, selected_year),
         /**
