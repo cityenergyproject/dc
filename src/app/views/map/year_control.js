@@ -37,7 +37,27 @@ define([
     },
 
     events: {
-      'change input.ys-year' : 'selectYear'
+      'change input.ys-year' : 'selectYear',
+      'change .yearselect-controls--toggle': 'onPanelChange',
+    },
+
+    closePanel: function() {
+      $('#yearselect-toggle-cb').prop('checked', false).change();
+    },
+
+    onPanelChange: function(evt) {
+      var name = 'click.year-control-inner';
+
+      var me = this;
+      if (evt.target.checked) {
+        $('body').on(name, function(evt) {
+          if (!me.$el.find(evt.target).length) {
+            me.closePanel();
+          }
+        });
+      } else {
+        $('body').off(name);
+      }
     },
 
     selectYear: function(event){
