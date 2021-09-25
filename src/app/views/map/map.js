@@ -32,6 +32,22 @@ define([
       
         me.filtersPanelClosed = !me.filterContainer.hasClass('close');
         me.filterContainer.toggleClass('close', me.filtersPanelClosed);
+
+        var name = 'click.main-container';
+        if(!me.filtersPanelClosed) {
+          console.log('setup listener');
+          $('body').on(name, function(bodyEvent) {
+            var $target = $(bodyEvent.target);
+            if (!$target.closest('#map-controls').length) {
+              if (!$('.compare-mode').length) {
+                me.filterContainer.addClass('close');
+              }
+              $('body').off(name);
+            }
+          });
+        } else {
+          $('body').off(name);
+        }
         return false;
       });
 
@@ -57,6 +73,33 @@ define([
 
         return false;
       });
+
+      $('.map-category-controls--toggle').on('change', this.onPanelChange.bind(this));
+    },
+
+    events: {
+      'change .map-category-controls--toggle': 'onPanelChange',
+    },
+
+    closePanel: function() {
+      $('#map-category-toggle-cb').prop('checked', false).change();
+    },
+
+    onPanelChange: function(evt) {
+      var name = 'click.map-category-controls-wrapper';
+      var me = this;
+
+      if (evt.target.checked) {
+        $('body').on(name, function(event) {
+          var $target = $(event.target);
+
+          if (!$target.closest('#map-category-controls').length && !$target.closest('.map-category-controls--toggle').length) {
+            me.closePanel();
+          }
+        });
+      } else {
+        $('body').off(name);
+      }
     },
 
     onResetAll: function() {
@@ -164,7 +207,9 @@ define([
         }).addTo(this.leafletMap);
 
         this.leafletMap.zoomControl.setPosition('topright');
-        this.leafletMap.on('moveend', this.onMapMove, this);
+        this.leafletMap.on('dragend', this.onMapMove, this);
+        // on touch screens 'moveend' doesn't work
+        // this.leafletMap.on('moveend', this.onMapMove, this);
 
         // TODO: Possibly remove the need for this
         // layer to make seperate Carto calls
