@@ -213,7 +213,7 @@ define([
       var compareField = this.getViewField('eui');
 
       var value = building.hasOwnProperty(compareField) ? building[compareField] : null;
-      var weatherNormSiteEuiName = "weather_norm_site_eui_" + selected_year;
+      var weatherNormSiteEuiName = "weather_norm_source_eui_" + selected_year;
       var weatherNormSiteEui = building[weatherNormSiteEuiName];
       let data = this.getCompareChartBinnedData(config, buildings, prop_type, 'eui', selected_year);
 
