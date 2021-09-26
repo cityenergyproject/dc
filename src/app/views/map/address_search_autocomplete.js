@@ -20,8 +20,9 @@ define([
     SEARCH_API_KEY: 'search-oqsffOQ',
 
     SEARCH_KEYS: {
-      property: 'property_name',
-      address: 'reported_address'
+      property: 'address_of_record',
+      address: 'reported_address',
+      recordAddress: 'address_of_record'
     },
 
     SEARCH_KEY_FOR_SELECTED: 'reported_address',
@@ -133,8 +134,12 @@ define([
         var value = building.get(self.SEARCH_KEYS[k]);
         rsp[k] = value.trim();
 
-        if (!rsp[k].length) valid = false;
+        // if (!rsp[k].length) valid = false;
       });
+
+      if (_.every(keys, function(t) {return rsp[t].length === 0})) {
+        valid = false;
+      }
 
       return (valid) ? rsp : null;
     },
