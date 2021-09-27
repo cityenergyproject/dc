@@ -25,11 +25,19 @@ define([
       this.fuels = [
         {
           label: 'Gas',
-          key: 'gas'
+          key: 'gas',
+          emissions_key: 'percent_gas_emissions',
+          usage_key: 'percent_gas_consumption',
+          emissions_amount_key: 'natural_gas_use', // needs clarification
+          usage_amount_key: 'natural_gas_use' // needs clarification
         },
         {
           label: 'Electric',
-          key: 'electricity'
+          key: 'electric',
+          emissions_key: 'percent_electric_emissions',
+          usage_key: 'percent_electric_consumption',
+          emissions_amount_key: 'electricity_grid_use', // needs clarification
+          usage_amount_key: 'electricity_grid_use' // needs clarification
         },
         {
           label: 'Steam',
@@ -70,10 +78,10 @@ define([
 
     getBuildingFuels: function(fuels, data) {
       fuels.forEach(d => {
-        const emmission_pct = this.getMean(d.key + '_ghg_percent', data);
-        const emmission_amt = this.getMean(d.key + '_ghg', data);
-        const usage_pct = this.getMean(d.key + '_pct', data);
-        const usage_amt = this.getMean(d.key, data);
+        const emmission_pct = this.getMean(d.emissions_key, data);
+        const emmission_amt = 80; //this.getMean(d.amount, data); use emissions_amount_key
+        const usage_pct = this.getMean(d.usage_key, data);
+        const usage_amt = 1; // this.getMean(d.amount, data); use usage_amount_key
 
         d.emissions = {};
         d.emissions.isValid = this.validFuel(emmission_pct, emmission_amt);
@@ -202,12 +210,12 @@ define([
         emissions: d3.format(',d')(d3.round(total_ghg_emissions, 0))
       };
 
-      console.warn('fuels chart MOCKED');
-      const fuelsMock = JSON.parse("[{\"label\":\"Gas\",\"key\":\"gas\",\"emissions\":{\"isValid\":true,\"pct_raw\":98,\"pct\":98,\"pct_actual\":0.98,\"amt\":59.03,\"cars\":\"12.6\"},\"usage\":{\"isValid\":true,\"pct_raw\":73,\"pct\":73,\"pct_actual\":0.73,\"amt\":11114}},{\"label\":\"Electric\",\"key\":\"electricity\",\"emissions\":{\"isValid\":true,\"pct_raw\":2,\"pct\":2,\"pct_actual\":0.02,\"amt\":1.12,\"cars\":\"0.2\"},\"usage\":{\"isValid\":true,\"pct_raw\":27,\"pct\":27,\"pct_actual\":0.27,\"amt\":122782}}]");
+      console.warn('fuels chart partly MOCKED (emissions.amt and usage.amt )');
+      // const fuelsMock = JSON.parse("[{\"label\":\"Gas\",\"key\":\"gas\",\"emissions\":{\"isValid\":true,\"pct_raw\":98,\"pct\":98,\"pct_actual\":0.98,\"amt\":59.03,\"cars\":\"12.6\"},\"usage\":{\"isValid\":true,\"pct_raw\":73,\"pct\":73,\"pct_actual\":0.73,\"amt\":11114}},{\"label\":\"Electric\",\"key\":\"electricity\",\"emissions\":{\"isValid\":true,\"pct_raw\":2,\"pct\":2,\"pct_actual\":0.02,\"amt\":1.12,\"cars\":\"0.2\"},\"usage\":{\"isValid\":true,\"pct_raw\":27,\"pct\":27,\"pct_actual\":0.27,\"amt\":122782}}]");
 
       return {
-        // fuels,
-        fuels: fuelsMock,
+        fuels,
+        // fuels: fuelsMock,
         totals,
         total_ghg_emissions,
         total_ghg_emissions_intensity,
