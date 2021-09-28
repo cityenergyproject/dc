@@ -330,7 +330,7 @@
             "building": {
                 "metrics": [
                     {
-                        "field": "site_eui",
+                        "field": "weather_norm_source_eui",
                         "label": "{property_name}",
                         "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
                         "range_slice_count": 18,
@@ -339,14 +339,20 @@
                         "influencer": true
                     },
                     {
-                        "field": "beps",
+                        "field": "weather_norm_source_eui_avg",
                         "label": "Building Type Average",
                         "unit": "kbtu/sf",
                         "colorize": false
                     }
 
                 ],
-                "range": 5
+                "range": 5,
+                "field_avg": {
+                    "value": "weather_norm_source_eui_avg",
+                    "columns": ["weather_norm_site_eui","year_ending"],
+                    "property_for_filtering": "primary_ptype_self",
+                    "description": "/scorecard/change_chart/building/field_avg/value and /scorecard/change_chart/building/metrics/1/field - should have the same name. This field doesnt exist in db and we need to calculate it on the fly. Try to find comment in the app. columns - will be fetched from cartodb with year specific. property_for_filtering - will be used for filtering all find results in query"
+                }
             },
             "city": {
                 "metrics": [

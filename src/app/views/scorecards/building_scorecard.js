@@ -66,6 +66,8 @@ define([
 
       var city = this.state.get('city');
       var table = city.get('table_name');
+      var subdomain = city.get('cartoDbUser');
+      var propertyId = city.get('property_id');
       var years = _.keys(city.get('years')).map(d => +d).sort((a, b) => {
         return a - b;
       });
@@ -78,8 +80,13 @@ define([
           return a + ` OR year_ending=${b}`;
         }, '');
 
+        const getUrl = ({table, id, yearWhereClause, subdomain, propertyId, columns = '*'}) => {
+          return `https://${subdomain}.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C${columns}+FROM+${table}+WHERE+${propertyId}='${id}' AND(${yearWhereClause})`;
+        }
+
         // Get building data for all years
-        d3.json(`https://dcenergybenchmarkingproject.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C*+FROM+${table}+WHERE+pid='${id}' AND(${yearWhereClause})`, payload => {
+        // d3.json(`https://dcenergybenchmarkingproject.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C*+FROM+${table}+WHERE+pid='${id}' AND(${yearWhereClause})`, payload => {
+        d3.json(getUrl({table, id, yearWhereClause, subdomain, propertyId}), payload => {
           if (!this.state.get('report_active')) return;
 
           if (!payload) {
@@ -97,7 +104,51 @@ define([
             data,
           };
 
-          this.show(buildings, data, year, years);
+          var changeChartConfig = this.state.get('city').get('scorecard').change_chart.building;
+          var columns = changeChartConfig.field_avg.columns;
+          var fieldAvgName = changeChartConfig.field_avg.value;
+          var property_for_filtering = changeChartConfig.field_avg.property_for_filtering;
+          let id;
+          for(let val of Object.values(data)) {
+            // usually val[property_for_filtering] is the same, ugly code
+            id = val[property_for_filtering]
+          }
+
+          d3.json(getUrl({
+            table,
+            id,
+            yearWhereClause,
+            subdomain,
+            propertyId: property_for_filtering,
+            columns: columns.join(',')
+          }), payload2 => {
+
+            /**
+             * because we don't have avg field for trends, needs to build it on the fly and make additional req.
+             * dc.json has next section /scorecard/change_chart/building/field_avg
+             * please check description prop and code here
+             * it's not a perfect solution but cheap and fast
+             */
+            if(payload2 !== null) {
+              var dataForTrends = {};
+              payload2.rows.forEach(d => {
+                if(dataForTrends[d.year_ending]) {
+                  dataForTrends[d.year_ending].push(d[columns[0]])
+                } else {
+                  dataForTrends[d.year_ending] = [];
+                  dataForTrends[d.year_ending].push(d[columns[0]])
+                }
+              });
+
+              for (const [key, arr] of Object.entries(dataForTrends)) {
+                if(data[key]){
+                  data[key][fieldAvgName] = arr.reduce((a,b) => a + b, 0) / arr.length
+                }
+              }
+            }
+
+            this.show(buildings, data, year, years);
+          })
         });
       }
     },
