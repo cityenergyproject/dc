@@ -63,7 +63,13 @@ define([
     selectYear: function(event){
       var year = $(event.target).val();
       this.state.set({year: year});
+
+      /**
+       * when year is changed - cleanup selected building and close popup
+       * it's need for avoid possible errors and show incorrect data
+       */
       this.state.set({selected_buildings: []});
+      this.state.trigger('clearMapPopup');
     }
   });
 
