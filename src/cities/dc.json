@@ -36,7 +36,7 @@
     },
     "categoryDefaults": [],
     "cartoDbUser": "dcenergybenchmarkingproject",
-    "table_name": "t_consolidated_2012_2020",
+    "table_name": "tbl_consolidated_2012_infinite",
     "property_id": "pid",
     "property_name": "property_name",
     "building_type": "primary_ptype_self",
@@ -252,39 +252,39 @@
     ],
     "years": {
         "2012": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2013": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2014": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2015": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2016": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2017": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2018": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2019": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2020": {
-            "table_name": "t_consolidated_2012_2020",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         }
     },
