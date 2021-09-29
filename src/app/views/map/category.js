@@ -20,7 +20,7 @@ define([
 
       var fieldName = this.layer.field_name;
       var orderedValues = this.state.get("categoryFilters").get(fieldName)
-        .map(function(item) {return item.get("value")})
+        .map(function(item) {return item.get("value") || ''})
         .sort(function(a, b) {
           if (this.layer.sort_by_key){
             if(a===b) return 0;
@@ -43,7 +43,7 @@ define([
       var fieldName = this.layer.field_name,
         counts = this.allBuildings.countBy(fieldName),
         fieldKeys = this.state.get("categoryFilters").get(fieldName)
-          .map(function(item) {return item.get("value")}),
+          .map(function(item) {return item.get("value") || ''}),
         defaultCategoryState = {field: fieldName, values: [fieldKeys], other: true},
         categoryState = _.findWhere(this.state.get('categories'), {field: fieldName}) || defaultCategoryState,
         onloadDisplayValues = !this.layer.onload_display_values ?
