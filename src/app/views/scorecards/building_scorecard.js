@@ -398,26 +398,23 @@ define([
         per_sqft = this.formatters.currency(per_sqft);
       }
 
-      console.warn('cost_annual MOCKED - now used estimated_annual_cost_total, needs to check')
-      var annual = building.estimated_annual_cost_total;
+      var annual = building.estimated_annual_cost_total; // cost_annual MOCKED - now used estimated_annual_cost_total, needs to check
       if (annual === null) {
         annual = '0';
       } else {
         annual = this.formatters.currency_zero(annual);
       }
 
-      console.warn('percent_save MOCKED')
-      var save_pct = null;
-      // var save_pct = building.percent_save;
+      var save_pct = null; // percent_save MOCKED
+      // var save_pct = building.percent_save; // we don't have this field in dc
       if (save_pct === null) {
         save_pct = '0';
       } else {
         save_pct = this.formatters.percent(save_pct);
       }
 
-      console.warn('amount_save - MOCKED')
-      // var savings = building.amount_save;
-      var savings = null;
+      // var savings = building.amount_save; // we don't have this field in dc
+      var savings = null; // amount_save - MOCKED
       if (savings === null) {
         savings = '0';
       } else {
@@ -569,14 +566,15 @@ define([
         if (f) selectedIndex = i;
       });
 
-      console.warn('building_type_eui MOCKED - avg 74.999999')
-      var avg = (view === 'eui') ?
-          74.999999 : // MOCK!!!
-          d3.mean(buildingsOfType, function(d) { return d[compareField]; });
+      /**
+       * eui chart is not necessary in dc, so avg is commented and used standard calculation
+       */
 
       // var avg = (view === 'eui') ?
       //   building.building_type_eui :
       //   d3.mean(buildingsOfType, function(d) { return d[compareField]; });
+      var avg = d3.mean(buildingsOfType, function(d) { return d[compareField]; });
+
 
       if (view !== 'eui') {
         avg = Math.round(avg);
@@ -616,7 +614,6 @@ define([
 
       if (!this.validNumber(avg)) avg = null;
 
-      console.warn('mean - MOCKED if null');
       return {
         selectedIndex: selectedIndex,
         avgIndex: avgIndex,
@@ -626,8 +623,7 @@ define([
         compareField: compareField,
         avgColor,
         selectedColor,
-        // mean: avg
-        mean: avg || 75
+        mean: avg
       };
     },
 
