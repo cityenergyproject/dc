@@ -1,5 +1,5 @@
 <div class='scorecard--details row'>
-  <div class='col-4'>
+  <div class='col-4 m-col-12'>
       <div>
         <div class='sc-address'>
           <div class='sc-txt white small light sc-addr'><%= addr1 %></div>
@@ -14,7 +14,7 @@
         <% } %>
       </div>
   </div>
-  <div class='col-4 middle'>
+  <div class='col-4 m-col-12 middle'>
     <div class='circle-bk'>
       <h4 class='sc-heading'><%= year %> EUI</h4>
       <% if (value !== null) { %>
@@ -25,7 +25,7 @@
       <p class='sc-heading orange small' style="color:<%= valueColor %>;">kBtu/ft²</p>
     </div>
   </div>
-  <div class='col-4 details-box-wrapper'>
+  <div class='col-4 m-col-12 details-box-wrapper'>
     <div class='details-box'>
       <h4 class='sc-heading white'>Annual Cost of Energy</h4>
       <div class='details-numbers'>
@@ -84,7 +84,7 @@
       </div>
 
       <div class='row'>
-        <div class='col-4 compare-desc'>
+        <div class='col-4 m-col-12 compare-desc'>
           <% if(compareEss.isValid) { %>
             <p class='compare-logo <%= compareEss.change_label %> ess'><span><%= compareEss.change_pct %></span></p>
             <p class="sc-txt light pg">This building’s ENERGY STAR Score is <span class='change-txt bold <%= compareEss.change_label %> ess'><%= compareEss.change_pct %> points <%= compareEss.change_label %></span> than the average <%= type %> in DC.</p>
@@ -94,7 +94,7 @@
             </p>
           <% } %>
         </div>
-        <div class='col-8 ess-compare-chart compare-chart'></div>
+        <div class='col-8 m-col-12 ess-compare-chart compare-chart'></div>
       </div>
     </div>
 
