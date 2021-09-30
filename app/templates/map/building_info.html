@@ -1,17 +1,71 @@
 <div class="building-info">
-  <ul>
-    <%_.each(labels, function (label) {%>
-      <% if ( !label.default_hidden ) {%>
-        <li><%= label.label %> <strong><%= label.value %></strong></li>
+  <ul class="building-popup-info">
+    <%_.each(data.items, function (item) {%>
+      <% if ( item.template ) {%>
+        <li class="<%= item.klass %>"><%= item.template %> </li>
+      <%} else {%>
+        <li class="<%= item.klass %> building-popup-info--grid">
+          <div class="building-popup-info--label"><%= item.label %></div>
+          <div><strong><%= item.value %></strong></div>
+        </li>
       <%}%>
     <%})%>
-    <span class="show-more-container hide">
-    <%_.each(labels, function (label) {%>
-      <% if ( label.default_hidden ) {%>
-        <li><%= label.label %> <strong><%= label.value %></strong></li>
-      <%}%>
-    <%})%>
-    </span>
   </ul>
-  <a class="show-hide-attrs" style="cursor:pointer;">more details...</a>
+
+  <% if ( data.chart ) {%>
+  <div class="building-popup-chart">
+    <h3><%= data.chart.year %> Data</h3>
+    <div class="inner">
+      <table>
+        <tr class="lead">
+          <% if (data.chart.lead.nodata) { %>
+            <td colspan='2' class='nodata'>
+              We don't have an EUI for this building for this year.
+            </td>
+          <% } else { %>
+            <td style="color: <%= data.chart.lead.color %>;"><%= data.chart.lead.value %></td>
+            <td><%= data.chart.lead.label %></td>
+          <% } %>
+        </tr>
+
+        <% if (data.chart.barchart.nodata) { %>
+        <tr class="barchart">
+          <td colspan='2' class='nodata'>
+            We don't have an ENERGY STAR score for this building for this year.
+          </td>
+        </tr>
+        <% } else { %>
+          <tr class="barchart">
+            <td style="color: <%= data.chart.barchart.color %>"><%= data.chart.barchart.value %></td>
+            <td>
+              <div class="bar">
+                <div class="fill" style="width: <%= data.chart.barchart.value %>%;"></div>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="barchart--labels">
+            <td><%= data.chart.barchart.desc %></td>
+            <td>
+                <div class="min">
+                  <span><%= data.chart.barchart.min.value %></span>
+                  <span><%= data.chart.barchart.min.label %></span>
+                </div>
+                <div class="max">
+                  <span><%= data.chart.barchart.max.value %></span>
+                  <span><%= data.chart.barchart.max.label %></span>
+                </div>
+            </td>
+          </tr>
+        <% } %>
+
+      </table>
+    </div>
+  </div>
+
+  <%}%>
+
+  <button id="view-report">View Building Scorecard</button>
+  <button id="compare-building" <%= compare_disabled %>>Compare Building</button>
+
 </div>

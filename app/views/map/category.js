@@ -18,19 +18,17 @@ define([
 
       this.listenTo(this.state, 'close_category_panels', this.closePanel);
 
-      var fieldName = this.layer.field_name,
-          counts = this.allBuildings.countBy(fieldName);
-
-      var orderedValues = Object.keys(counts)
+      var fieldName = this.layer.field_name;
+      var orderedValues = this.state.get("categoryFilters").get(fieldName)
+        .map(function(item) {return item.get("value") || ''})
         .sort(function(a, b) {
           if (this.layer.sort_by_key){
             if(a===b) return 0;
             return (a<b) ? -1 : 1;
           }
-          // default is to sort by max count value asc
-          return counts[a] - counts[b];
-        }.bind(this));
 
+          return 0;
+        }.bind(this));
       this.values = orderedValues.slice(0, this.layer.hide_other_category ? orderedValues.length++ : 9 );
       if(!this.layer.hide_other_category) this.values.concat([OTHER_LABEL]);
       this.otherValues = this.layer.hide_other_category ? [] : orderedValues.slice(9);
@@ -43,20 +41,23 @@ define([
 
     render: function(){
       var fieldName = this.layer.field_name,
-          counts = this.allBuildings.countBy(fieldName),
-          fieldKeys = _.keys(counts),
-          onloadDisplayValues = !this.layer.onload_display_values ?
-                fieldKeys.reduce(function(accum,current){
-                  accum[current] = true;
-                  return accum;
-                },{}) :
-                this.layer.onload_display_values.split(',').reduce(function(accum,current){
-                  accum[current] = true;
-                  return accum;
-                },{}),
-          defaultCategoryState = {field: fieldName, values: [fieldKeys], other: true},
-          categoryState = _.findWhere(this.state.get('categories'), {field: fieldName}) || defaultCategoryState,
-          template = _.template(MapCategoryControlTemplate);
+        counts = this.allBuildings.countBy(fieldName),
+        fieldKeys = this.state.get("categoryFilters").get(fieldName)
+          .map(function(item) {return item.get("value") || ''}),
+        defaultCategoryState = {field: fieldName, values: [fieldKeys], other: true},
+        categoryState = _.findWhere(this.state.get('categories'), {field: fieldName}) || defaultCategoryState,
+        onloadDisplayValues = !this.layer.onload_display_values ?
+          fieldKeys.reduce(function(accum,current){
+            accum[current] = !categoryState.values.find(function(item){ 
+              return item === current;
+            });
+            return accum;
+          },{}) :
+          this.layer.onload_display_values.split(',').reduce(function(accum,current){
+            accum[current] = true;
+            return accum;
+          },{}),
+        template = _.template(MapCategoryControlTemplate);
 
       if (fieldKeys[0] == "undefined") { return this; }
 
@@ -64,7 +65,7 @@ define([
         .map(function(name) {
           var stateHasValue = _.contains(categoryState.values, name),
               stateIsInverted = (categoryState.other === true || categoryState.other === 'true'),
-              checked = stateIsInverted ? name in onloadDisplayValues : stateHasValue;
+              checked = stateIsInverted ? onloadDisplayValues[name] : stateHasValue;
 
           return {
             checked: checked ? 'checked="checked"' : '',
@@ -137,8 +138,10 @@ define([
         }
 
         categories.push({field: fieldName, values: checkedValues, other: false});
+      } else {
+        // the case when all options are unchecked
+          categories.push({field: fieldName, values: unchecked.toArray(), other: true});
       }
-
       this.state.set({categories: categories});
     },
 

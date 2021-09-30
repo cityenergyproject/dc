@@ -1,13 +1,26 @@
-<div class="control-head">
-  <h3 class='show-layer'><%= title %></h3>
-  <% if (description) { %>
-    <span class='more-info'><span class='more'>More Info</span><span class='less'>Less Info</span></span>
-  <% } %>
+
+<div class='control-cell left'>
+  <div class='control-cell--inner <%= containerKlass %>'>
+    <div class="control-head">
+      <h3 class='show-layer'><%= title %></h3>
+      <% if (description) { %>
+      <span class='more-info'><span class='more'>More Info</span><span class='less'>Less Info</span></span>
+      <% } %>
+    </div>
+
+    <div class="chart"></div>
+    <p class="no-threshold-proptype">Building EUI Quartiles cannot be calculated across building types. Select a building type above to view this metric.</p>
+    <div class="quartiles"></div>
+    <div class="filter-wrapper"></div>
+    <div class="proptype-median-wrapper"></div>
+
+    <% if (description) { %>
+    <p class='description'><%= description %></p>
+    <% } %>
+  </div>
 </div>
-
-<div class="chart"></div>
-<div class='filter-wrapper'></div>
-
-<% if (description) { %>
-  <p class='description'><%= description %></p>
-<% } %>
+<div class='control-cell right'>
+  <div class='control-cell--inner'>
+    <table class='building-details'></table>
+  </div>
+</div>
