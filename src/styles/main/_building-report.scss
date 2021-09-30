@@ -1,10 +1,3 @@
-#buildings {
-  display: none;
-  @include media($medium-screen-up) {
-    display: block;
-  }
-}
-
 .building-report {
   margin: 0;
 

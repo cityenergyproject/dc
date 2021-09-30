@@ -32,7 +32,7 @@ $footer-padding: 0.8em;
 
   a {
     display: inline-block;
-    color: #248C43;
+    color: $orange;
     text-decoration: none;
     vertical-align: middle;
   }
@@ -42,38 +42,10 @@ $footer-padding: 0.8em;
     padding: 0 5px;
   }
 
-  .logo-doee-sm {
-    float: left;
-    position: relative;
-    z-index: 2;
-
-    svg {
-      height: $footer-height-sm - ($footer-padding * 2);
-      user-select: none;
-    }
-  }
-
   .links {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-  }
-
-  @include media($medium-screen-up) {
-    .logo-doee-sm { display: none; }
-
-  }
-}
-
-#footer.nav-up {
-  bottom: 0;
-
-  @include media($medium-screen-up) {
-    bottom: -$footer-height-md;
-  }
-
-  @include media($xlarge-screen-up) {
-    bottom: -$footer-height-lg;
   }
 }
 
@@ -88,19 +60,3 @@ $footer-padding: 0.8em;
     height: $footer-height-lg !important;
   }
 }
-
-// TODO: Come up with a better solution
-#buildings {
-  margin-bottom: $footer-height-sm;
-
-  @include media($medium-screen-up) {
-    margin-bottom: $footer-height-md;
-  }
-
-  @include media($xlarge-screen-up) {
-    margin-bottom: $footer-height-lg;
-  }
-}
-
-
-// 56

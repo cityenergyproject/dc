@@ -1,0 +1,30 @@
+#map-controls-counts {
+  position: absolute;
+  left: 0;
+  top: calc(100% - 1em);
+  width: 100%;
+  height: $metric-footer-height;
+  background: $base-background-color;
+  text-align: center;
+  z-index: 1;
+
+  @include media($xslarge-screen-up) {
+    width: $large-nav-col-fixed-width;
+    top: calc(100% - 2em);
+  }
+
+  p {
+    position: relative;
+    top: 50%;
+    margin: 0;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    transform: translateY(-50%);
+  }
+
+  .showing {
+    font-size: 1.4em;
+    font-weight: 500;
+  }
+}

@@ -36,6 +36,7 @@ CREATE TABLE ${TABLENAME}(
     parent_property_name VARCHAR (255),
     year_ending VARCHAR (255),
     report_status VARCHAR (255),
+    meets_beps VARCHAR (255),
     address_of_record VARCHAR (255),
     owner_of_record VARCHAR (255),
     ward VARCHAR (255),

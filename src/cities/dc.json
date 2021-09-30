@@ -34,32 +34,43 @@
         "zoom": 12,
         "scrollWheelZoom": true
     },
-    "categoryDefaults": [{"field":"report_status","values":["In Compliance"],"other":false}],
+    "categoryDefaults": [],
     "cartoDbUser": "dcenergybenchmarkingproject",
+    "table_name": "tbl_consolidated_2012_infinite",
     "property_id": "pid",
     "property_name": "property_name",
-    "building_type": "primary_ptype_epa",
+    "building_type": "primary_ptype_self",
     "popup_fields": [
-        {"field": "property_name", "label": "Property Name: "},
-        {"field": "owner_of_record", "label": "Owner of Record: "},
-        {"field": "reported_address", "label": "Reported Address: "},
-        {"field": "report_status", "label": "Report Status: "},
-        {"field": "primary_ptype_epa", "label": "Property Type: "},
-        {"field": "reported_gross_floor_area", "label": "Property Size (ft²): "},
-        {"field": "year_built", "label": "Year Built: ", "skipFormatter": true},
-        {"field": "energy_star_score", "label": "ENERGY STAR Score: "},
-        {"field": "site_eui", "label": "Site Energy Use Intensity (kBTU/ft²): "},
-        {"field": "weather_norm_source_eui", "label": "Weather Normalized Source EUI (kBtu/ft²): "},
-        {"field": "water_use", "label": "Water Use (kgal): "},
-        {"field": "total_ghg_emissions", "label": "Total GHG Emissions (Metric Tons CO₂e): ", "start_hidden": true },
-        {"field": "total_ghg_emissions_intensity", "label": "Total GHG Emissions Intensity (kgCO2e/ft²): "},
-        {"field": "electricity_use", "label": "Electricity Use (kWh): ", "isNumber": true},
-        {"field": "natural_gas_use", "label": "Natural Gas Use (therms): "},
-        {"field": "district_water_use", "label": "District Water-Based Energy Use (kBtu): "},
-        {"field": "fuel_use", "label": "Diesel and Fuel Oil Use (kBtu): "},
-        {"field": "dc_real_pid", "label": "DC Real Property ID: "},
-        {"field": "ward", "label": "Ward: "}
+        {"field": "property_name", "label": "Property Name:"},
+        {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
+        {"field": "dc_real_pid", "label": "SSL:"},
+        {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
+        {"field": "ubid", "label": "Unique building Identifier:"},
+        {"field": "pid", "label": "Identifier:"},
+        {"field": "primary_ptype_self", "label": "Property Type:"},
+        {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
+        {"field": "year_built", "label": "Year Built: ", "skipFormatter": true}
     ],
+    "popup_chart": {
+        "lead": {
+            "field": "site_eui",
+            "label": "Site EUI (kBTU/ft²)",
+            "nodata": "Site EUI data not available."
+        },
+        "barchart": {
+            "field": "energy_star_score",
+            "desc": "ENERGY<br/>STAR Score",
+            "nodata": "ENERGY STAR Score data not available.",
+            "min": {
+                "value": 0,
+                "label": "least efficient"
+            },
+            "max": {
+                "value": 100,
+                "label": "most efficient"
+            }
+        }
+    },
     "map_layers": [
         {
             "title": "Ward",
@@ -72,7 +83,7 @@
         },
         {
             "title": "Property Type",
-            "field_name": "primary_ptype_epa",
+            "field_name": "primary_ptype_self",
             "display_type": "category",
             "sort_by_key": true,
             "hide_other_category": true,
@@ -83,7 +94,16 @@
             "title": "Report Status",
             "field_name": "report_status",
             "display_type": "category",
-            "onload_display_values": "In Compliance",
+            "hide_other_category": true,
+            "section": "Property Information",
+            "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
+        },
+        {
+            "title": "Meets BEPS",
+            "field_name": "meets_beps",
+            "display_type": "category",
+            "sort_by_key": true,
+            "hide_other_category": true,
             "section": "Property Information",
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
@@ -111,7 +131,7 @@
         },
         {
             "title": "Electricity Use",
-            "field_name": "electricity_use",
+            "field_name": "electricity_grid_use",
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
@@ -145,7 +165,7 @@
         },
         {
             "title": "Water-Based Energy Use",
-            "field_name": "district_water_use",
+            "field_name": "district_energy_use",
             "display_type": "range",
             "range_slice_count": 18,
             "section": "Energy Use",
@@ -216,32 +236,628 @@
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "unit": "Metric Tons CO₂e/ft²",
             "description": "The  total Greenhouse Gas (GHG) Emissions, divided by the floor area of the building, in kilograms of carbon dioxide equivalent (CO2e) per square foot."
+        },
+        {
+            "title": "Estimated distance from BEPS",
+            "field_name": "distance_from_beps_estimated",
+            "display_type": "range",
+            "range_slice_count": 18,
+            "section": "Estimated distance from BEPS",
+            "filter_range": {"max": 0},
+            "color_range": ["#dd020a", "#43883d"],
+            "filter_step": 0.001,
+            "unit": "%",
+            "description": "The building&#39;s distance from the BEPS estimated by DOEE measured in % Source EUI."
         }
     ],
     "years": {
         "2012": {
-            "table_name": "t2012",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2013": {
-            "table_name": "t2013",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2014": {
-            "table_name": "t2014",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2015": {
-            "table_name": "t2015",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2016": {
-            "table_name": "t2016",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
         },
         "2017": {
-            "table_name": "t2017",
+            "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
+        },
+        "2018": {
+            "table_name": "tbl_consolidated_2012_infinite",
+            "default_layer": "energy_star_score"
+        },
+        "2019": {
+            "table_name": "tbl_consolidated_2012_infinite",
+            "default_layer": "energy_star_score"
+        },
+        "2020": {
+            "table_name": "tbl_consolidated_2012_infinite",
+            "default_layer": "energy_star_score"
+        }
+    },
+    "building_footprints": {
+        "allowable": true,
+        "atZoom": 15,
+        "property_id": "ssl",
+        "alt_name_property_id": "dc_real_pid",
+        "table_name": "unique_building_identifier"
+    },
+    "scorecard": {
+        "citywide": {
+            "table": "citywide_scorecard_data"
+        },
+        "links_table": "links",
+        "certified_field": "ess_cert",
+        "labels": {
+            "eui": {
+                "long": "Energy use Intensity (EUI)",
+                "short": "EUI"
+            },
+            "ess": {
+                "long": "ENERGY STAR Score",
+                "short": "ENERGY STAR"
+            }
+        },
+        "compare_chart": {
+            "y_label": "Number of buildings",
+            "x_label": {
+                "eui": "Energy use Intensity (EUI)",
+                "ess": "ENERGY STAR Score"
+            },
+            "highlight_metric": {
+                "eui": "kBtu/ft²",
+                "ess": "ENERGY STAR"
+            },
+            "nodata": {
+                "eui": "EUI data not available",
+                "ess": "ENERGY STAR Score data not available"
+            }
+        },
+        "change_chart": {
+            "building": {
+                "metrics": [
+                    {
+                        "field": "weather_norm_site_eui",
+                        "label": "{property_name}",
+                        "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
+                        "range_slice_count": 18,
+                        "unit": "kbtu/sf",
+                        "colorize": true,
+                        "influencer": true
+                    },
+                    {
+                        "field": "weather_norm_site_eui_avg",
+                        "label": "Building Type Average",
+                        "unit": "kbtu/sf",
+                        "colorize": false
+                    }
+
+                ],
+                "range": 5,
+                "field_avg": {
+                    "value": "weather_norm_site_eui_avg",
+                    "columns": ["weather_norm_site_eui","year_ending"],
+                    "property_for_filtering": "primary_ptype_self",
+                    "description": "/scorecard/change_chart/building/field_avg/value and /scorecard/change_chart/building/metrics/1/field - should have the same name. This field doesnt exist in db and we need to calculate it on the fly. Try to find comment in the app. columns - will be fetched from cartodb with year specific. property_for_filtering - will be used for filtering all find results in query"
+                }
+            },
+            "city": {
+                "metrics": [
+                    {
+                        "field": "total_consump_wn",
+                        "label": "Usage",
+                        "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
+                        "range_slice_count": 18,
+                        "unit": "kbtu",
+                        "colorize": true,
+                        "influencer": true
+                    },
+                    {
+                        "field": "total_emissions",
+                        "label": "Emissions",
+                        "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
+                        "range_slice_count": 18,
+                        "unit": "mt",
+                        "colorize": true,
+                        "influencer": false
+                    }
+
+                ]
+            }
+        },
+        "thresholds": {
+            "energy_star": [
+                {
+                    "label": "Poor",
+                    "range": [1, 50],
+                    "steps": 9,
+                    "color": "#C04F31"
+                },
+                {
+                    "label": "Fair",
+                    "range": [51, 75],
+                    "steps": 4,
+                    "color": "#F7C34D"
+                },
+                {
+                    "label": "Good",
+                    "range": [76, 90],
+                    "steps": 2,
+                    "color": "#90AE60"
+                },
+                {
+                    "label": "Excellent",
+                    "range": [91, 100],
+                    "steps": 1,
+                    "color": "#1F5DBE"
+                }
+            ],
+            "eui_schema": [
+                {
+                    "label": "Lowest",
+                    "steps": 1,
+                    "color": "#1F5DBE"
+                },
+                {
+                    "label": "Medium Low",
+                    "steps": 1,
+                    "color": "#90AE60"
+                },
+                {
+                    "label": "Medium High",
+                    "steps": 1,
+                    "color": "#F7C34D"
+                },
+                {
+                    "label": "Highest",
+                    "steps": 15,
+                    "color": "#C04F31"
+                }
+            ],
+            "eui": {
+                "Distribution Center": {
+                    "2013": [18.8,27.2,40.7],
+                    "2014": [18.8,27.2,40.7],
+                    "2015": [18.8,27.2,40.7],
+                    "2016": [18.7,30.7,43.9],
+                    "2017": [18.7,30.7,43.9],
+                    "2018": [18.7,30.7,43.9],
+                    "2019": [18.7,30.7,43.9],
+                    "2020": [18.7,30.7,43.9]
+
+                },
+                "Multifamily": {
+                    "2013": [37.0,47.3,56.4],
+                    "2014": [37.0,47.3,56.4],
+                    "2015": [37.0,47.3,56.4],
+                    "2016": [38.4,46.9,57.3],
+                    "2017": [38.4,46.9,57.3],
+                    "2018": [38.4,46.9,57.3],
+                    "2019": [38.4,46.9,57.3],
+                    "2020": [38.4,46.9,57.3]
+
+                },
+                "Hospital (General Medical & Surgical)": {
+                    "2013": [196.6,209.7,218.3],
+                    "2014": [196.6,209.7,218.3],
+                    "2015": [196.6,209.7,218.3],
+                    "2016": [182.9,210.9,235.0],
+                    "2017": [182.9,210.9,235.0],
+                    "2018": [182.9,210.9,235.0],
+                    "2019": [182.9,210.9,235.0],
+                    "2020": [182.9,210.9,235.0]
+
+                },
+                "Police Station": {
+                    "2013": [196.6,209.7,218.3],
+                    "2014": [196.6,209.7,218.3],
+                    "2015": [196.6,209.7,218.3],
+                    "2016": [182.9,210.9,235.0],
+                    "2017": [182.9,210.9,235.0],
+                    "2018": [182.9,210.9,235.0],
+                    "2019": [182.9,210.9,235.0],
+                    "2020": [182.9,210.9,235.0]
+
+                },
+                "Fire Station": {
+                    "2013": [196.6,209.7,218.3],
+                    "2014": [196.6,209.7,218.3],
+                    "2015": [196.6,209.7,218.3],
+                    "2016": [182.9,210.9,235.0],
+                    "2017": [182.9,210.9,235.0],
+                    "2018": [182.9,210.9,235.0],
+                    "2019": [182.9,210.9,235.0],
+                    "2020": [182.9,210.9,235.0]
+
+                },
+                "Hotel": {
+                    "2013": [60.3,77.2,96.0],
+                    "2014": [60.3,77.2,96.0],
+                    "2015": [60.3,77.2,96.0],
+                    "2016": [59.1,80.5,96.2],
+                    "2017": [59.1,80.5,96.2],
+                    "2018": [59.1,80.5,96.2],
+                    "2019": [59.1,80.5,96.2],
+                    "2020": [59.1,80.5,96.2]
+
+                },
+                "K-12 School": {
+                    "2013": [31.3,36.4,48.9],
+                    "2014": [31.3,36.4,48.9],
+                    "2015": [31.3,36.4,48.9],
+                    "2016": [31.7,38.5,47.8],
+                    "2017": [31.7,38.5,47.8],
+                    "2018": [31.7,38.5,47.8],
+                    "2019": [31.7,38.5,47.8],
+                    "2020": [31.7,38.5,47.8]
+
+                },
+                "Laboratory": {
+                    "2013": [247.4,247.4,247.4],
+                    "2014": [247.4,247.4,247.4],
+                    "2015": [247.4,247.4,247.4],
+                    "2016": [212.1,238.7,334.9],
+                    "2017": [212.1,238.7,334.9],
+                    "2018": [212.1,238.7,334.9],
+                    "2019": [212.1,238.7,334.9],
+                    "2020": [212.1,238.7,334.9]
+
+                },
+                "Office": {
+                    "2013": [47.1,55.5,71.1],
+                    "2014": [47.1,55.5,71.1],
+                    "2015": [47.1,55.5,71.1],
+                    "2016": [46.1,53.6,71.9],
+                    "2017": [46.1,53.6,71.9],
+                    "2018": [46.1,53.6,71.9],
+                    "2019": [46.1,53.6,71.9],
+                    "2020": [46.1,53.6,71.9]
+
+                },
+                "Low-Rise Multifamily": {
+                    "2013": [24.8,29.1,36.0],
+                    "2014": [24.8,29.1,36.0],
+                    "2015": [24.8,29.1,36.0],
+                    "2016": [25.2,29.8,37.8],
+                    "2017": [25.2,29.8,37.8],
+                    "2018": [25.2,29.8,37.8],
+                    "2019": [25.2,29.8,37.8],
+                    "2020": [25.2,29.8,37.8]
+
+                },
+                "Other/Specialty Hospital": {
+                    "2013": [64.1,79.6,105.4],
+                    "2014": [64.1,79.6,105.4],
+                    "2015": [64.1,79.6,105.4],
+                    "2016": [69.5,78.9,102.4],
+                    "2017": [69.5,78.9,102.4],
+                    "2018": [69.5,78.9,102.4],
+                    "2019": [69.5,78.9,102.4],
+                    "2020": [69.5,78.9,102.4]
+
+                },
+                "Multifamily Housing": {
+                    "2013": [27.3,33.0,42.3],
+                    "2014": [27.3,33.0,42.3],
+                    "2015": [27.3,33.0,42.3],
+                    "2016": [27.8,34.0,44.0],
+                    "2017": [27.8,34.0,44.0],
+                    "2018": [27.8,34.0,44.0],
+                    "2019": [27.8,34.0,44.0],
+                    "2020": [27.8,34.0,44.0]
+
+                },
+                "Mixed Use Property": {
+                    "2013": [38.4,57.4,94.3],
+                    "2014": [38.4,57.4,94.3],
+                    "2015": [38.4,57.4,94.3],
+                    "2016": [39.1,56.6,98.0],
+                    "2017": [39.1,56.6,98.0],
+                    "2018": [39.1,56.6,98.0],
+                    "2019": [39.1,56.6,98.0],
+                    "2020": [39.1,56.6,98.0]
+
+                },
+                "Other": {
+                    "2013": [42.5,77.8,124.7],
+                    "2014": [42.5,77.8,124.7],
+                    "2015": [42.5,77.8,124.7],
+                    "2016": [47.1,78.3,125.3],
+                    "2017": [47.1,78.3,125.3],
+                    "2018": [47.1,78.3,125.3],
+                    "2019": [47.1,78.3,125.3],
+                    "2020": [47.1,78.3,125.3]
+
+                },
+                "Refrigerated Warehouse": {
+                    "2013": [28.9,47.9,90.2],
+                    "2014": [28.9,47.9,90.2],
+                    "2015": [28.9,47.9,90.2],
+                    "2016": [33.7,49.8,107.7],
+                    "2017": [33.7,49.8,107.7],
+                    "2018": [33.7,49.8,107.7],
+                    "2019": [33.7,49.8,107.7],
+                    "2020": [33.7,49.8,107.7]
+
+                },
+                "Non-Refrigerated Warehouse": {
+                    "2013": [28.9,47.9,90.2],
+                    "2014": [28.9,47.9,90.2],
+                    "2015": [28.9,47.9,90.2],
+                    "2016": [33.7,49.8,107.7],
+                    "2017": [33.7,49.8,107.7],
+                    "2018": [33.7,49.8,107.7],
+                    "2019": [33.7,49.8,107.7],
+                    "2020": [33.7,49.8,107.7]
+
+                },
+                "Residence Hall/Dormitory": {
+                    "2013": [31.0,54.9,76.9],
+                    "2014": [31.0,54.9,76.9],
+                    "2015": [31.0,54.9,76.9],
+                    "2016": [31.5,54.8,73.3],
+                    "2017": [31.5,54.8,73.3],
+                    "2018": [31.5,54.8,73.3],
+                    "2019": [31.5,54.8,73.3],
+                    "2020": [31.5,54.8,73.3]
+
+                },
+                "Restaurant": {
+                    "2013": [91.2,150.7,203.3],
+                    "2014": [91.2,150.7,203.3],
+                    "2015": [91.2,150.7,203.3],
+                    "2016": [134.9,159.0,245.7],
+                    "2017": [134.9,159.0,245.7],
+                    "2018": [134.9,159.0,245.7],
+                    "2019": [134.9,159.0,245.7],
+                    "2020": [134.9,159.0,245.7]
+
+                },
+                "Retail Store": {
+                    "2013": [37.5,55.4,80.1],
+                    "2014": [37.5,55.4,80.1],
+                    "2015": [37.5,55.4,80.1],
+                    "2016": [36.2,56.3,81.3],
+                    "2017": [36.2,56.3,81.3],
+                    "2018": [36.2,56.3,81.3],
+                    "2019": [36.2,56.3,81.3],
+                    "2020": [36.2,56.3,81.3]
+
+                },
+                "Self-Storage Facility": {
+                    "2013": [9.1,14.3,29.4],
+                    "2014": [9.1,14.3,29.4],
+                    "2015": [9.1,14.3,29.4],
+                    "2016": [13.6,17.3,28.5],
+                    "2017": [13.6,17.3,28.5],
+                    "2018": [13.6,17.3,28.5],
+                    "2019": [13.6,17.3,28.5],
+                    "2020": [13.6,17.3,28.5]
+
+                },
+                "Senior Care Community": {
+                    "2013": [48.1,70.4,104.8],
+                    "2014": [48.1,70.4,104.8],
+                    "2015": [48.1,70.4,104.8],
+                    "2016": [46.3,68.5,98.3],
+                    "2017": [46.3,68.5,98.3],
+                    "2018": [46.3,68.5,98.3],
+                    "2019": [46.3,68.5,98.3],
+                    "2020": [46.3,68.5,98.3]
+
+                },
+                "Small- and Mid-Sized Office": {
+                    "2013": [39.4,53.1,69.1],
+                    "2014": [39.4,53.1,69.1],
+                    "2015": [39.4,53.1,69.1],
+                    "2016": [38.4,51.5,68.3],
+                    "2017": [38.4,51.5,68.3],
+                    "2018": [38.4,51.5,68.3],
+                    "2019": [38.4,51.5,68.3],
+                    "2020": [38.4,51.5,68.3]
+
+                },
+                "Supermarket/Grocery Store": {
+                    "2013": [214.6,264.9,297.1],
+                    "2014": [214.6,264.9,297.1],
+                    "2015": [214.6,264.9,297.1],
+                    "2016": [184.6,248.8,295.0],
+                    "2017": [184.6,248.8,295.0],
+                    "2018": [184.6,248.8,295.0],
+                    "2019": [184.6,248.8,295.0],
+                    "2020": [184.6,248.8,295.0]
+
+                },
+                "College/University": {
+                    "2013": [44.0,77.5,150.8],
+                    "2014": [44.0,77.5,150.8],
+                    "2015": [44.0,77.5,150.8],
+                    "2016": [46.2,68.6,90.7],
+                    "2017": [46.2,68.6,90.7],
+                    "2018": [46.2,68.6,90.7],
+                    "2019": [46.2,68.6,90.7],
+                    "2020": [46.2,68.6,90.7]
+
+                },
+                "Other - Public Services": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Other - Entertainment/Public Assembly": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Other - Mall": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Other - Lodging/Residential": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Other - Education": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Other - Recreation": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Social/Meeting Hall": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Fitness Center/Health Club/Gym": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Data Center": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Museum": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Adult Education": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Strip Mall": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Performing Arts": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "": {
+                    "2013": [13.2,24.7,43.2],
+                    "2014": [13.2,24.7,43.2],
+                    "2015": [13.2,24.7,43.2],
+                    "2016": [16.2,28.9,49.2],
+                    "2017": [16.2,28.9,49.2],
+                    "2018": [16.2,28.9,49.2],
+                    "2019": [16.2,28.9,49.2],
+                    "2020": [16.2,28.9,49.2]
+
+                },
+                "Worship Facility": {
+                    "2013": [20.9,29.9,39.5],
+                    "2014": [20.9,29.9,39.5],
+                    "2015": [20.9,29.9,39.5],
+                    "2016": [23.7,32.1,40.4],
+                    "2017": [23.7,32.1,40.4],
+                    "2018": [23.7,32.1,40.4],
+                    "2019": [23.7,32.1,40.4],
+                    "2020": [23.7,32.1,40.4]
+
+                }
+            }
         }
     },
     "modals": {

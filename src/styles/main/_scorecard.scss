@@ -1,0 +1,1094 @@
+@import '../base/_basic_grid';
+
+$sc-blue: #0047BA;
+$sc-green: #90AE60;
+$sc-orange: #DE8F41;
+$sc-red: #C04F31;
+$sc-yellow: #F7C34D;
+$sc-white: #fff;
+$sc-offwhite: #f1f1f1;
+
+$sc-weight-lt: 300;
+$sc-weight: 400;
+$sc-weight-bd: 500;
+
+$sc-font-micro: 0.5rem;
+$sc-font-tiny: 0.75rem;
+$sc-font-sm: 0.75rem;
+$sc-font-std: 1rem;
+$sc-font-lg: 1.5rem;
+$sc-font-lgr: 4rem;
+
+// Energy source colors
+$gas-color: #C24E2B;
+$electric-color: #0048ba;
+$steam-color: #f7c34e;
+
+#scorecard {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: $sc-white;
+  overflow: auto;
+  z-index: $zIndexMax;
+
+  &.active {
+    display: block;
+  }
+
+  .scorecard-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  #back-to-map-link {
+    background: $sc-red;
+    color: white;
+    display: inline-block;
+    font-weight: 500;
+    padding: 10px;
+    text-transform: uppercase;
+  }
+
+  #scorecard-content {
+    position: relative;
+    width: 100%;
+  }
+
+  .sc-heading {
+    margin: 0;
+    padding: 0;
+    font-size: $sc-font-std;
+    font-weight: $sc-weight-bd;
+    color: $orange;
+    text-transform: uppercase;
+    line-height: 1;
+
+    &.small { font-size: $sc-font-sm; }
+    &.large { font-size: $sc-font-lg; }
+    &.xlarge { font-size: $sc-font-lgr; }
+    &.number {
+      margin: 0.5rem 0;
+    }
+
+    &.light { font-weight: $sc-weight-lt; }
+    &.normal-weight { font-weight: $sc-weight; }
+
+    &.orange { color: $sc-orange; }
+    &.white { color: $sc-white; }
+
+    &.nodata {
+      font-size: 2.5rem;
+      margin-bottom: .25rem;
+    }
+  }
+
+  .sc-link {
+    //color: $blue;
+    color: $orange;
+    font-size: 0.75rem;
+  }
+
+  .bold { font-weight: $sc-weight-bd; }
+
+  .sc-txt {
+    margin: 0;
+    padding: 0;
+    color: $orange;
+    font-size: $sc-font-std;
+    font-weight: $sc-weight;
+    line-height: 1;
+
+    &.white { color: $sc-white; }
+    &.orange { color: $sc-orange; }
+
+    &.tiny { font-size: $sc-font-tiny; }
+    &.small { font-size: $sc-font-sm; }
+
+    &.light { font-weight: $sc-weight-lt; }
+    &.bold { font-weight: $sc-weight-bd; }
+
+    &.sc-addr {
+      font-weight: bold;
+    }
+
+    &.pg { line-height: 1.2; }
+
+    @media print {
+      font-size: $sc-font-std * .75;
+    }
+  }
+
+  .sc-address {
+    margin-bottom: 1rem;
+
+    .sc-addr {
+      margin-bottom: .5rem;
+    }
+  }
+
+  .sc-details-value {
+    margin-bottom: .5rem;
+
+    label {
+      display: inline-block;
+      font-weight: bold;
+    }
+  }
+
+  .scorecard--section {
+    border-bottom: 1px solid $sc-offwhite;
+
+    .inner {
+      padding: 1rem;
+
+      .nodata {
+        a {
+          color: $blue;
+
+          &:hover,
+          &:visited {
+            color: blueviolet;
+          }
+        }
+      }
+
+      @media print {
+        padding: .5rem;
+      }
+    }
+
+    .section-head {
+      margin-bottom: 2rem;
+
+      @media print {
+        margin-bottom: .5rem;
+      }
+
+      .sc-heading {
+        margin-bottom: 0.75rem;
+
+        @media print {
+          margin-bottom: .25rem;
+        }
+      }
+    }
+  }
+
+  .sc-toggle {
+    margin-bottom: 1rem;
+
+    .sc-heading {
+      margin-bottom: .25rem;
+    }
+
+    .sc-toggle-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    label {
+      font-weight: 400;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    label + label {
+      margin-left: 0.5rem;
+    }
+
+    label.cb-plain {
+      line-height: 1;
+
+      &.sc-txt {
+        text-transform: uppercase;
+      }
+
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      .cb {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+        border-radius: 50%;
+        border: 1px solid $orange;
+
+        .cb-inner {
+          background: $orange;
+          display: none;
+          border-radius: 50%;
+          margin: 2px;
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      input[type=checkbox]:checked ~ .cb .cb-inner {
+        display: block;
+      }
+    }
+  }
+
+
+  .scorecard--nav,
+  .scorecard--header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem 1rem;
+
+    @media print {
+      margin: 0.5rem 1rem;
+    }
+
+    .share-icons-block {
+      flex-grow: 2;
+      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 1em;
+      gap: 1em;
+
+      @media print {
+        display: none;
+      }
+    }
+  }
+
+  .scorecard--nav {
+    margin: 1rem 0;
+  }
+
+  .ess-certified {
+    .ess-logo {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+      padding-left: 5px;
+      width: 100px;
+      line-height: 1.15;
+    }
+  }
+
+  .scorecard--details {
+    margin-bottom: 1rem;
+    position: relative;
+    padding: 0 1rem;
+    background: $orange;
+    height: 210px;
+    overflow: hidden;
+
+    @media print {
+      height: 160px;
+    }
+
+    [class^="col"] {
+      height: 100%;
+      padding-top: 1rem;
+      color: white;
+    }
+
+    [class^="col"].middle {
+      position: relative;
+      padding-top: 0;
+      color: $blue;
+      z-index: 1;
+
+      .circle-bk {
+        position: relative;
+        top: 50%;
+        padding-top: 0;
+        text-align: center;
+        z-index: 1;
+        transform: translateY(-50%);
+      }
+
+      &:after {
+        content: ' ';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 260px;
+        height: 260px;
+        background: white;
+        border-radius: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        z-index: -1;
+      }
+
+      .eui-desc {
+        margin: 1rem auto 0;
+        width: 150px;
+
+        p:first-child {
+          font-weight: $sc-weight-bd;
+        }
+      }
+    }
+
+    .details-box-wrapper {
+      float: right;
+      width: auto;
+    }
+
+    .details-box {
+      text-align: right;
+
+      & + .details-box {
+        margin-top: 1rem;
+      }
+
+      .details-numbers {
+        margin-top: 1rem;
+        text-align: right;
+
+        h4:last-of-type {
+          border-top: 1px solid white;
+          display: inline-block;
+          margin-top: .5rem;
+          padding-top: .5rem;
+        }
+      }
+
+      .ways-to-save-button {
+        background: white;
+        border-radius: 2px;
+        color: $orange;
+        display: inline-block;
+        font-size: 15px;
+        margin-top: 1rem;
+        padding: .5rem;
+        text-transform: uppercase;
+
+        @media print {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .compare-desc {
+    text-align: center;
+    padding-right: 2rem;
+
+    & > p:last-child {
+      text-align: left;
+    }
+
+    .compare-logo,
+    .change-arrow {
+      position: relative;
+      display: inline-block;
+      margin: 0 0 1rem;
+      padding: 0;
+      width: 83px;
+      height: 83px;
+      background: transparent;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      line-height: 1;
+
+      &.lower.eui {
+        background-image: url('../../images/scorecard/compare-left.png');
+      }
+
+      &.higher.eui {
+        background-image: url('../../images/scorecard/compare-right.png');
+      }
+
+      &.lower.ess {
+        background-image: url('../../images/scorecard/compare-left_red.png');
+      }
+
+      &.higher.ess {
+        background-image: url('../../images/scorecard/compare-right_green.png');
+      }
+
+      span {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 500;
+        color: white;
+      }
+
+    }
+
+    .change-arrow {
+      width: 85px;
+      height: 74px;
+
+      &.decreased {
+        background-image: url('../../images/scorecard/changearrow-down.png');
+      }
+
+      &.increased {
+        background-image: url('../../images/scorecard/changearrow-up.png');
+      }
+
+      span {
+        bottom: auto;
+        top: 50%;
+        margin-top: -2px;
+      }
+
+      &.decreased span {
+        margin-top: -8px;
+      }
+    }
+
+    .change-txt {
+      &.lower.eui, &.higher.ess, &.decreased { color: #90AE60; }
+      &.higher.eui, &.lower.ess, &.increased {color: #C04F31; }
+    }
+  }
+
+  .compare-chart,
+  #emissions-intensity-chart {
+    position: relative;
+    height: 250px;
+
+    @media print {
+      height: 200px;
+    }
+
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+
+    .bar rect {
+      fill: #F1F1F1;
+      shape-rendering: crispEdges;
+
+      &.selected {
+        fill: #DE8F41;
+      }
+
+      &.avg-bar {
+        opacity: 0.5;
+      }
+    }
+
+    .axis path {
+      shape-rendering: crispEdges;
+    }
+
+    .y.axis path {
+      fill: none;
+      stroke: #CBCBCB;
+    }
+
+    text {
+      font-family: $base-font-family;
+      font-size: 10px;
+      text-transform: lowercase;
+    }
+
+    .y.axis text, .label text {
+      fill: $tick-color;
+    }
+
+    .label text {
+      text-transform: uppercase;
+    }
+
+    .axis line {
+      fill: none;
+      shape-rendering: crispEdges;
+    }
+
+    .y.axis line {
+      display: none;
+    }
+
+    .x.axis line {
+      stroke-width: 1.5;
+    }
+
+    .average-building-highlight {
+      opacity: 0.5;
+
+      & > div {
+        position: relative;
+        width: 100px;
+      }
+
+      text {
+        dominant-baseline: central;
+      }
+
+      tspan {
+        text-anchor: start;
+      }
+
+      &.align-right tspan {
+        text-anchor: end;
+      }
+
+      .value {
+        line-height: 1;
+        font-size: 24px;
+        font-weight: 500;
+        color: $orange;
+      }
+
+      .label, .units {
+        font-size: 10px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      .label {
+        fill: #666;
+      }
+    }
+
+    .callout-text {
+      text {
+        fill: $medium-gray;
+        text-transform: uppercase;
+
+        &.value {
+          font-size: 24px;
+          font-weight: 500;
+          line-height: 24px;
+        }
+
+        &.quartile-1 {
+          fill: $sc-blue;
+        }
+        &.quartile-2 {
+          fill: $sc-green;
+        }
+        &.quartile-3 {
+          fill: $sc-yellow;
+        }
+        &.quartile-4 {
+          fill: $sc-red;
+        }
+      }
+
+      &.callout-selected-text {
+        .selected-label {
+          fill: $sc-blue;
+        }
+      }
+    }
+
+    .selected-city-highlight {
+      .value {
+        font-size: 24px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
+      .units {
+        font-size: 10px;
+        text-anchor: middle;
+        text-transform: none;
+      }
+
+      .building-name {
+        font-size: 14px;
+        fill: $blue;
+        text-transform: uppercase;
+      }
+
+      .circle {
+        fill: none;
+        stroke: $blue;
+      }
+
+      .line {
+        stroke: $blue;
+      }
+    }
+  }
+
+  #emissions-intensity-chart {
+    height: 100%;
+
+    .x.axis path {
+      fill: none;
+      stroke: #CBCBCB;
+    }
+
+    .x.axis text, .label text {
+      fill: $tick-color;
+    }
+
+    .avg-highlight-html.selected-building {
+      opacity: 1;
+
+      &.right-aligned {
+        text-align: right;
+      }
+
+      p {
+        color: $sc-blue;
+      }
+    }
+
+    .avg-highlight-html p {
+      &.quartile-1 {
+          color: $sc-blue;
+      }
+      &.quartile-2 {
+        color: $sc-green;
+      }
+      &.quartile-3 {
+        color: $sc-yellow;
+      }
+      &.quartile-4 {
+        color: $sc-red;
+      }
+    }
+  }
+
+  .emissions-intensity-chart-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .emissions-intensity-chart-legend {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-box {
+      margin-top: 1rem;
+    }
+
+    &-label {
+      color: $tick-color;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .emissions-dots {
+      border: 1px solid #CBCBCB;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 48px;
+    }
+
+    .emissions-dots-label {
+      color: $tick-color;
+      font-family: $base-font-family;
+      font-size: 10px;
+    }
+
+    .emissions-dots-title {
+      color: $tick-color;
+      font-size: 10px;
+      text-align: center;
+      text-transform: uppercase;
+      order: 2;
+    }
+  }
+
+  #change-chart {
+    text-align: center;
+
+    .year {
+      fill: $base-font-color;
+      font-size: 24px;
+      font-weight: 500;
+      text-anchor: middle;
+    }
+
+    #change-chart-vis {
+      position: relative;
+      margin: 30px 0;
+      height: 200px;
+
+      @media print {
+        height: 100px;
+        margin: 20px 0;
+      }
+
+      svg {
+        overflow: visible;
+        height: 100%;
+        width: 100%;
+      }
+
+      path {
+        fill: none;
+        stroke: #c5c5c5;
+        stroke-width: 1;
+      }
+
+      circle {
+        stroke: none;
+      }
+
+      .no-clr > circle {
+        fill: #bababa;
+      }
+
+      tspan.value {
+        font-size: 16px;
+      }
+
+      tspan.metric.small {
+        font-size: 8px;
+        text-transform: uppercase;
+      }
+
+      text.building {
+        fill: #acacac;
+        font-size: 8px;
+        text-transform: uppercase;
+
+        &.selected-building {
+          font-size: 12px;
+          color: #0047BA;
+        }
+      }
+    }
+  }
+
+  #links {
+    background: $base-background-color;
+
+    .links-container {
+      padding: 0;
+
+      &--title-wrapper {
+        margin-bottom: 1rem;
+        padding: 0.3rem 10px 1rem 10px;
+        background-color: $orange;
+      }
+
+      &--title {
+        color: $action-color;
+      }
+    }
+
+    table {
+      td {
+        width: auto;
+        border: 0;
+        padding: 0 10px;
+        line-height: 1.2;
+        vertical-align: top;
+        //font-size: 0.875rem;
+        font-size: 1rem;
+      }
+
+      .link-cell {
+        color: $brownish-gray;
+      }
+
+      .link-content {
+        display: block;
+        vertical-align: top;
+      }
+
+      .link-link {
+        padding-top: 1rem;
+
+        .link-button {
+          display: inline-block;
+          color: $blue;
+          margin-bottom: 1em;
+          text-transform: uppercase;
+          text-decoration: underline;
+          font-weight: bold;
+
+          @media print {
+            padding: .5em;
+          }
+        }
+
+        p {
+          font-weight: bold;
+        }
+
+        a {
+          color: $blue;
+          text-decoration: underline;
+          word-break: break-word;
+          word-wrap: break-word;
+        }
+      }
+
+      tr.ad {
+
+        td {
+          text-align: center;
+        }
+
+        a {
+          display: block;
+          margin-top: 2rem;
+        }
+      }
+
+    }
+  }
+
+  .scorecard--print-footer {
+    display: none;
+  }
+
+  #building-type-table {
+    table {
+      color: #646569;
+      font-size: 0.725rem;
+    }
+
+    td {
+      text-align: center;
+      vertical-align: middle;
+      border-bottom-color: #ddd;
+      padding: 0.5rem 0;
+
+      &:first-child {
+        text-align: right;
+        width: auto;
+        padding-left: 0.7rem;
+        padding-right: 0.7rem;
+        width: 6.5em;
+      }
+    }
+
+    thead tr:first-child td {
+      border: 0;
+    }
+
+    thead td {
+      vertical-align: bottom;
+    }
+
+    thead td:first-child {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    tbody td {
+      font-weight: 500;
+      font-size: 0.75rem;
+
+      &:first-child {
+        font-size: 0.725rem;
+        font-weight: 400;
+      }
+    }
+
+    .header { font-size: 0.75rem; }
+
+    .gray-bk {
+      background: $sc-offwhite;
+    }
+
+    .no-border {
+      border: 0;
+    }
+  }
+
+  .scorecard-compare-chart {
+    border: 1px solid $sc-offwhite;
+
+    .not-available {
+      a {
+        color: $sc-blue;
+      }
+    }
+
+    &.eui-selected {
+      .scorecard-compare-section {
+        &.eui {
+          display: block;
+        }
+        &.ess {
+          display: none;
+        }
+      }
+    }
+
+    &.ess-selected {
+      .scorecard-compare-section {
+        &.ess {
+          display: block;
+        }
+        &.eui {
+          float: left;
+          margin-left: -10000px;
+        }
+      }
+
+      @media print {
+        .scorecard-compare-section {
+          &.ess {
+            display: none;
+          }
+          &.eui {
+            float: none;
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    &.print-only {
+      float: left;
+      margin-left: -10000px;
+    }
+  }
+
+  &.show-eui-view #scorecard-view {
+    display: block;
+  }
+
+  @media print {
+    & {
+      overflow: visible;
+      bottom: inherit;
+      position: relative;
+    }
+
+    & * {
+      -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+      color-adjust: exact !important;                 /*Firefox*/
+    }
+
+    .scorecard-wrapper {
+      width: 8in;
+      max-width: 8in;
+    }
+
+    .sc-toggle {
+      display: none;
+    }
+
+    .scorecard--nav {
+      margin-top: 0;
+    }
+
+    #back-to-map-link { display: none; }
+
+    #scorecard-view {
+      display: block !important;
+      overflow: visible;
+    }
+
+    #comparison-view-link {
+      display: none;
+    }
+
+    .scorecard--section, .scorecard--details {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .scorecard-compare-chart {
+      border: none;
+      border-bottom: 1px solid $sc-offwhite;
+
+      &.print-only {
+        float: none;
+        margin: 0;
+      }
+
+      &.screen-only {
+        display: none;
+      }
+    }
+
+    #fuel-use-chart {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    #building-type-table {
+      page-break-after: always;
+      break-after: always;
+    }
+
+    .scorecard--print-footer {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      position: fixed;
+      height: 40px;
+      font-size: 12px;
+      font-weight: bold;
+
+      a {
+        color: $orange;
+      }
+
+      img {
+        max-height: 100%;
+      }
+    }
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.25in;
+  }
+
+  body {
+    background-color: #fff;
+    overflow: visible;
+  }
+
+  #scorecard .scorecard-wrapper.no-energy-star-score {
+    // When there is no energy star chart, we can let the EUI compare chart
+    // and trends take up more space
+    .compare-chart {
+      height: 250px;
+    }
+
+    #change-chart #change-chart-vis {
+      height: 200px;
+    }
+
+    #scorecard-view {
+      .scorecard--details {
+        display: block;
+      }
+
+      .scorecard-compare-chart.scorecard-energy-star-print-only {
+        display: none;
+      }
+    }
+  }
+
+  #footer {
+    display: none;
+  }
+}
+
+

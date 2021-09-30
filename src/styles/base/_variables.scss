@@ -17,23 +17,29 @@ $base-z-index: 0;
 
 // Colors
 $blue: #477dca;
+$brownish-gray: #5d5d5d;
 $dark-gray: #333;
 $medium-gray: #d1d1d0;
 $light-gray: #ddd;
 $spinner-gray: #666;
 $orange: #248C43;
 $normal-text: $orange;
+$base-white: white;
 
 // Font Colors
 $base-background-color: #f2f2f2;
 $base-font-color: $orange;
-$action-color: white;
+$action-color: $base-white;
 
-$inverse-font-color: white;
+$inverse-font-color: $base-white;
+
+$metric-left-width: em(360);
+$metric-left-width-mobile: em(300);
+$metric-footer-height: 4em; // Building comparsion column height
 
 // Border
 $base-border-size: 1px;
-$base-border-color: white;
+$base-border-color: $base-white;
 $base-border: $base-border-size solid $base-border-color;
 
 // Forms
@@ -51,7 +57,9 @@ $toolbar-height: 3em;
 $building-comparison-header-height: 3em;
 $building-comparison-metric-row-height: 4em;
 
+// Charts
 
+$tick-color: $brownish-gray;
 
 // zIndexes
 $zIndex1: 1;

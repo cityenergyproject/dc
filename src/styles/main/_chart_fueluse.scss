@@ -1,0 +1,65 @@
+#fueluse-chart {
+  margin-top: 1rem;
+
+  @media print {
+    margin-top: .25rem;
+  }
+
+  .fc-row {
+    &.notes {
+      p {
+        margin-top: 1rem;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .bar-chart-container {
+    font-size: .8rem;
+    height: 150px;
+
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+
+    .bar-item,
+    .bar-label {
+      &.gas {
+        fill: rgba($gas-color, 0.75);
+      }
+
+      &.electricity {
+        fill: rgba($electric-color, 0.75);
+      }
+
+      &.steam {
+        fill: rgba($steam-color, 0.75);
+      }
+    }
+
+    .bar-label {
+      text-anchor: middle;
+    }
+
+    .bar-chart-label {
+      fill: $brownish-gray;
+      text-anchor: end;
+
+      &-name {
+        font-weight: 500;
+      }
+    }
+
+    .bar-chart-total {
+      fill: $brownish-gray;
+
+      &-value {
+        font-weight: 500;
+      }
+    }
+  }
+}
