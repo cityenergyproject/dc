@@ -31,3 +31,8 @@ $gutter: 0;
 .col-10 { width: ($width / (12 / 10)) - ($gutter * 2 / 12); }
 .col-11 { width: ($width / (12 / 11)) - ($gutter * 1 / 12); }
 .col-12 { width: $width; }
+
+/* mobile grid, right now we need to have only 12 columns class */
+@include media($small-screen-down) {
+  .m-col-12 { width: $width; }
+}

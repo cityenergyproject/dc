@@ -384,7 +384,15 @@ define([
 
       if (!presenter.toLatLng()) return;
 
-      var popup = L.popup()
+      var popup = L.popup({
+        /**
+         * if content of popup will be higher then 460px, then scrollable container in the popup will be created
+         * why 460px? - 456px it's a default height for popup with normal content (one line per item + graph + buttons)
+         * Very rare case.
+         * https://leafletjs.com/reference-0.7.7.html#popup
+         */
+        maxHeight: 460
+      })
        .setLatLng(presenter.toLatLng())
           .setContent(template({
             data: presenter.toPopulatedLabels(),

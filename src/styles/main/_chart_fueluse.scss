@@ -1,6 +1,16 @@
 #fueluse-chart {
   margin-top: 1rem;
 
+  @include media($small-screen-down) {
+    .m-col-12 {
+      margin-bottom: 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
   @media print {
     margin-top: .25rem;
   }
