@@ -871,5 +871,14 @@
             "desc": "Words and terms used throughout the site",
             "csv": "glossary.csv"
         }
+    },
+    "convert_fields": {
+        "description": "Sometimes needs to convert field value from one type to another. Usually we cannot change type in the DB, e.g. when we get data from some government. You can use this section for changing field on the fly, before building model will be created. All available formatters in formatters.js",
+        "items": [
+            {
+                "field": "distance_from_beps_estimated",
+                "formatter_name": "percent_as_decimal"
+            }
+        ]
     }
 }

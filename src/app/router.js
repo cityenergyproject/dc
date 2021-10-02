@@ -7,7 +7,7 @@ define([
   'backbone',
   'models/city',
   'models/scorecard',
-  'app/models/category_filter_model.js',
+  'models/category_filter_model',
   'collections/city_buildings',
   'views/layout/header',
   'views/layout/footer',
@@ -75,7 +75,7 @@ define([
     },
 
     asBuildings: function() {
-      return new CityBuildings(null, this.pick('tableName', 'cartoDbUser'));
+      return new CityBuildings(null, this.pick('tableName', 'cartoDbUser', 'city'));
     },
   });
 
