@@ -80,14 +80,14 @@
     <div class='scorecard-compare-section ess screen-only'>
       <div class='section-head'>
         <h3 class='sc-heading'>Energy Star Score Compared to Average</h3>
-        <p class='sc-txt small bold'>See how this building measures up against other buildings of the same primary use:</p>
+        <p class='sc-txt small bold'>See how this building measures up against other buildings of the same primary use in <%= years[0] %>, please note this comparison is unrelated to this building's evaluation against the <a href="https://dc.beam-portal.org/helpdesk/kb/BEPS/" target="_blank">Building Energy Performance Standards</a>.:</p>
       </div>
 
       <div class='row'>
         <div class='col-4 compare-desc'>
           <% if(compareEss.isValid) { %>
             <p class='compare-logo <%= compareEss.change_label %> ess'><span><%= compareEss.change_pct %></span></p>
-            <p class="sc-txt light pg">This building’s ENERGY STAR Score is <span class='change-txt bold <%= compareEss.change_label %> ess'><%= compareEss.change_pct %> points <%= compareEss.change_label %></span> than the average <%= type %> in DC.</p>
+            <p class="sc-txt light pg">This building’s ENERGY STAR Score is <span class='change-txt bold <%= compareEss.change_label %> ess'><%= compareEss.change_pct %> points <%= compareEss.change_label %></span> than the average <%= type %> in DC. </p>
           <% } else { %>
             <p class='not-available'>
               We don't have an ENERGY STAR score for this building for this year.
@@ -106,7 +106,7 @@
     <div class='scorecard-compare-section ess'>
       <div class='section-head'>
         <h3 class='sc-heading'>Energy Star Score Compared to Average</h3>
-        <p class='sc-txt small bold'>See how this building measures up against other buildings of the same primary use:</p>
+        <p class='sc-txt small bold'>See how this building measures up against other buildings of the same primary use in <%= years[0] %>, please note this comparison is unrelated to this building's evaluation against the <a href="https://dc.beam-portal.org/helpdesk/kb/BEPS/" target="_blank">Building Energy Performance Standards</a>.:</p>
       </div>
 
       <div class='row'>
