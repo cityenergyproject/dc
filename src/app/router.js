@@ -75,7 +75,7 @@ define([
     },
 
     asBuildings: function() {
-      return new CityBuildings(null, this.pick('tableName', 'cartoDbUser', 'city'));
+      return new CityBuildings(null, this.pick('tableName', 'cartoDbUser'));
     },
   });
 

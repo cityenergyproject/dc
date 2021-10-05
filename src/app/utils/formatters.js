@@ -16,10 +16,6 @@ define(['d3'], function(d3) {
       return idx => {
         return labels[idx] || '';
       };
-    },
-    percent_as_decimal: percent => {
-      const decimal = parseFloat(percent) / 100.0
-      return isNaN(decimal) ? 0 : decimal
     }
   };
 

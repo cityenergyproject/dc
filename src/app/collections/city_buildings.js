@@ -1,8 +1,7 @@
 define([
   'underscore',
   'backbone',
-  'utils/formatters',
-], function(_, Backbone, Formatters) {
+], function(_, Backbone) {
 
   var urlTemplate = _.template(
     "https://<%= cartoDbUser %>.carto.com/api/v2/sql"
@@ -172,7 +171,6 @@ define([
     initialize: function(models, options){
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;
-      this.convertFieldsConfig = options && options.city && options.city.get('convert_fields');
     },
     url: function() {
       return urlTemplate(this);
@@ -184,19 +182,6 @@ define([
       return result;
     },
     parse: function(data){
-      const { items = [] } = this.convertFieldsConfig || {};
-
-      if(items.length) {
-        items.forEach(item => {
-          const formatter = Formatters.get(item.formatter_name);
-          data.rows.forEach(row => {
-            if(row.hasOwnProperty(item.field)) {
-              row[item.field] = formatter(row[item.field]);
-            }
-          });
-        })
-      }
-
       return data.rows;
     },
     toSql: function(year, categories, range){
