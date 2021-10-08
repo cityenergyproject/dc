@@ -44,6 +44,17 @@ define([
           key: 'steam'
         }
       ];
+
+      /**
+       * All configs for fuels chart are spread across all file which is bad.
+       * Config should be present in the dc.json file
+       * Will come back to this problem when we have a free time
+       */
+      this.fuelsConfig = {
+        total_usage: {
+          fields: ['natural_gas_use', 'electricity_grid_use'],
+        }
+      }
     },
 
     getMean: function(key, data) {
@@ -188,7 +199,6 @@ define([
       let total_usage;
 
       let fuels;
-      console.warn('this.isCity = true - didnt find how to run this case')
       if (this.isCity) {
         fuels = this.getCityWideFuels([...this.fuels], data);
         total_ghg_emissions = data.total_emissions;
@@ -198,8 +208,9 @@ define([
         fuels = this.getBuildingFuels([...this.fuels], data);
         total_ghg_emissions = this.getSum('total_ghg_emissions', data);
         total_ghg_emissions_intensity = this.getSum('total_ghg_emissions_intensity', data);
-        console.warn(`total_kbtu doesn't have it`)
-        total_usage = this.getSum('total_kbtu', data);
+        total_usage = this.fuelsConfig.total_usage.fields.reduce((acc, field, i, arr) => {
+          return acc + this.getSum(field, data);
+        }, 0)
       }
 
       this.fixPercents(fuels, 'emissions');
@@ -210,12 +221,9 @@ define([
         emissions: d3.format(',d')(d3.round(total_ghg_emissions, 0))
       };
 
-      console.warn('fuels chart partly MOCKED (emissions.amt and usage.amt )');
-      // const fuelsMock = JSON.parse("[{\"label\":\"Gas\",\"key\":\"gas\",\"emissions\":{\"isValid\":true,\"pct_raw\":98,\"pct\":98,\"pct_actual\":0.98,\"amt\":59.03,\"cars\":\"12.6\"},\"usage\":{\"isValid\":true,\"pct_raw\":73,\"pct\":73,\"pct_actual\":0.73,\"amt\":11114}},{\"label\":\"Electric\",\"key\":\"electricity\",\"emissions\":{\"isValid\":true,\"pct_raw\":2,\"pct\":2,\"pct_actual\":0.02,\"amt\":1.12,\"cars\":\"0.2\"},\"usage\":{\"isValid\":true,\"pct_raw\":27,\"pct\":27,\"pct_actual\":0.27,\"amt\":122782}}]");
-
+      // IMPORTANT! fuels chart partly MOCKED (emissions.amt and usage.amt )
       return {
         fuels,
-        // fuels: fuelsMock,
         totals,
         total_ghg_emissions,
         total_ghg_emissions_intensity,

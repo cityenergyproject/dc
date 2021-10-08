@@ -120,6 +120,18 @@ $steam-color: #f7c34e;
 
     &.pg { line-height: 1.2; }
 
+    a {
+      &.white { color: $sc-white; }
+      &.orange { color: $sc-orange; }
+      &.blue { color: $sc-blue; }
+
+      &.tiny { font-size: $sc-font-tiny; }
+      &.small { font-size: $sc-font-sm; }
+
+      &.light { font-weight: $sc-weight-lt; }
+      &.bold { font-weight: $sc-weight-bd; }
+    }
+
     @media print {
       font-size: $sc-font-std * .75;
     }
@@ -296,6 +308,25 @@ $steam-color: #f7c34e;
     height: 210px;
     overflow: hidden;
 
+    @include media($small-screen-down) {
+      height: auto;
+      padding: 0 1em 1em 1em;
+
+      .middle {
+        background: white;
+        border-radius: 8px;
+
+        &::after {
+          content: none !important;
+        }
+
+        .circle-bk {
+          transform: none !important;
+          padding: 1em !important;
+        }
+      }
+    }
+
     @media print {
       height: 160px;
     }
@@ -388,6 +419,11 @@ $steam-color: #f7c34e;
   .compare-desc {
     text-align: center;
     padding-right: 2rem;
+
+    @include media($small-screen-down) {
+      padding-right: 0;
+      margin-bottom: 1em;
+    }
 
     & > p:last-child {
       text-align: left;
@@ -669,6 +705,10 @@ $steam-color: #f7c34e;
   .emissions-intensity-chart-container {
     display: flex;
     flex-direction: row;
+
+    @include media($small-screen-down) {
+      flex-wrap: wrap;
+    }
   }
 
   .emissions-intensity-chart-legend {

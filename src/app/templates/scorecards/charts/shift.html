@@ -9,19 +9,19 @@
   </div>
   <% if (noyear) { %>
     <div class='row no-year'>
-      <div class='col-4 compare-desc'>
+      <div class='col-4 m-col-12 compare-desc'>
         <p>No data available for the year <%= year_needed %>. Please select another year to view this chart.</p>
       </div>
     </div>
   <% } else if (!isValid) { %>
     <div class='row not-valid'>
-      <div class='col-4 compare-desc'>
+      <div class='col-4 m-col-12 compare-desc'>
         <p>Not enough data available to show energy use trends for this building.</p>
       </div>
     </div>
   <% } else { %>
     <div class='row'>
-      <div class='col-4 compare-desc'>
+      <div class='col-4 m-col-12 compare-desc'>
         <% if (change !== 0) { %>
         <p class='change-arrow <%= direction %>'><span><%= pct %></span></p>
         <% } %>
@@ -38,7 +38,7 @@
           <% } %>
         </p>
       </div>
-      <div id='change-chart' class='col-8'>
+      <div id='change-chart' class='col-8 m-col-12'>
         <div class='change-chart-inner'>
           <div id='change-chart-vis'></div>
         </div>
