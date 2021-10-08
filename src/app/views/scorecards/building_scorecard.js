@@ -290,6 +290,7 @@ define([
         type: prop_type,
         pm_pid,
         year: selected_year,
+        firstYear: avail_years[0],
         year_built: building.year_built,
         view,
         ess_logo: this.energyStarCertified('eui', building, config),

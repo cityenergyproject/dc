@@ -120,6 +120,18 @@ $steam-color: #f7c34e;
 
     &.pg { line-height: 1.2; }
 
+    a {
+      &.white { color: $sc-white; }
+      &.orange { color: $sc-orange; }
+      &.blue { color: $sc-blue; }
+
+      &.tiny { font-size: $sc-font-tiny; }
+      &.small { font-size: $sc-font-sm; }
+
+      &.light { font-weight: $sc-weight-lt; }
+      &.bold { font-weight: $sc-weight-bd; }
+    }
+
     @media print {
       font-size: $sc-font-std * .75;
     }
