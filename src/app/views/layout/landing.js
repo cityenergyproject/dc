@@ -23,8 +23,12 @@ define([
 
     var submissionMissingReceivedStatuses = [
       'No Report Received',
-      'Exempt from this year\'s disclosure'
+      'Exempt from this year\'s disclosure',
     ];
+
+    var filteredStatuses = [
+        'Exempt from this year\'s disclosure'
+    ]
 
     var Landing = Backbone.View.extend({
         el: '#landing',
@@ -341,8 +345,15 @@ define([
                 return acc
             }, 0);
 
-            var uniqPidsLength = [...new Set(allbuildings.map(building => building.get('pid')))].length;
-            var fixedValue = `${parseFloat((totalBuildingsReported * 100 / uniqPidsLength).toFixed(2))}%`;
+            var filteredTotalBuildings = allbuildings.reduce((acc, val) => {
+                if(!filteredStatuses.includes(val.get('report_status')) && val.get('pid')) {
+                    return acc + 1
+                }
+
+                return acc
+            }, 0);
+
+            var fixedValue = `${parseFloat((totalBuildingsReported * 100 / filteredTotalBuildings).toFixed(2))}%`;
 
             return this.cardTemplate({
                 title: SUBMISSIONS_RECEIVED,
@@ -361,8 +372,15 @@ define([
                 return acc
             }, 0);
 
-            var uniqPidsLength = [...new Set(allbuildings.map(building => building.get('pid')))].length;
-            var fixedValue = `${parseFloat((accurateRecords * 100 / uniqPidsLength).toFixed(2))}%`;
+            var filteredTotalBuildings = allbuildings.reduce((acc, val) => {
+                if(!filteredStatuses.includes(val.get('report_status')) && val.get('pid')) {
+                    return acc + 1
+                }
+
+                return acc
+            }, 0);
+
+            var fixedValue = `${parseFloat((accurateRecords * 100 / filteredTotalBuildings).toFixed(2))}%`;
 
             return this.cardTemplate({
                 title: DATA_COMPLETE_AND_ACCURATE,
