@@ -1,6 +1,6 @@
 define([
   'backbone',
-  'app/collections/category_filters.js',
+  'collections/category_filters',
 ], function(Backbone, CategoryFilterCollection) {
   var CategoryFiltersModel = Backbone.Model.extend({
     initialize: function(options) {

@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* in some place, usually for scorecard we need to use another directions */
 @import url(../lib/toastr/toastr.min.css);
 @import url(../lib/autocomplete/autocomplete.min.css);
 button, input[type="button"], input[type="reset"], input[type="submit"],
@@ -2130,6 +2131,11 @@ body.modal-active {
 .col-12 {
   width: 100%; }
 
+/* mobile grid, right now we need to have only 12 columns class */
+@media screen and (max-width: 35em) {
+  .m-col-12 {
+    width: 100%; } }
+
 #scorecard {
   display: none;
   position: absolute;
@@ -2213,6 +2219,20 @@ body.modal-active {
       font-weight: bold; }
     #scorecard .sc-txt.pg {
       line-height: 1.2; }
+    #scorecard .sc-txt a.white {
+      color: #fff; }
+    #scorecard .sc-txt a.orange {
+      color: #DE8F41; }
+    #scorecard .sc-txt a.blue {
+      color: #0047BA; }
+    #scorecard .sc-txt a.tiny {
+      font-size: 0.75rem; }
+    #scorecard .sc-txt a.small {
+      font-size: 0.75rem; }
+    #scorecard .sc-txt a.light {
+      font-weight: 300; }
+    #scorecard .sc-txt a.bold {
+      font-weight: 500; }
     @media print {
       #scorecard .sc-txt {
         font-size: 0.75rem; } }
@@ -2339,6 +2359,18 @@ body.modal-active {
     background: #248C43;
     height: 210px;
     overflow: hidden; }
+    @media screen and (max-width: 35em) {
+      #scorecard .scorecard--details {
+        height: auto;
+        padding: 0 1em 1em 1em; }
+        #scorecard .scorecard--details .middle {
+          background: white;
+          border-radius: 8px; }
+          #scorecard .scorecard--details .middle::after {
+            content: none !important; }
+          #scorecard .scorecard--details .middle .circle-bk {
+            transform: none !important;
+            padding: 1em !important; } }
     @media print {
       #scorecard .scorecard--details {
         height: 160px; } }
@@ -2404,6 +2436,10 @@ body.modal-active {
   #scorecard .compare-desc {
     text-align: center;
     padding-right: 2rem; }
+    @media screen and (max-width: 35em) {
+      #scorecard .compare-desc {
+        padding-right: 0;
+        margin-bottom: 1em; } }
     #scorecard .compare-desc > p:last-child {
       text-align: left; }
     #scorecard .compare-desc .compare-logo,
@@ -2610,6 +2646,10 @@ body.modal-active {
     display: flex;
     -ms-flex-direction: row;
         flex-direction: row; }
+    @media screen and (max-width: 35em) {
+      #scorecard .emissions-intensity-chart-container {
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap; } }
   #scorecard .emissions-intensity-chart-legend {
     display: -ms-flexbox;
     display: flex;
@@ -3046,6 +3086,11 @@ body.modal-active {
 
 #fueluse-chart {
   margin-top: 1rem; }
+  @media screen and (max-width: 35em) {
+    #fueluse-chart .m-col-12 {
+      margin-bottom: 1em; }
+      #fueluse-chart .m-col-12:last-child {
+        margin-bottom: 0; } }
   @media print {
     #fueluse-chart {
       margin-top: .25rem; } }

@@ -11,8 +11,8 @@
 
   <% if (!isCity) { %>
     <div class='emissions-intensity-chart-container row'>
-      <div id='emissions-intensity-chart' class='col-8 emissions-intensity-chart'></div>
-      <div class='col-4 emissions-intensity-chart-legend'>
+      <div id='emissions-intensity-chart' class='col-8 m-col-12 emissions-intensity-chart'></div>
+      <div class='col-4 m-col-12 emissions-intensity-chart-legend'>
         <div class='sc-txt light pg'>This building’s greenhouse gas (GHG) emissions per square foot was <strong><%= total_ghg_emissions_intensity %> KG/SF</strong> in <%= year %> with a total of <strong><%= totals.emissions %> metric tons (MT)</strong> for the year.</div>
         <div class='emissions-intensity-chart-legend-box'>
           <div class='emissions-intensity-chart-legend-label'>legend</div>
@@ -30,12 +30,12 @@
         We don't have enough data to show fuel use for this building.
       </p>
     <% } else { %>
-      <div class='col-8'>
+      <div class='col-8 m-col-12'>
         <div class='row fc-labels fc-panel'>
           <div class='energy-consumption-bar-chart-container bar-chart-container'></div>
         </div>
       </div>
-      <div class='col-4'>
+      <div class='col-4 m-col-12'>
         <% if (fuels.length >= 1) { %>
         <div class='fc-row notes'>
           <% if(totals.emissions > 0) { %>
