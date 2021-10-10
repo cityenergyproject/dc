@@ -756,6 +756,10 @@ $steam-color: #f7c34e;
       font-size: 24px;
       font-weight: 500;
       text-anchor: middle;
+
+      @include media($small-screen-down) {
+        font-size: 16px;
+      }
     }
 
     #change-chart-vis {
