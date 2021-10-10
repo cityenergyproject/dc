@@ -21,11 +21,12 @@ body {
   margin: 0;
   font-size: 12px;
   width:100%;
-  height: 100%;
+  height: 100vh;
   -webkit-text-size-adjust:100%;
 
   @include media($medium-screen-up) {
     font-size: 14px;
+    height: 100%;
   }
 
   @include media($xlarge-screen-up) {
@@ -46,6 +47,10 @@ body {
 
   @include media($xslarge-screen-up) {
     bottom: $building-comparison-header-height + $building-comparison-metric-row-height;
+  }
+
+  @include media($small-screen-down) {
+    bottom: 0;
   }
 
   &.scroll-blocked {
