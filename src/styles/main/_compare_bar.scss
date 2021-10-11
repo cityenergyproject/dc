@@ -16,6 +16,10 @@
     top: calc(100% - 2em);
   }
 
+  @include media($small-screen-down) {
+    top: calc(100% - 4em);
+  }
+
   // triangle thingy
   &:after {
     content: "";
