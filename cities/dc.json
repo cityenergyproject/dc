@@ -53,9 +53,9 @@
     ],
     "popup_chart": {
         "lead": {
-            "field": "site_eui",
-            "label": "Site EUI (kBTU/ft²)",
-            "nodata": "Site EUI data not available."
+            "field": "source_eui",
+            "label": "Source EUI (kBTU/ft²)",
+            "nodata": "Source EUI data not available."
         },
         "barchart": {
             "field": "energy_star_score",
