@@ -489,11 +489,12 @@ body {
   margin: 0;
   font-size: 12px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   -webkit-text-size-adjust: 100%; }
   @media screen and (min-width: 43.75em) {
     body {
-      font-size: 14px; } }
+      font-size: 14px;
+      height: 100%; } }
   @media screen and (min-width: 75em) {
     body {
       font-size: 16px; } }
@@ -516,6 +517,9 @@ body {
   @media screen and (min-width: 64em) {
     .main-container {
       bottom: 7em; } }
+  @media screen and (max-width: 35em) {
+    .main-container {
+      bottom: 0; } }
   @media screen and (min-width: 43.75em) {
     .main-container.scroll-blocked {
       height: 100vh;
@@ -2688,6 +2692,9 @@ body.modal-active {
       font-size: 24px;
       font-weight: 500;
       text-anchor: middle; }
+      @media screen and (max-width: 35em) {
+        #scorecard #change-chart .year {
+          font-size: 16px; } }
     #scorecard #change-chart #change-chart-vis {
       position: relative;
       margin: 30px 0;
@@ -2923,6 +2930,9 @@ body.modal-active {
       left: 22.5em;
       width: calc(100% - var(--large-nav-col-fixed-width));
       top: calc(100% - 2em); } }
+  @media screen and (max-width: 35em) {
+    #map-controls-bar {
+      top: calc(100% - 4em); } }
   #map-controls-bar:after {
     content: "";
     position: absolute;
@@ -3072,6 +3082,9 @@ body.modal-active {
     #map-controls-counts {
       width: 22.5em;
       top: calc(100% - 2em); } }
+  @media screen and (max-width: 35em) {
+    #map-controls-counts {
+      display: none; } }
   #map-controls-counts p {
     position: relative;
     top: 50%;
