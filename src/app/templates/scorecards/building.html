@@ -18,11 +18,11 @@
     <div class='circle-bk'>
       <h4 class='sc-heading'><%= year %> EUI</h4>
       <% if (value !== null) { %>
-        <h3 class='sc-heading orange xlarge number' style="color:<%= valueColor %>;"><%= site_eui %></h3>
+        <h3 class='sc-heading orange xlarge number' style="color:<%= valueColor %>;"><%= value %></h3>
       <% } else { %>
         <h3 class='sc-heading xlarge nodata' style="color:<%= valueColor %>;">n/a</h3>
       <% } %>
-      <p class='sc-heading orange small' style="color:<%= valueColor %>;">TEST kBtu/ft²</p>
+      <p class='sc-heading orange small' style="color:<%= valueColor %>;">kBtu/ft²</p>
     </div>
   </div>
   <div class='col-4 m-col-12 details-box-wrapper'>
