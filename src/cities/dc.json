@@ -53,7 +53,7 @@
     ],
     "popup_chart": {
         "lead": {
-            "field": "site_eui",
+            "field": "weather_norm_site_eui",
             "label": "Site EUI (kBTU/ft²)",
             "nodata": "Site EUI data not available."
         },
