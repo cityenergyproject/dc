@@ -45,8 +45,7 @@ define([
 
     events: {
       'click #back-to-map-link': 'closeReport',
-      // TODO Commented until we come back to this features
-      // 'click #comparison-view-link': 'showComparisonView',
+      'click #comparison-view-link': 'showComparisonView',
       'click #open-save-as-pdf': 'openSaveAsPDF',
     },
 
