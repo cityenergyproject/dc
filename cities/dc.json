@@ -137,7 +137,7 @@
             "section": "Energy Use",
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
             "filter_range": {"max": 4000000},
-            "unit": "kBTU",
+            "unit": "kWh",
             "valueType": "number",
             "description": "The total annual electricity consumed by the property, both sourced from the electrical grid and generated from any onsite renewable energy generation systems (if applicable), in kilowatt-hours (kWh)"
         },
@@ -149,7 +149,7 @@
             "section": "Energy Use",
             "filter_range": {"max": 500000},
             "color_range": ["#1f5dbe","#599b67","#ffd552","#da863f","#ab2328"],
-            "unit": "kBTU",
+            "unit": "Therms",
             "description": "The total annual natural gas consumed by the property, in therms (1 therm  equals 100,000 British Thermal Units (BTUs), and is apoximately equal to the energy content of 100 cubic feet (CCF) of natural gas."
         },
         {
