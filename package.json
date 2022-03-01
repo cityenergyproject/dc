@@ -34,7 +34,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "eslint": "^1.10.2",
+    "eslint": "^6.5.1",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
