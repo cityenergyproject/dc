@@ -286,6 +286,10 @@
         "2020": {
             "table_name": "tbl_consolidated_2012_infinite",
             "default_layer": "energy_star_score"
+        },
+        "2021": {
+            "table_name": "tbl_consolidated_2012_infinite",
+            "default_layer": "energy_star_score"
         }
     },
     "building_footprints": {
