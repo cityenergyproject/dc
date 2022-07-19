@@ -86,7 +86,7 @@ define([
         getSiteEUI: function () {
             var landingData = this.state.get('landingData');
 
-            if(landingData && val.get('report_status') === 'In Compliance') {
+            if(landingData) {
                 var siteEuiObj = landingData.reduce((acc, val) => {
                     var year = val.get('year_ending');
                     var site_eui = val.get('site_eui');
@@ -97,7 +97,7 @@ define([
                         acc[year] = [];
                     }
 
-                    if(site_eui !== null && site_eui !== undefined) {
+                    if(site_eui !== null && site_eui !== undefined && val.get('report_status') === 'In Compliance') {
                         acc[year].push(site_eui);
                     }
 
