@@ -90,13 +90,14 @@ define([
                 var siteEuiObj = landingData.reduce((acc, val) => {
                     var year = val.get('year_ending');
                     var site_eui = val.get('site_eui');
+                    var report_status = val.get('report_status');
 
                     // if we don't have years arr - create it
                     if(!acc[year]) {
                         acc[year] = [];
                     }
 
-                    if(site_eui !== null && site_eui !== undefined && val.get('report_status') !== 'In Compliance') {
+                    if(site_eui !== null && site_eui !== undefined && report_status === 'In Compliance') {
                         acc[year].push(site_eui)
                     }
 
