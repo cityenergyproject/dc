@@ -97,7 +97,7 @@ define([
                         acc[year] = [];
                     }
 
-                    if(site_eui !== null && site_eui !== undefined && report_status === 'In Compliance') {
+                    if(report_status === 'In Compliance' && site_eui !== null && site_eui !== undefined) {
                         acc[year].push(site_eui);
                     }
 
