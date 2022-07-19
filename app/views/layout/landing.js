@@ -96,7 +96,7 @@ define([
                         acc[year] = [];
                     }
 
-                    if(site_eui !== null && site_eui !== undefined && val.get('report_status') === 'In Compliance') {
+                    if(site_eui !== null && site_eui !== undefined && val.get('report_status') !== 'In Compliance') {
                         acc[year].push(site_eui)
                     }
 
