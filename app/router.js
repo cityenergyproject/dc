@@ -266,7 +266,7 @@ define([
       this.listenToOnce(this.landingData, 'sync', this.onLandingSync, this);
 
       this.allBuildings.fetch(year);
-      this.landingData.fetchFields(['year_ending', 'site_eui']);
+      this.landingData.fetchFields(['year_ending', 'site_eui', 'report_status']);
     },
 
     onBuildingsSync: function() {
