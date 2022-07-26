@@ -46,8 +46,8 @@
         {"field": "dc_real_pid", "label": "SSL:"},
         {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
         {"field": "ubid", "label": "Unique building Identifier:"},
-        {"field": "pid", "label": "Identifier:"},
         {"field": "primary_ptype_self", "label": "Property Type:"},
+        {"field": "report_status", "label": "Report Status:"},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "year_built", "label": "Year Built: ", "skipFormatter": true}
     ],
