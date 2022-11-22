@@ -47,7 +47,8 @@
         {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
         {"field": "ubid", "label": "Unique building Identifier:"},
         {"field": "primary_ptype_self", "label": "Property Type:"},
-        {"field": "report_status", "label": "Report Status:"},
+        {"field": "report_status", "label": "Benchmarking Status:"},
+        {"field": "meets_beps", "label": "BEPS Status:"},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "year_built", "label": "Year Built: ", "skipFormatter": true}
     ],
@@ -91,7 +92,7 @@
             "description": "The Primary Use of the Property, as calculated by Portfolio Manager based on the owner's selections. This is not necessarily consistent with the property type designation in DC Office of Tax and Revenue Records"
         },
         {
-            "title": "Report Status",
+            "title": "Benchmarking Status",
             "field_name": "report_status",
             "display_type": "category",
             "hide_other_category": true,
