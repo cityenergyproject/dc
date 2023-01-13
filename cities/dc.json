@@ -39,12 +39,7 @@
     "table_name": "tbl_consolidated_2012_infinite",
     "property_id": "pid",
     "property_name": "property_name",
-    "building_type": "
-    
-    
-    
-    
-    _epa",
+    "building_type": "primary_ptype_epa",
     "popup_fields": [
         {"field": "property_name", "label": "Property Name:"},
         {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
