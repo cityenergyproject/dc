@@ -178,7 +178,7 @@ define([
     getCompareChartBinnedData: function(config, buildings, prop_type, view, selected_year) {
       var compareField = this.getViewField(view);
 
-      var buildingsOfType = buildings.where({ primary_ptype_self: prop_type }).map(function(m) {
+      var buildingsOfType = buildings.where({ primary_ptype_epa: prop_type }).map(function(m) {
         return m.toJSON();
       });
 
@@ -253,7 +253,7 @@ define([
 
       var name = building.property_name;
       var sqft = +(building.reported_gross_floor_area);
-      var prop_type = building.primary_ptype_self; //We use primary_ptype_self as primary_type
+      var prop_type = building.primary_ptype_epa; //We use primary_ptype_epa as primary_type
       var id = building.pid; // we use pid in db
       var pm_pid = building.pm_pid;
 
@@ -535,7 +535,7 @@ define([
     },
 
     prepareCompareChartData: function(config, buildings, building, selected_year, view, prop_type, id) {
-      var buildingsOfType = buildings.where({ primary_ptype_self: prop_type }).map(function(m) {
+      var buildingsOfType = buildings.where({ primary_ptype_epa: prop_type }).map(function(m) {
         return m.toJSON();
       });
       let compareField = this.getViewField(view);
@@ -629,7 +629,7 @@ define([
     },
 
     prepareEmissionsChartData: function(buildings, property_type) {
-      const buildingsOfType = buildings.where({ primary_ptype_self: property_type }).map(m => m.toJSON());
+      const buildingsOfType = buildings.where({ primary_ptype_epa: property_type }).map(m => m.toJSON());
       return buildingsOfType.map(building => {
         return {
           id: building.pid,
