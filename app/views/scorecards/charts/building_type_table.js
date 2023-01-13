@@ -78,7 +78,7 @@ define([
         const year = +building.get('year');
         if (this.year != year) return;
 
-        const typ = building.get('primary_ptype_self');
+        const typ = building.get('primary_ptype_epa');
         const site_eui = building.get('site_eui');
         const built = building.get('yearbuilt');
         const ess = building.get('energy_star_score');
