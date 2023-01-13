@@ -118,14 +118,14 @@ define([
     getCurrentCatValue: function() {
       const currentCategories = this.state.get('categories');
       const match = currentCategories.find(cat => {
-        return cat.field === 'primary_ptype_self';
+        return cat.field === 'primary_ptype_epa';
       });
 
       return match ? match.values[0] : null;
     },
 
     createPropTypeSelector: function(buildings) {
-      const items = _.uniq(buildings.pluck('primary_ptype_self')).sort();
+      const items = _.uniq(buildings.pluck('primary_ptype_epa')).sort();
 
       var template = _.template(ProptypeSelectListTemplate);
 
@@ -137,18 +137,18 @@ define([
 
           const currentCategories = this.state.get('categories');
           const match = currentCategories.find(cat => {
-            return cat.field === 'primary_ptype_self';
+            return cat.field === 'primary_ptype_epa';
           });
 
           const currentValue = match ? match.values[0] : null;
 
           if (val === currentValue) return;
 
-          const newCats = currentCategories.filter(cat => cat.field !== 'primary_ptype_self');
+          const newCats = currentCategories.filter(cat => cat.field !== 'primary_ptype_epa');
 
           if (val !== null) {
             newCats.push({
-              field: 'primary_ptype_self',
+              field: 'primary_ptype_epa',
               other: false,
               values: [val]
             });
