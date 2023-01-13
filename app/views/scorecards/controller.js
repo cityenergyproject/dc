@@ -196,7 +196,7 @@ define([
         const buildings = this.state.get('allbuildings');
         const buildingModel = buildings.get(building);
         name = buildingModel.get('property_name');
-        building_type = buildingModel.get('primary_ptype_self');
+        building_type = buildingModel.get('primary_ptype_epa');
         energy_star_score = buildingModel.get('energy_star_score');
         comments = buildingModel.get('comments');
 
