@@ -60,7 +60,7 @@
         },
         "barchart": {
             "field": "energy_star_score",
-            "desc": "ENERGY<br/>STAR Score",
+            "desc": "<br>ENERGY<br/>STAR Score",
             "nodata": "ENERGY STAR Score data not available.",
             "min": {
                 "value": 0,
