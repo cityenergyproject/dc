@@ -109,7 +109,7 @@ define([
   StateBuilder.prototype.toCategory = function() {
     if (!this.categories || !this.categories.length) return this.city.categoryDefaults || [];
     this.categories.forEach(c => {
-      if (c.field === 'primary_ptype_self') {
+      if (c.field === 'primary_ptype_epa') {
         const val = c.values[0];
         const thresholds = this.city.scorecard.thresholds.eui;
         if (!thresholds.hasOwnProperty(val)) {
