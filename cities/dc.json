@@ -39,14 +39,19 @@
     "table_name": "tbl_consolidated_2012_infinite",
     "property_id": "pid",
     "property_name": "property_name",
-    "building_type": "primary_ptype_self",
+    "building_type": "
+    
+    
+    
+    
+    _epa",
     "popup_fields": [
         {"field": "property_name", "label": "Property Name:"},
         {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
         {"field": "dc_real_pid", "label": "SSL:"},
         {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
         {"field": "ubid", "label": "Unique building Identifier:"},
-        {"field": "primary_ptype_self", "label": "Property Type:"},
+        {"field": "primary_ptype_epa", "label": "Property Type:"},
         {"field": "report_status", "label": "Benchmarking Status:"},
         {"field": "meets_beps", "label": "BEPS Status:"},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
@@ -84,7 +89,7 @@
         },
         {
             "title": "Property Type",
-            "field_name": "primary_ptype_self",
+            "field_name": "primary_ptype_epa",
             "display_type": "category",
             "sort_by_key": true,
             "hide_other_category": true,
@@ -355,7 +360,7 @@
                 "field_avg": {
                     "value": "weather_norm_site_eui_avg",
                     "columns": ["weather_norm_site_eui","year_ending"],
-                    "property_for_filtering": "primary_ptype_self",
+                    "property_for_filtering": "primary_ptype_epa",
                     "description": "/scorecard/change_chart/building/field_avg/value and /scorecard/change_chart/building/metrics/1/field - should have the same name. This field doesnt exist in db and we need to calculate it on the fly. Try to find comment in the app. columns - will be fetched from cartodb with year specific. property_for_filtering - will be used for filtering all find results in query"
                 }
             },
