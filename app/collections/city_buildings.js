@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone) {
 
   var urlTemplate = _.template(
-    "https://<%= cartoDbUser %>.carto.com/api/v2/sql"
+    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query?q="
   );
 
   function isNumeric(n) {
@@ -171,6 +171,7 @@ define([
     initialize: function(models, options){
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;
+      this.token = options.token;
     },
     url: function() {
       return urlTemplate(this);
@@ -178,7 +179,7 @@ define([
 
     fetch: function(year, categories, range) {
       var query = this.toSql(year, categories, range);
-      var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
+      var result = Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer '+ this.token}, data: { q: query } }]);
       return result;
     },
     parse: function(data){
@@ -195,7 +196,7 @@ define([
     },
     fetchFields: function (fields) {
       var query = new CityBuildingQuery(this.tableName).toSimpleSql(fields);
-      var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
+      var result = Backbone.Collection.prototype.fetch.apply(this, [{headers: {'Authorization' :'Bearer '+ this.token}, data: { q: query } }]);
       return result;
     }
   });
