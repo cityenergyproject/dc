@@ -2,10 +2,17 @@ define([
   'underscore',
   'backbone',
 ], function(_, Backbone) {
-
+  
+  
   var urlTemplate = _.template(
     "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query"
   );
+  var urlAuth = _.template(
+    "https://auth.carto.com/oauth/token"
+  );
+  auth: function(){
+    return urlAuth(this);
+  },
 
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -167,12 +174,22 @@ define([
     model: Backbone.Model.extend({
       idAttribute: "pid"
     }),
-
+   authorization: function(){
+      Backbone.Collection.prototype.fetch.apply(this, [{headers:'content-type': 'application/x-www-form-urlencoded'}, data:{
+        'grant_type':'client_credentials'
+        ,'client_id':''
+        ,'client_secret':''
+        ,'audience':'carto-cloud-native-api'});
+      return this.models;
+    },
+    parse_auth: function(data){
+      this.token = data.access_token;
+    },
     initialize: function(models, options){
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;
-      this.token = options.token;
     },
+    
     url: function() {
       return urlTemplate(this);
     },
