@@ -10,9 +10,7 @@ define([
   var urlAuth = _.template(
     "https://auth.carto.com/oauth/token"
   );
-  auth: function(){
-    return urlAuth(this);
-  },
+  
 
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -174,7 +172,9 @@ define([
     model: Backbone.Model.extend({
       idAttribute: "pid"
     }),
-    
+   auth: function(){
+    return urlAuth(this);
+   }, 
    authorization: function() {
       Backbone.Collection.prototype.fetch.apply(this, [{headers:{'content-type': 'application/x-www-form-urlencoded'}, data:{
         'grant_type':'client_credentials'
