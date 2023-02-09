@@ -138,13 +138,13 @@ define([
     var categorySql = this.toCategorySql();
     var yearSql = this.toYearSql();
     var filterSql = yearSql.concat(rangeSql).concat(categorySql).join(' AND ');
-    var output = ['SELECT ST_X(the_geom) AS lng, ST_Y(the_geom) AS lat,* FROM ' + table].concat(filterSql).filter(function(e) { return e.length > 0; });
+    var output = ['SELECT ST_X(the_geom) AS lng, ST_Y(the_geom) AS lat,* FROM arto-dw-ac-f61is3yf.shared.' + table].concat(filterSql).filter(function(e) { return e.length > 0; });
     return output.join(' WHERE ');
   };
 
   CityBuildingQuery.prototype.toSimpleSql = function (fields) {
     var table = this.tableName;
-    var output = ['SELECT'].concat(fields.join(', ')).concat('FROM ' + table);
+    var output = ['SELECT'].concat(fields.join(', ')).concat('FROM arto-dw-ac-f61is3yf.shared.' + table);
     return output.join(' ');
   }
 
