@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone) {
 
   var urlTemplate = _.template(
-    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query?q="
+    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query"
   );
 
   function isNumeric(n) {
