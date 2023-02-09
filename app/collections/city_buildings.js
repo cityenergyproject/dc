@@ -174,13 +174,14 @@ define([
     model: Backbone.Model.extend({
       idAttribute: "pid"
     }),
-   authorization: function(){
-      Backbone.Collection.prototype.fetch.apply(this, [{headers:'content-type': 'application/x-www-form-urlencoded'}, data:{
+    
+   authorization: function() {
+      Backbone.Collection.prototype.fetch.apply(this, [{headers:{'content-type': 'application/x-www-form-urlencoded'}, data:{
         'grant_type':'client_credentials'
         ,'client_id':''
         ,'client_secret':''
-        ,'audience':'carto-cloud-native-api'});
-      return this.models;
+        ,'audience':'carto-cloud-native-api'}}]);
+      return results;
     },
     parse_auth: function(data){
       this.token = data.access_token;
