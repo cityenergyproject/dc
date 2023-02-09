@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone) {
 
   var urlTemplate = _.template(
-    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query?q="
+    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query"
   );
 
   var CategoryFilterCollection = Backbone.Collection.extend({
@@ -22,7 +22,7 @@ define([
     },
     fetch: function() {
       var query = this.toSql();
-      Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer '+this.token, data: { q: query } }]);
+      Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer '+this.token}, data: { q: query } }]);
       return this.models;
     },
     parse: function(data){
