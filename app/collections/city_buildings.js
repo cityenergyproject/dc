@@ -178,8 +178,8 @@ define([
    authorization: function() {
       Backbone.Collection.prototype.fetch.apply(this, [{headers:{'content-type': 'application/x-www-form-urlencoded'}, data:{
         'grant_type':'client_credentials'
-        ,'client_id':${{ secrets.client_id }}
-        ,'client_secret':${{ secrets.client_secret }}
+        ,'client_id':'JIvxwJMeic2KezrNKd5ZC9BP40aPavDW'
+        ,'client_secret':'Run5xT50QJpy-fcRQmiohZ4K-7MvcnO7Pv5Gvf-30ysufSWK7kpK7mD2-XVw0kJd'
         ,'audience':'carto-cloud-native-api'}}]);
       return results;
     },
