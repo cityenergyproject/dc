@@ -81,11 +81,11 @@ define([
         }, '');
 
         const getUrl = ({table, id, yearWhereClause, subdomain, propertyId, columns = '*'}) => {
-          return `https://${subdomain}.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C${columns}+FROM+${table}+WHERE+${propertyId}='${id}' AND(${yearWhereClause})`;
+          return `https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C${columns}+FROM+carto-dw-ac-f61is3yf.shared.+${table}+WHERE+${propertyId}='${id}' AND(${yearWhereClause})`;
         }
 
         // Get building data for all years
-        // d3.json(`https://dcenergybenchmarkingproject.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C*+FROM+${table}+WHERE+pid='${id}' AND(${yearWhereClause})`, payload => {
+        // d3.json(`https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C*+FROM+carto-dw-ac-f61is3yf.shared.+${table}+WHERE+pid='${id}' AND(${yearWhereClause})`, payload => {
         d3.json(getUrl({table, id, yearWhereClause, subdomain, propertyId}), payload => {
           if (!this.state.get('report_active')) return;
 
