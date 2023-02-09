@@ -9,15 +9,15 @@ define([
   var urlAuth = _.template(
     "https://auth.carto.com/oauth/token"
   );
-  auth: function(){
-      return urlAuth(this);
-    },
 
   var CategoryFilterCollection = Backbone.Collection.extend({
     initialize: function(options) {
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;
       this.field = options.field;
+    },
+    auth: function(){
+      return urlAuth(this);
     },
     authorization: function(){
       Backbone.Collection.prototype.fetch.apply(this, [{headers:'content-type': 'application/x-www-form-urlencoded'}, data:{
