@@ -22,7 +22,7 @@ define([
     },
     fetch: function() {
       var query = this.toSql();
-      Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer'+this.token, data: { q: query } }]);
+      Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer '+this.token, data: { q: query } }]);
       return this.models;
     },
     parse: function(data){
