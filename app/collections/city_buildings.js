@@ -2,15 +2,10 @@ define([
   'underscore',
   'backbone',
 ], function(_, Backbone) {
-  
-  
+
   var urlTemplate = _.template(
-    "https://gcp-us-east1.api.carto.com/v3/sql/carto_dw/query"
+    "https://<%= cartoDbUser %>.carto.com/api/v2/sql"
   );
-  var urlAuth = _.template(
-    "https://auth.carto.com/oauth/token"
-  );
-  
 
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -143,13 +138,13 @@ define([
     var categorySql = this.toCategorySql();
     var yearSql = this.toYearSql();
     var filterSql = yearSql.concat(rangeSql).concat(categorySql).join(' AND ');
-    var output = ['SELECT ST_X(the_geom) AS lng, ST_Y(the_geom) AS lat,* FROM arto-dw-ac-f61is3yf.shared.' + table].concat(filterSql).filter(function(e) { return e.length > 0; });
+    var output = ['SELECT ST_X(the_geom) AS lng, ST_Y(the_geom) AS lat,* FROM ' + table].concat(filterSql).filter(function(e) { return e.length > 0; });
     return output.join(' WHERE ');
   };
 
   CityBuildingQuery.prototype.toSimpleSql = function (fields) {
     var table = this.tableName;
-    var output = ['SELECT'].concat(fields.join(', ')).concat('FROM arto-dw-ac-f61is3yf.shared.' + table);
+    var output = ['SELECT'].concat(fields.join(', ')).concat('FROM ' + table);
     return output.join(' ');
   }
 
@@ -172,32 +167,18 @@ define([
     model: Backbone.Model.extend({
       idAttribute: "pid"
     }),
-   auth: function(){
-    return urlAuth(this);
-   }, 
-   authorization: function() {
-      Backbone.Collection.prototype.fetch.apply(this, [{headers:{'content-type': 'application/x-www-form-urlencoded'}, data:{
-        'grant_type':'client_credentials'
-        ,'client_id':'JIvxwJMeic2KezrNKd5ZC9BP40aPavDW'
-        ,'client_secret':'Run5xT50QJpy-fcRQmiohZ4K-7MvcnO7Pv5Gvf-30ysufSWK7kpK7mD2-XVw0kJd'
-        ,'audience':'carto-cloud-native-api'}}]);
-      return results;
-    },
-    parse_auth: function(data){
-      this.token = data.access_token;
-    },
+
     initialize: function(models, options){
       this.tableName = options.tableName;
       this.cartoDbUser = options.cartoDbUser;
     },
-    
     url: function() {
       return urlTemplate(this);
     },
 
     fetch: function(year, categories, range) {
       var query = this.toSql(year, categories, range);
-      var result = Backbone.Collection.prototype.fetch.apply(this, [{ headers: {'Authorization' :'Bearer '+ this.token}, data: { q: query } }]);
+      var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
       return result;
     },
     parse: function(data){
@@ -214,12 +195,11 @@ define([
     },
     fetchFields: function (fields) {
       var query = new CityBuildingQuery(this.tableName).toSimpleSql(fields);
-      var result = Backbone.Collection.prototype.fetch.apply(this, [{headers: {'Authorization' :'Bearer '+ this.token}, data: { q: query } }]);
+      var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
       return result;
     }
   });
 
   return CityBuildings;
 });
-
 
