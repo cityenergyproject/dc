@@ -209,7 +209,6 @@ define([
         total_ghg_emissions = this.getSum('total_ghg_emissions', data);
         total_ghg_emissions_intensity = this.getSum('total_ghg_emissions_intensity', data);
         total_usage = this.getSum('total_consumption', data);
-        }, 0)
       }
 
       this.fixPercents(fuels, 'emissions');
