@@ -208,8 +208,7 @@ define([
         fuels = this.getBuildingFuels([...this.fuels], data);
         total_ghg_emissions = this.getSum('total_ghg_emissions', data);
         total_ghg_emissions_intensity = this.getSum('total_ghg_emissions_intensity', data);
-        total_usage = this.fuelsConfig.total_usage.fields.reduce((acc, field, i, arr) => {
-          return acc + this.getSum(field, data);
+        total_usage = this.getSum('total_consumption', data);
         }, 0)
       }
 
