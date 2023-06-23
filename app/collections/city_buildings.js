@@ -140,7 +140,7 @@ define([
     var filterSql = yearSql.concat(rangeSql).concat(categorySql).join(' AND ');
     var output = ['SELECT ST_X(the_geom) AS lng, ST_Y(the_geom) AS lat,* FROM ' + table].concat(filterSql).filter(function(e) { return e.length > 0; });
     var encodedOutput = output.map(function(item) {
-    return encodeURIComponent(item);
+    return item.replace(/&/g, '%26');
     });
   return encodedOutput.join(' WHERE ');
     // return output.join(' WHERE ');
