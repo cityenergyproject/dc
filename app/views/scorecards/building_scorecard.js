@@ -295,6 +295,7 @@ define([
         year_built: building.year_built,
         view,
         ess_logo: this.energyStarCertified('eui', building, config),
+        site_eui: weatherNormSiteEui,
         value: weatherNormSiteEui,
         valueColor,
         costs: this.costs(building, selected_year),
