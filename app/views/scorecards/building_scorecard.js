@@ -81,6 +81,7 @@ define([
         }, '');
 
         const getUrl = ({table, id, yearWhereClause, subdomain, propertyId, columns = '*'}) => {
+          const encodedId = encodeURIComponent(id);
           return `https://${subdomain}.carto.com/api/v2/sql?q=SELECT+ST_X(the_geom)+AS+lng%2C+ST_Y(the_geom)+AS+lat%2C${columns}+FROM+${table}+WHERE+${propertyId}='${id}' AND(${yearWhereClause})`;
         }
 
