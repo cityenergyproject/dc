@@ -182,9 +182,8 @@ define([
 
     fetch: function(year, categories, range) {
       var query = this.toSql(year, categories, range);
-      if (typeof query === 'string') {
-      query = query.replace(/&/g, '%26');
-      }
+      query = query.replace('&', '%26');
+      
       var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
       return result;
     },
@@ -202,9 +201,7 @@ define([
     },
     fetchFields: function (fields) {
       var query = new CityBuildingQuery(this.tableName).toSimpleSql(fields);
-      if (typeof query === 'string') {
-      query = query.replace(/&/g, '%26');
-      }
+      query = query.replace('&', '%26');
       var result = Backbone.Collection.prototype.fetch.apply(this, [{ data: { q: query } }]);
       return result;
     }
