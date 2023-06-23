@@ -178,8 +178,11 @@ define([
 
     getCompareChartBinnedData: function(config, buildings, prop_type, view, selected_year) {
       var compareField = this.getViewField(view);
+      var encodedprop_type = prop_type.map(function(item) {
+      return item.replace(/&/g, '%26');
+        });
 
-      var buildingsOfType = buildings.where({ primary_ptype_epa: prop_type }).map(function(m) {
+      var buildingsOfType = buildings.where({ primary_ptype_epa: encodedprop_type }).map(function(m) {
         return m.toJSON();
       });
 
