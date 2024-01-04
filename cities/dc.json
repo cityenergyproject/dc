@@ -299,7 +299,7 @@
     },
     "building_footprints": {
         "allowable": true,
-        "atZoom": 15,
+        "atZoom": 25, 
         "property_id": "ssl",
         "alt_name_property_id": "dc_real_pid",
         "table_name": "unique_building_identifier"
