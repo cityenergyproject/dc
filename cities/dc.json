@@ -44,7 +44,7 @@
         {"field": "property_name", "label": "Property Name:"},
         {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
         {"field": "dc_real_pid", "label": "SSL:"},
-        {"field": "pm_pid", "label": "Portfolio Manager Property ID:"},
+        {"field": "pm_pid", "label": "Portfolio Manager Property ID:", "type": "string"},
         {"field": "ubid", "label": "Unique building Identifier:"},
         {"field": "primary_ptype_epa", "label": "Property Type:"},
         {"field": "report_status", "label": "Benchmarking Status:"},
