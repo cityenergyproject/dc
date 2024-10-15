@@ -44,17 +44,13 @@
         {"field": "property_name", "label": "Property Name:"},
         {"field": ["reported_address", "address_of_record"], "label": "Property Address:"},
         {"field": "dc_real_pid", "label": "SSL:"},
-        {"field": "pm_pid", "label": "Portfolio Manager ID:", "type": "string"},
+        {"field": "pm_pid", "label": "Portfolio Manager Property ID:", "type": "string"},
         {"field": "ubid", "label": "Unique building Identifier:"},
         {"field": "primary_ptype_epa", "label": "Property Type:"},
         {"field": "report_status", "label": "Benchmarking Status:"},
-        {"field": "enforcement_action", "label": "Benchmarking Enforcement:"},
         {"field": "meets_beps", "label": "BEPS Status:"},
-        {"field": "approved_compliance_pathway", "label": "Compliance Pathway:"},
         {"field": "reported_gross_floor_area", "label": "Property Size (ft²):"},
         {"field": "year_built", "label": "Year Built: ", "skipFormatter": true}
-        {"field": "verifier_name", "label": "Verifier Name:"},
-        {"field": "verifier_organization", "label": "Verifier Org.:"},
     ],
     "popup_chart": {
         "lead": {
