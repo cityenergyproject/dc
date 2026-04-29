@@ -345,6 +345,8 @@ define([
 
         const change_data = hasPreviousYear ? this.extractChangeData(building_data, buildings, building, shiftConfig) : null;
 
+        console.log('change_data', change_data);
+
         this.charts['eui'].chart_shift = new ShiftView({
           formatters: this.formatters,
           data: change_data,
