@@ -26,41 +26,61 @@ define([
 
     calculateChange: function(years) {
       if (!this.data || !this.data.length) return null;
-
-      const yearData = this.data
-        .filter(d => d.influencer)
-        .filter(d => years.indexOf(d.year) >= 0)
-        .map(d => {
-          return {
-            yr: d.year,
-            val: d.value
-          };
-        });
-
-      yearData.sort((a, b) => a.yr - b.yr);
-
+    
+      const influencerData = this.data.filter(d => d.influencer);
+    
+      // Find all years with influencer data, sorted ascending
+      const availableYears = influencerData
+        .map(d => d.year)
+        .sort((a, b) => a - b);
+    
+      if (availableYears.length < 2) return null;
+    
+      // Use previous_year if it exists in data, otherwise fall back to earliest available
+      const targetPreviousYear = years[0];
+      const targetSelectedYear = years[1];
+    
+      const actualPreviousYear = availableYears.indexOf(targetPreviousYear) >= 0
+        ? targetPreviousYear
+        : availableYears[0];
+    
+      const yearData = influencerData
+        .filter(d => d.year === actualPreviousYear || d.year === targetSelectedYear)
+        .map(d => ({ yr: d.year, val: d.value }))
+        .sort((a, b) => a.yr - b.yr);
+    
       if (yearData.length < 2) return null;
-
+    
       const previousValue = yearData[0].val;
       const selectedValue = yearData[1].val;
       if (previousValue == null || selectedValue == null) return null;
+    
       return ((selectedValue - previousValue) / selectedValue) * 100;
     },
 
     extractChangeData: function() {
       this.data.sort((a, b) => a.year - b.year);
-
+    
       const years = [parseInt(this.previous_year), parseInt(this.selected_year)];
       const change = this.calculateChange(years);
-      const direction = (change < 0) ? 'decreased' : change === 0 ? '': 'increased';
+    
+      // Reflect actual years used in the comparison
+      const influencerData = this.data.filter(d => d.influencer);
+      const availableYears = influencerData.map(d => d.year).sort((a, b) => a - b);
+      const actualPreviousYear = availableYears.indexOf(years[0]) >= 0
+        ? years[0]
+        : availableYears[0];
+      const displayYears = [actualPreviousYear, years[1]];
+    
+      const direction = (change < 0) ? 'decreased' : change === 0 ? '' : 'increased';
       const isValid = this.validNumber(change);
-
+    
       return {
         chart: this.data,
         template: {
           isValid,
           direction,
-          years,
+          years: displayYears,
           change,
           noyear: false,
           isCity: this.isCity,
