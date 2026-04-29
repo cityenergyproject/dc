@@ -380,8 +380,8 @@ define([
     addressLine2: function(building) {
       var city = building.city;
       var state = building.state;
-      var zip = building.postal_code;
-
+      var zip = building.postal_code ? String(building.postal_code).replace(/\.0$/, '').trim() : null;
+    
       var addr = city;
       if (state) {
         addr += ' ' + state;
@@ -389,7 +389,6 @@ define([
       if (zip) {
         addr += ' ' + zip;
       }
-
       return addr;
     },
 
