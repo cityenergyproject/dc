@@ -96,8 +96,8 @@ define([
         value = building.get(field.field);
       }
 
-      value = (field.skipFormatter) ?
-          (value || 'N/A') : (value || 'N/A').toLocaleString();
+    value = (field.skipFormatter || field.type === 'string') ?
+        (value != null ? String(Math.round(value)) : 'N/A') : (value || 'N/A').toLocaleString();
 
       var label = field.label;
       var template = null;
