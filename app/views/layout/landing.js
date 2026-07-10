@@ -354,7 +354,7 @@ define([
                 return acc
             }, 0);
 
-            var fixedValue = `${parseFloat((totalBuildingsReported * 100 / filteredTotalBuildings).toFixed(2))}%`;
+            var fixedValue = `${parseFloat((totalBuildingsReported / filteredTotalBuildings).toFixed(2))}%`;
 
             return this.cardTemplate({
                 title: SUBMISSIONS_RECEIVED,
