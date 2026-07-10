@@ -51,6 +51,6 @@
     "jasmine": "^2.3.2",
     "parallelshell": "^2.0.0",
     "selenium-webdriver": "^2.46.1",
-    "serve": "^1.4.0"
+    "serve": "^10.1.2"
   }
 }
