@@ -24,8 +24,8 @@
         }
 
     ],
-    "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png",
-    "labelTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png",
+    "backgroundTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_nolabels/{z}/{x}/{y}.png?key=cb1_2sqk_1_a4e7a5d05c1a3438cc40c196",
+    "labelTileSource": "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_only_labels/{z}/{x}/{y}.png?key=cb1_2sqk_1_a4e7a5d05c1a3438cc40c196",
     "map_options": {
         "center": [
             38.889931,
